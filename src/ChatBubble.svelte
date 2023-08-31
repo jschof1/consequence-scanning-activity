@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition'
   export let message = "";
   export let onAppear = () => {};
   
