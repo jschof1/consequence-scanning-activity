@@ -26,7 +26,6 @@
 background: rgb(34,152,195);
 background: linear-gradient(0deg, rgba(34,152,195,0.6125043767507004) 0%, rgba(60,16,226,0.5214679621848739) 64%);
 box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-border-radius: 10px;
   }
 
   #title {
