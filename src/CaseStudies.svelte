@@ -25,7 +25,17 @@ function setActionForHypothesis(index, action) {
   hypotheses[index].action = action;
   console.log(`Action for hypothesis ${index}:`, action);
 }
-  
+function setTimelineForHypothesis(index, timeline) {
+  hypotheses[index].timeline = timeline;
+  console.log(`timeline for hypothesis ${index}:`, timeline);
+}
+function setMeasureForHypothesis(index, measure) {
+  hypotheses[index].measure = measure;
+  console.log(`measure for hypothesis ${index}:`, measure);
+}
+
+
+
   let questionsSection;
   let consequencesSection;
   let reviewSection;
@@ -241,7 +251,7 @@ function setActionForHypothesis(index, action) {
         <label for="type"
           >Intended/Unintended
           <select bind:value={consequence.type}>
-            <option disabled selected value>Intended/</option>
+            <option disabled selected value>Intended/Unintended</option>
             <option value="Intended">Intended</option>
             <option value="Unintended">Unintended</option>
           </select>
@@ -289,9 +299,10 @@ function setActionForHypothesis(index, action) {
 {#if showReview}
 {console.log("consequences", consequences)}
   <div id="review" class="card" bind:this={reviewSection}>
+    <h1>Review</h1>
     <div class="long-text-review">
-      <h1>Review</h1>
       <h2>Case Study: {selectedStudy}</h2>
+      <hr>
       <h3>Objectives:</h3>
       <p>{objectives}</p>
       <h3>Stakeholders:</h3>
@@ -412,14 +423,35 @@ function setActionForHypothesis(index, action) {
   <h3>Assign Actions to Hypotheses:</h3>
   
   {#each hypotheses as hypothesis, i}
-    <div class="long-text-review ">
+    <div class="long-text-review">
       <span class="hypothesis-actions-container"><h4>Hypothesis"{i}"</h4><p>{hypothesis.text}</p></span>
-      <input 
+    </div>
+      <div class="consequence-options">
+        <label for="action"> Action
+      <input class="consequence-input"
         type="text" 
         bind:value={hypothesis.action}
         placeholder="Enter action for this hypothesis" 
         on:input={(event) => setActionForHypothesis(i, event.target.value)}
       >
+      </label> 
+      <label for="measure"> Measure
+      <input class="consequence-input" 
+        type="text" 
+        bind:value={hypothesis.measure}
+        placeholder="Enter measure for this hypothesis" 
+        on:input={(event) => setMeasureForHypothesis(i, event.target.value)}
+      >
+      </label>
+      <label for="timescale">Timescale
+      <select bind:value={hypothesis.timescale}>
+        <option disabled selected value>Timescale</option>
+        <option value="3 months">3 months</option>
+        <option value="6 months">6 months</option>
+        <option value="1 year">1 year</option>
+        <option value="2 years">2 years</option>
+      </select>
+    </label>
     </div>
   {/each}
   </div>
@@ -434,6 +466,8 @@ function setActionForHypothesis(index, action) {
                 <th>Hypothesis</th>
                 <th>Consequences</th>
                 <th>Action</th>
+                <th>Measure</th>
+                <th>Timescale</th>
             </tr>
         </thead>
         <tbody>
@@ -446,6 +480,8 @@ function setActionForHypothesis(index, action) {
                         {/each}
                     </td>
                     <td>{hypothesis.action}</td>
+                    <td>{hypothesis.measure}</td>
+                    <td>{hypothesis.timescale}</td>
                 </tr>
             {/each}
         </tbody>
@@ -546,6 +582,7 @@ function setActionForHypothesis(index, action) {
     padding: 10px;
     font-family: "Helvetica Neue", sans-serif;
     margin-top: 10px;
+    margin-left: 5px;
   }
   li {
     list-style-type: none;
@@ -563,11 +600,14 @@ function setActionForHypothesis(index, action) {
   .consequence-input {
     font-size: 15px;
     margin-top: 10px;
-    padding: 5px;
+    padding: 3px;
   }
 
   .long-text-review {
     text-align: left;
+    background-color: rgba(255, 255, 255, 0.693);
+    padding: 15px;
+    margin-top: 10px;
   }
 
   /* .selected {
