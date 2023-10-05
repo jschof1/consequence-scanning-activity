@@ -13,7 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+.selected {
+  background-color: green;
+  color: white;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -39,6 +42,7 @@ h1 {
 .card {
   padding: 2em;
   background-color: rgba(248, 245, 245, 0.68);
+  margin-top: 1em;
 }
 
 #app {
@@ -55,7 +59,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -75,7 +78,7 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
+  /* button {
     background-color: #f9f9f9;
-  }
+  } */
 }
