@@ -1,4 +1,23 @@
 <script>
+  import { onMount } from "svelte";
+  import { DataHandler, check } from '@vincjo/datatables'
+  import Th from './Th.svelte';
+  let consequences = [{description: 'dfasdfsfasdfsadd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Monitor'}, {description: 'dfdfasdfsdasdfsd', type: 'Unintended', priority: 'Low', outcome: 'Influence', AIM: 'Act'}, {description: 'dfdfasdfasdfsd', type: 'Unintended', priority: 'Low', outcome: 'Negative', AIM: 'Act'}, {description: 'dfadfasdsdfsd', type: 'Unintended', priority: 'Low', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Intended', priority: 'Medium', outcome: 'Negative', AIM: 'Act'}]
+  
+  const handler = new DataHandler(consequences);
+  const filter = handler.createAdvancedFilter('AIM')
+  const selected = filter.getSelected()
+  const rows = handler.getRows();
+    // console.log("actRows", actRows);
+
+let sections = [
+{id:"Questions", visible: false},
+{id:"Consequences", visible: false},
+{id:"Review", visible: false},
+{id:"Hypothesis", visible: false},
+{id:"Categorization", visible: false}
+]
+
   let selectedFile;
   let showPreLoadedOptions = false;
   let showQuestions = false;
@@ -6,51 +25,47 @@
   let showReview = false;
   let showHypothesis = false;
   let showCategorization = false;
-let isAssigningActions = false; // Track whether we're in the action assignment phase
-let isViewingTable = false; // This will control the visibility of the table
+  let isAssigningActions = false; // Track whether we're in the action assignment phase
+  let isViewingTable = false; // This will control the visibility of the table
 
-    function viewTable() {
-        isViewingTable = true;
-    }
-    function isChecked(index) {
-      
+  function viewTable() {
+    isViewingTable = true;
+  }
+  function isChecked(index) {
     return selectedConsequencesIndices.includes(index);
-}
+  }
 
-function assignActions() {
-  isAssigningActions = true;
-}
+  function assignActions() {
+    isAssigningActions = true;
+  }
 
-function setActionForHypothesis(index, action) {
-  hypotheses[index].action = action;
-  console.log(`Action for hypothesis ${index}:`, action);
-}
-function setTimelineForHypothesis(index, timeline) {
-  hypotheses[index].timeline = timeline;
-  console.log(`timeline for hypothesis ${index}:`, timeline);
-}
-function setMeasureForHypothesis(index, measure) {
-  hypotheses[index].measure = measure;
-  console.log(`measure for hypothesis ${index}:`, measure);
-}
-
-
+  function setActionForHypothesis(index, action) {
+    hypotheses[index].action = action;
+    console.log(`Action for hypothesis ${index}:`, action);
+  }
+  function setTimelineForHypothesis(index, timeline) {
+    hypotheses[index].timeline = timeline;
+    console.log(`timeline for hypothesis ${index}:`, timeline);
+  }
+  function setMeasureForHypothesis(index, measure) {
+    hypotheses[index].measure = measure;
+    console.log(`measure for hypothesis ${index}:`, measure);
+  }
 
   let questionsSection;
   let consequencesSection;
   let reviewSection;
 
-  let consequences = [
-    {
-      description: "",
-      type: "I/U", // Intended/Unintended
-      priority: "H/M/L", // High/Medium/Low
-      outcome: "+/-", // Positive/Negative
-      AIM: "Act/Influence/Monitor", // Act/Influence/Monitor
-    },
-  ];
+  // let consequences = [
+  //   {
+  //     description: "",
+  //     type: "I/U", // Intended/Unintended
+  //     priority: "H/M/L", // High/Medium/Low
+  //     outcome: "+/-", // Positive/Negative
+  //     AIM: "Act/Influence/Monitor", // Act/Influence/Monitor
+  //   },
+  // ];
 
-  
   // const consequencesTest = [{description: 'dfasdfsfasdfsadd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfdfasdfsdasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfdfasdfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfadfasdsdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}]
   let hypotheses = [];
   let hypothesisText = "";
@@ -58,10 +73,11 @@ function setMeasureForHypothesis(index, measure) {
   let selectedConsequencesIndices = [];
   function updateHypothesisConsequences() {
     const currentHypothesis = hypotheses[currentHypothesisIndex];
-    currentHypothesis.consequences = selectedConsequencesIndices.map(index => consequences[index]);
+    currentHypothesis.consequences = selectedConsequencesIndices.map(
+      (index) => consequences[index]
+    );
     console.log("Updated hypothesis consequences:", currentHypothesis);
-}
-
+  }
 
   function attachConsequences() {
     // Add logic to link specific consequences to the hypothesis
@@ -78,7 +94,7 @@ function setMeasureForHypothesis(index, measure) {
 
     // Clear selectedConsequencesIndices for a new hypothesis
     selectedConsequencesIndices = [];
-}
+  }
 
   //   function isConsequenceSelected(consequence) {
   //     console.log(hypotheses[currentHypothesisIndex])
@@ -135,17 +151,17 @@ function setMeasureForHypothesis(index, measure) {
   function toggleConsequence(index) {
     // Check if the index is already in selectedConsequencesIndices
     const idx = selectedConsequencesIndices.indexOf(index);
-    
+
     if (idx === -1) {
-        // If it's not in the array, push the index
-        selectedConsequencesIndices.push(index);
+      // If it's not in the array, push the index
+      selectedConsequencesIndices.push(index);
     } else {
-        // If it's already in the array, remove it
-        selectedConsequencesIndices.splice(idx, 1);
+      // If it's already in the array, remove it
+      selectedConsequencesIndices.splice(idx, 1);
     }
     // Update the consequences attached to the current hypothesis
     updateHypothesisConsequences();
-}
+  }
 
   function done() {
     // showReview = true;
@@ -196,7 +212,7 @@ function setMeasureForHypothesis(index, measure) {
 
 <!-- Initial Questions -->
 {#if showQuestions}
-  <div class="questions-section card" bind:this={questionsSection}>
+  <div id="Questions" class="questions-section card" bind:this={questionsSection}>
     <h3>Reflect on your project</h3>
 
     <div class="question">
@@ -235,7 +251,7 @@ function setMeasureForHypothesis(index, measure) {
 
 <!-- Categorization -->
 {#if showCategorization}
-  <div class="card">
+  <div class="card" id="Consequences">
     <h3>Consequences</h3>
     {#each consequences as consequence, i}
       <div class="consequence-options">
@@ -297,12 +313,11 @@ function setMeasureForHypothesis(index, measure) {
 {/if}
 
 {#if showReview}
-{console.log("consequences", consequences)}
-  <div id="review" class="card" bind:this={reviewSection}>
+  <div id="Review" class="card" bind:this={reviewSection}>
     <h1>Review</h1>
     <div class="long-text-review">
       <h2>Case Study: {selectedStudy}</h2>
-      <hr>
+      <hr />
       <h3>Objectives:</h3>
       <p>{objectives}</p>
       <h3>Stakeholders:</h3>
@@ -312,180 +327,157 @@ function setMeasureForHypothesis(index, measure) {
       <h3>Consequences</h3>
     </div>
     <!-- Act table -->
-    <h3>Act</h3>
+  <div class="filter-buttons">
+    <button 
+    on:click={() => filter.set('Act', check.isEqualTo)}
+    class:active={$selected.includes('Act')}
+>
+    Act
+</button>
+<button 
+on:click={() => filter.set('Monitor', check.isEqualTo)}
+class:active={$selected.includes('Monitor')}
+>
+Monitor
+</button>
+<button 
+on:click={() => filter.set('Influence', check.isEqualTo)}
+class:active={$selected.includes('Influence')}
+>
+Influence
+</button>
+</div>
     <table>
       <thead>
         <tr>
-          <th>Consequence</th>
-          <th>Priority</th>
-          <th>Type</th>
-          <th>Outcome</th>
+          <Th {handler} orderBy="description">Consequence</Th>
+          <Th {handler} orderBy="priority">Priority</Th>
+          <Th {handler} orderBy="type">Type</Th>
+          <Th {handler} orderBy="outcome">Outcome</Th>
+          <Th {handler} orderBy="AIM">AIM</Th>
         </tr>
       </thead>
       <tbody>
-        {#each consequences as consequence, i}
-          {#if consequence.AIM === "Act"}
+        {#each $rows as row}
             <tr>
-              <td>{consequence.description}</td>
-              <td>{consequence.priority}</td>
-              <td>{consequence.type}</td>
-              <td>{consequence.outcome}</td>
+              <td>{row.description}</td>
+              <td>{row.priority}</td>
+              <td>{row.type}</td>
+              <td>{row.outcome}</td>
+              <td>{row.AIM}</td>
             </tr>
-          {/if}
-        {/each}
-      </tbody>
-    </table>
-
-    <!-- Influence table -->
-    <h3>Influence</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Consequence</th>
-          <th>Priority</th>
-          <th>Type</th>
-          <th>Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each consequences as consequence, i}
-          {#if consequence.AIM === "Influence"}
-            <tr>
-              <td>{consequence.description}</td>
-              <td>{consequence.priority}</td>
-              <td>{consequence.type}</td>
-              <td>{consequence.outcome}</td>
-            </tr>
-          {/if}
-        {/each}
-      </tbody>
-    </table>
-
-    <!-- Monitor table -->
-    <h3>Monitor</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Consequence</th>
-          <th>Priority</th>
-          <th>Type</th>
-          <th>Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each consequences as consequence, i}
-          {#if consequence.AIM === "Monitor"}
-            <tr>
-              <td>{consequence.description}</td>
-              <td>{consequence.priority}</td>
-              <td>{consequence.type}</td>
-              <td>{consequence.outcome}</td>
-            </tr>
-          {/if}
         {/each}
       </tbody>
     </table>
   </div>
   <!-- Button to print -->
   <button onclick="window.print()">Print this page</button>
-  <button on:click={() => (showHypothesis = true)}>Proceed to hypothesis</button>
+  <button on:click={() => (showHypothesis = true)}>Proceed to hypothesis</button
+  >
 {/if}
 
 {#if showHypothesis}
-<div class="card">
-<h2>Input Hypothesis:</h2>
-<textarea bind:value={hypothesisText} />
-<button on:click={attachConsequences}>Attach Consequences</button>
-</div>
-<div class="card attach-hypothesis">
-{#if currentHypothesisIndex !== null}
-<!-- Displaying consequences to attach -->
-<h3>Consequences:</h3>
-<div class="consequences-checkbox">
-  {#each consequences as consequence, i}
-      <label class="checkbox-item">
-        <input 
-        type="checkbox" 
-        checked={isChecked(i)}
-        on:change={() => toggleConsequence(i)}
-    >
-          {consequence.description}
-      </label>
-  {/each}
-</div>
-    <button on:click={addAnotherHypothesis}>Add another Hypothesis</button>
-    <button on:click={assignActions}>Assign Actions</button>
-{/if}
-</div>
+  <div class="card" id="Hypothesis">
+    <h2>Input Hypothesis:</h2>
+    <textarea bind:value={hypothesisText} />
+    <button on:click={attachConsequences}>Attach Consequences</button>
+  </div>
+  <div class="card attach-hypothesis">
+    {#if currentHypothesisIndex !== null}
+      <!-- Displaying consequences to attach -->
+      <h3>Consequences:</h3>
+      <div class="consequences-checkbox">
+        {#each consequences as consequence, i}
+          <label class="checkbox-item">
+            <input
+              type="checkbox"
+              checked={isChecked(i)}
+              on:change={() => toggleConsequence(i)}
+            />
+            {consequence.description}
+          </label>
+        {/each}
+      </div>
+      <button on:click={addAnotherHypothesis}>Add another Hypothesis</button>
+      <button on:click={assignActions}>Assign Actions</button>
+    {/if}
+  </div>
 {/if}
 {#if isAssigningActions}
-<div class="card">
-  <h3>Assign Actions to Hypotheses:</h3>
-  
-  {#each hypotheses as hypothesis, i}
-    <div class="long-text-review">
-      <span class="hypothesis-actions-container"><h4>Hypothesis"{i}"</h4><p>{hypothesis.text}</p></span>
-    </div>
+  <div class="card">
+    <h3>Assign Actions to Hypotheses:</h3>
+
+    {#each hypotheses as hypothesis, i}
+      <div class="long-text-review">
+        <span class="hypothesis-actions-container"
+          ><h4>Hypothesis"{i}"</h4>
+          <p>{hypothesis.text}</p></span
+        >
+      </div>
       <div class="consequence-options">
-        <label for="action"> Action
-      <input class="consequence-input"
-        type="text" 
-        bind:value={hypothesis.action}
-        placeholder="Enter action for this hypothesis" 
-        on:input={(event) => setActionForHypothesis(i, event.target.value)}
-      >
-      </label> 
-      <label for="measure"> Measure
-      <input class="consequence-input" 
-        type="text" 
-        bind:value={hypothesis.measure}
-        placeholder="Enter measure for this hypothesis" 
-        on:input={(event) => setMeasureForHypothesis(i, event.target.value)}
-      >
-      </label>
-      <label for="timescale">Timescale
-      <select bind:value={hypothesis.timescale}>
-        <option disabled selected value>Timescale</option>
-        <option value="3 months">3 months</option>
-        <option value="6 months">6 months</option>
-        <option value="1 year">1 year</option>
-        <option value="2 years">2 years</option>
-      </select>
-    </label>
-    </div>
-  {/each}
+        <label for="action">
+          Action
+          <input
+            class="consequence-input"
+            type="text"
+            bind:value={hypothesis.action}
+            placeholder="Enter action for this hypothesis"
+            on:input={(event) => setActionForHypothesis(i, event.target.value)}
+          />
+        </label>
+        <label for="measure">
+          Measure
+          <input
+            class="consequence-input"
+            type="text"
+            bind:value={hypothesis.measure}
+            placeholder="Enter measure for this hypothesis"
+            on:input={(event) => setMeasureForHypothesis(i, event.target.value)}
+          />
+        </label>
+        <label for="timescale"
+          >Timescale
+          <select bind:value={hypothesis.timescale}>
+            <option disabled selected value>Timescale</option>
+            <option value="3 months">3 months</option>
+            <option value="6 months">6 months</option>
+            <option value="1 year">1 year</option>
+            <option value="2 years">2 years</option>
+          </select>
+        </label>
+      </div>
+    {/each}
   </div>
   <button on:click={viewTable}>View Data in Table Format</button>
 {/if}
 
 {#if isViewingTable}
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Hypothesis</th>
-                <th>Consequences</th>
-                <th>Action</th>
-                <th>Measure</th>
-                <th>Timescale</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each hypotheses as hypothesis}
-                <tr>
-                    <td>{hypothesis.text}</td>
-                    <td>
-                        {#each hypothesis.consequences as consequence}
-                            <div>{consequence.description}</div>
-                        {/each}
-                    </td>
-                    <td>{hypothesis.action}</td>
-                    <td>{hypothesis.measure}</td>
-                    <td>{hypothesis.timescale}</td>
-                </tr>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Hypothesis</th>
+        <th>Consequences</th>
+        <th>Action</th>
+        <th>Measure</th>
+        <th>Timescale</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each hypotheses as hypothesis}
+        <tr>
+          <td>{hypothesis.text}</td>
+          <td>
+            {#each hypothesis.consequences as consequence}
+              <div>{consequence.description}</div>
             {/each}
-        </tbody>
-    </table>
+          </td>
+          <td>{hypothesis.action}</td>
+          <td>{hypothesis.measure}</td>
+          <td>{hypothesis.timescale}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
 {/if}
 
 <style>
@@ -615,33 +607,33 @@ function setMeasureForHypothesis(index, measure) {
         color: white;
     } */
 
-    .consequences-checkbox {
+  .consequences-checkbox {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* This creates two columns */
     gap: 10px; /* This sets the space between rows and columns */
     align-items: start; /* Aligns items to the top */
     cursor: pointer;
     margin: 10px;
-}
+  }
 
-.consequences-checkbox {
+  .consequences-checkbox {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* This creates two columns */
     gap: 10px; /* This sets the space between rows and columns */
     align-items: start; /* Aligns items to the top */
     cursor: pointer;
     margin: 10px;
-}
+  }
 
-.checkbox-item {
+  .checkbox-item {
     background-color: white;
     padding: 10px;
     margin: 0; /* Reset default margin */
     display: flex; /* Use flex for aligning checkbox and its text */
     align-items: center;
-}
+  }
 
-input[type="checkbox"] {
+  input[type="checkbox"] {
     appearance: none;
     background-color: #fff;
     margin: 0 10px 0 0; /* No left margin and 10px right margin */
@@ -652,9 +644,9 @@ input[type="checkbox"] {
     border: 0.15em solid currentColor;
     border-radius: 0.15em;
     position: relative;
-}
+  }
 
-input[type="checkbox"]:checked::before {
+  input[type="checkbox"]:checked::before {
     content: "";
     position: absolute;
     width: 5px;
@@ -664,10 +656,20 @@ input[type="checkbox"]:checked::before {
     top: 2px;
     left: 6px;
     transform: rotate(45deg);
-}
+  }
 
-.hypothesis-actions-container {
-  background-color: white;
-}
+  .hypothesis-actions-container {
+    background-color: white;
+  }
+  .filter-buttons {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .filter-buttons button {
+    background-color: white;
+    border-radius:none;
+    padding-block: 5px;
+    align-items: baseline;
+  }
 
 </style>
