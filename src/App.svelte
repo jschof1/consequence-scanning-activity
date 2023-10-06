@@ -1,7 +1,7 @@
 <script>
   import CaseStudies from "./CaseStudies.svelte";
   import ChatBubble from "./ChatBubble.svelte";
-  let src = 'src/assets/odi-logo.png';
+  let src = '/odi-logo.png';
   
   // import { afterUpdate } from 'svelte';
   let showOptions = false;
