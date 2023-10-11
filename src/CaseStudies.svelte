@@ -5,7 +5,43 @@
   import ExportModal from './ExportModal.svelte';
   // let consequences = [{description: 'dfasdfsfasdfsadd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Monitor'}, {description: 'dfdfasdfsdasdfsd', type: 'Unintended', priority: 'Low', outcome: 'Influence', AIM: 'Act'}, {description: 'dfdfasdfasdfsd', type: 'Unintended', priority: 'Low', outcome: 'Negative', AIM: 'Act'}, {description: 'dfadfasdsdfsd', type: 'Unintended', priority: 'Low', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Unintended', priority: 'High', outcome: 'Negative', AIM: 'Act'}, {description: 'dfasdfsd', type: 'Intended', priority: 'Medium', outcome: 'Negative', AIM: 'Act'}]
   let showModal = false;
+  let selectedFile;
+  let showPreLoadedOptions = false;
+  let showQuestions = false;
+  let showConsequences = false;
+  let showReview = false;
+  let showHypothesis = false;
+  let showCategorization = false;
+  let isAssigningActions = false; // Track whether we're in the action assignment phase
+  let isViewingTable = false; // This will control the visibility of the table
 
+  // let showReflect = false;
+  // let showCategorization = false;
+  // let showReview = false;
+  // let showHypothesis = false;
+  // let showAction = false;
+  // let showTable = false;
+
+  // function confirmSelection(study) {
+  //   selectedStudy = study;
+  //   showReflect = true; // Move to the next component
+  // }
+
+  // function saveConsequences() {
+  //   showReview = true; // Move to the next component
+  // }
+
+  // function handleProceed() {
+  //   showHypothesis = true; // Move to the next component
+  // }
+
+  // function assignActions() {
+  //   showAction = true; // Move to the next component
+  // }
+
+  // function viewTable() {
+  //   showTable = true; // Move to the final component
+  // }
     let consequences = [
     {
       description: "",
@@ -85,17 +121,7 @@ function handleExport(columns) {
     showModal = false;
 }
 
-    
-  let selectedFile;
-  let showPreLoadedOptions = false;
-  let showQuestions = false;
-  let showConsequences = false;
-  let showReview = false;
-  let showHypothesis = false;
-  let showCategorization = false;
-  let isAssigningActions = false; // Track whether we're in the action assignment phase
-  let isViewingTable = false; // This will control the visibility of the table
-
+  
   function viewTable() {
     isViewingTable = true;
   }
@@ -262,12 +288,10 @@ function handleExport(columns) {
   <button on:click={uploadCaseStudy}>Upload your case study</button>
 {/if}
 
-<!-- Button to select a pre-loaded case study -->
 <button on:click={selectPreLoaded}
   >Choose from our pre-loaded case studies</button
 >
 
-<!-- Display pre-loaded case studies for selection -->
 {#if showPreLoadedOptions}
   <ul>
     {#each preLoadedStudies as study}
@@ -555,7 +579,7 @@ Influence
   <ExportModal on:export={handleExport} />
 {/if}
 
-<style>
+<!-- <style>
   .questions-section,
   .consequences-section {
     margin-top: 20px;
@@ -766,4 +790,4 @@ Influence
     align-items: baseline;
   }
 
-</style>
+</style> -->

@@ -1,6 +1,7 @@
 <script>
   import CaseStudies from "./CaseStudies.svelte";
   import ChatBubble from "./ChatBubble.svelte";
+  import Main from "./components/Main.svelte";
   let src = '/odi-logo.png';
   
   // import { afterUpdate } from 'svelte';
@@ -66,7 +67,7 @@
     onAppear={showCaseStudyOptions}
   />
   {#if showOptions}
-    <CaseStudies />
+   <Main />
   {/if}
 </div>
 
@@ -77,6 +78,7 @@
     margin: 0 auto;
     border: 1px solid #ccc;
     padding: 10rem;
+    padding-inline: 20rem;
     background-color: #0f47ad;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
       rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;

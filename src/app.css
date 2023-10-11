@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,25 +17,29 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
 .selected {
   background-color: green;
   color: white;
 }
+
 ul {
   padding-inline-start: 0;
 }
+
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
 body {
   margin: 0;
-  display: flex;
+  /* display: flex; */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -50,13 +58,15 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-button {
+.btn-white-styled {
+  margin: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   border-radius: 4px;
   border: 1px solid transparent;
   padding: 0.4em 1em;
@@ -66,9 +76,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -79,10 +91,327 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   /* button {
     background-color: #f9f9f9;
   } */
+}
+
+.questions-section,
+.consequences-section {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.consequences-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pane {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.pane h3 {
+  margin-top: 0;
+}
+
+p {
+  font-size: 15px;
+}
+
+input[type="text"] {
+  display: block;
+}
+
+.categorization-section {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+
+/* .intended {
+    background-color: lightgreen;
+  }
+
+  . {
+    background-color: lightcoral;
+  } */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  background-color: white;
+}
+
+th,
+td {
+  border: 2px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+textarea {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+textarea,
+input {
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+}
+
+input {
+  height: 30px;
+  padding-inline: 4px;
+  font-size: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.category-save-proceed {
+  display: flex;
+  flex-direction: row;
+}
+
+select {
+  display: block;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-family: "Helvetica Neue", sans-serif;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+li {
+  list-style-type: none;
+  display: inline-block;
+}
+
+.consequence-options {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /* Changed to column */
+}
+
+.consequence-options .consequence-input {
+  font-size: 15px;
+  margin-bottom: 10px;
+  /* Changed from margin-top */
+  padding: 3px;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.consequence-input {
+  font-size: 15px;
+  margin-top: 10px;
+  padding: 3px;
+}
+
+.long-text-review {
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.693);
+  padding: 15px;
+  margin-top: 10px;
+}
+
+/* .selected {
+        background-color: green;
+        color: white;
+    } */
+
+.consequences-checkbox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* This creates two columns */
+  gap: 10px;
+  /* This sets the space between rows and columns */
+  align-items: start;
+  /* Aligns items to the top */
+  cursor: pointer;
+  margin: 10px;
+}
+
+.consequences-checkbox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* This creates two columns */
+  gap: 10px;
+  /* This sets the space between rows and columns */
+  align-items: start;
+  /* Aligns items to the top */
+  cursor: pointer;
+  margin: 10px;
+}
+
+.checkbox-item {
+  background-color: white;
+  padding: 10px;
+  margin: 0;
+  /* Reset default margin */
+  display: flex;
+  /* Use flex for aligning checkbox and its text */
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0 10px 0 0;
+  /* No left margin and 10px right margin */
+  padding: 0;
+  /* Ensure no padding */
+  color: black;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  position: relative;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  top: 2px;
+  left: 6px;
+  transform: rotate(45deg);
+}
+
+/* get timescale label and set to display: block */
+.timescale-label {
+  display: block;
+}
+
+.hypothesis-actions-container {
+  background-color: white;
+}
+
+.filter-buttons {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.filter-buttons button {
+  background-color: white;
+  border-radius: none;
+  padding-block: 5px;
+  align-items: baseline;
+}
+
+
+.info-button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  border-radius: 50%;
+  padding-inline: 5px;
+  padding-bottom: 1px;
+  border: 1px solid black;
+  /* remove webkit blue higlhihgt */
+  outline: none;
+  margin-left: 10px;
+  margin-top: 1px;
+}
+
+/* make header and button inline */
+.header-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-button:hover {
+  background-color: #2146a6;
+  color: white;
+  border: 1px solid white;
+  /* transiation */
+  transition: 0.3s;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+  }
+  .card {
+    width: 200px;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+
+  #chat-window {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+  }
 }
