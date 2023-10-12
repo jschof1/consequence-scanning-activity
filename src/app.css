@@ -43,6 +43,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #2146a6
   
 }
 
@@ -51,7 +52,55 @@ h1 {
   line-height: 1.1;
 }
 
+#main-container {
+  overflow-y: auto;
+  margin: 0 auto;
+  padding-inline: 5rem;
+}
+
+#title {
+  color: white;
+  background-color: #0f47ad;
+}
+
+.textarea-padding {
+  width: 45em;
+  height: 15em;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background-color:white;
+  padding: 15px;
+  z-index: 10;
+}
+
+.logo {
+  position: absolute;
+  left: 20px;
+  padding-top: 7px;
+}
+img {
+  width: 130px;
+}
+
+.section-link {
+  margin: 0 20px;
+  color: black;
+}
+
+.section-link.visible {
+  opacity: 1;
+}
+
+
 .card {
+  overflow: hidden;
+  position: relative;
   padding: 2em;
   background-color: rgba(248, 245, 245, 0.68);
   margin-top: 1em;
@@ -59,7 +108,6 @@ h1 {
 
 #app {
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -147,20 +195,20 @@ input[type="text"] {
     background-color: lightcoral;
   } */
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
-  background-color: white;
+  table {
+    width: 100%;       /* Ensure table tries to fit its container */
+    max-width: 100%;   /* Make sure table doesn't expand beyond its container */
+    border-collapse: collapse;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;  /* This will ensure the border-radius is applied properly */
 }
 
-th,
-td {
-  border: 2px solid black;
-  text-align: left;
-  padding: 8px;
+th, td {
+    border: 2px solid black;
+    text-align: left;
+    padding: 8px;
 }
-
 textarea {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
@@ -211,15 +259,14 @@ li {
 .consequence-options {
   background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  /* Changed to column */
 }
 
 .consequence-options .consequence-input {
   font-size: 15px;
   margin-bottom: 10px;
-  /* Changed from margin-top */
   padding: 3px;
 }
 
@@ -227,8 +274,10 @@ li {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   /* align-items: center; */
 }
+
 
 .consequence-input {
   font-size: 15px;
@@ -401,12 +450,31 @@ input[type="checkbox"]:checked::before {
   .modal-content {
     width: 90%;
   }
+  select {
+    width: 100%;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  /* responsive nav */
+  .logo {
+    display: none;
+  }
+  .section-link {
+    margin: 0 10px;
+  }
+  .navbar {
+
+    flex-direction: column;
+  }
+  
   .card {
-    width: 200px;
     padding: 0.5em;
     margin: 0.5em;
   }
-
+  #main-container {
+    padding-inline: 0;
+  }
   #chat-window {
     width: 100%;
     height: 100%;
@@ -414,4 +482,49 @@ input[type="checkbox"]:checked::before {
     right: 0;
     z-index: 100;
   }
+  .input-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  /* fix modal on mobile being at top of page */
+
+  .modal-content {
+    margin-top: 300px;
+  }
+  
 }
+  @media screen and (max-width: 600px) {
+    table {
+      border: 0;
+      border-radius: 0;
+      background-color: transparent;
+    }
+  
+    th,
+    td {
+      border: none; /* removing the borders for smaller screens for cleaner look */
+      text-align: right; /* aligning content to right, will make sense when label is on the left */
+      display: block; /* each cell will occupy full width */
+      padding: 4px; /* reduce padding for small screens */
+      font-size: .9em; /* reduce font-size slightly for mobile */
+    }
+  
+    td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: black; /* you can adjust this color as per your design */
+    }
+  
+    td:last-child {
+      border-bottom: 0;
+    }
+  
+    th {
+      display: none; /* hide table headers */
+    }
+    #main-container {
+      padding-inline: 0;
+    }
+  }

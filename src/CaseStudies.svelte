@@ -309,17 +309,17 @@ function handleExport(columns) {
 
     <div class="question">
       <p>What are the objectives of your project?</p>
-      <textarea bind:value={objectives} />
+      <textarea class="textarea-padding"bind:value={objectives} />
     </div>
 
     <div class="question">
       <p>Who are the stakeholders?</p>
-      <textarea bind:value={stakeholders} />
+      <textarea class="textarea-padding"bind:value={stakeholders} />
     </div>
 
     <div class="question">
       <p>What data will you be using?</p>
-      <textarea bind:value={dataUsed} />
+      <textarea class="textarea-padding"bind:value={dataUsed} />
     </div>
     <button on:click={() => (showCategorization = true)}
       >Proceed to Consequences</button
@@ -472,7 +472,7 @@ Influence
 {#if showHypothesis}
   <div class="card" id="Hypothesis">
     <h2>Input Hypothesis:</h2>
-    <textarea bind:value={hypothesisText} />
+    <textarea class="textarea-padding"bind:value={hypothesisText} />
     <button on:click={attachConsequences}>Attach Consequences</button>
   </div>
   <div class="card attach-hypothesis">
