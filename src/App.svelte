@@ -1,6 +1,6 @@
 <script>
   import Main from "./components/Main.svelte";
-  let src = '/odi-logo.png';
+  let src = './odi-logo.png';
   
 
 
