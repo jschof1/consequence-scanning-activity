@@ -5,11 +5,10 @@
 
 
   let sections = [
-{id:"Questions", name: "Questions", visible: false},
-{id:"Consequences", name: "Consequences", visible: false},
+{id:"ProjectBrief", name: "Project Brief", visible: false},
+{id:"IntendedConsequences", name: "Intended Consequences", visible: false},
+{id:"UnintendedConsequences", name: "Unintended Consequences", visible: false},
 {id:"Review", name: "Review", visible: false},
-{id:"Hypothesis", name: "Hypothesis", visible: false},
-{id:"Categorization", name: "Categorization", visible: false}
 ]
 
 </script>
