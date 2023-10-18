@@ -61,6 +61,7 @@ h1 {
 #title {
   color: white;
   background-color: #0f47ad;
+  text-align: center;
 }
 
 .textarea-padding {
@@ -108,7 +109,6 @@ img {
 
 #app {
   margin: 0 auto;
-  text-align: center;
 }
 
 .btn-white-styled {
@@ -123,6 +123,13 @@ img {
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.btn-white-styled-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 button:hover {
@@ -157,6 +164,10 @@ button:focus-visible {
   border-radius: 8px;
 }
 
+.question {
+ text-align: center;
+}
+
 .consequences-section {
   display: flex;
   justify-content: space-between;
@@ -169,6 +180,9 @@ button:focus-visible {
 
 .pane h3 {
   margin-top: 0;
+}
+h2, h3 {
+  text-align: center;
 }
 
 p {
@@ -366,6 +380,8 @@ input[type="checkbox"]:checked::before {
   background-color: white;
 }
 
+
+
 .filter-buttons {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -467,10 +483,6 @@ input[type="checkbox"]:checked::before {
     flex-direction: column;
   }
   
-  .card {
-    padding: 0.5em;
-    margin: 0.5em;
-  }
   #main-container {
     padding-inline: 0;
   }

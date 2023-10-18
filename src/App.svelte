@@ -23,7 +23,7 @@
   {/each}
   <div class="logo"><img alt="hi" src={src}/></div>
 </div>
-<h1 id="title">Interactive consequence scanning</h1>
+<h1 id="title">Interactive Tool:<br> Consequence Scanning</h1>
 <div id="main-container">
    <Main />
 </div>
