@@ -1,10 +1,12 @@
 <script>
   import { fade } from 'svelte/transition';
   import { createEventDispatcher } from 'svelte';
+  import { aiSuggestions } from './store.js';
   const dispatch = createEventDispatcher();
   
   export let consequences;  
   export let onAdd;
+  // export let aiSuggestions;
   
   let showModal = null
   let aiSuggest = null;
@@ -15,30 +17,47 @@
         customConsequences = true;
         aiSuggest = false;
     }
-  // Predefined AI suggestions with outcomes
- let aiSuggestions = [
-    { description: "Potential impact on the environment due to waste.", outcome: "Negative" , isSelected: false},
-    { description: "Possible misuse of the product by end-users.", outcome: "Negative" , isSelected: false},
-    { description: "Might lead to job losses due to automation.", outcome: "Negative" , isSelected: false},
-    { description: "Could be used unethically in certain situations.", outcome: "Negative" , isSelected: false},
-    { description: "Improves accessibility for differently-abled individuals.", outcome: "Positive", isSelected: false }
-    // ... add more suggestions as needed
-  ];
-  function selectSuggestion(selectedSuggestion) {
-    // Toggle the isSelected property of the clicked suggestion
-    selectedSuggestion.isSelected = !selectedSuggestion.isSelected;
-    
-    if (selectedSuggestion.isSelected) {
-      consequences.push(selectedSuggestion);
+
+    function selectSuggestion(selectedSuggestion) {
+    let wasSelected = selectedSuggestion.isSelected; // Check the previous isSelected value
+
+    let updatedSuggestions = $aiSuggestions.map(sug => {
+        if (sug.description === selectedSuggestion.description) {
+            return {
+                ...sug,
+                isSelected: !sug.isSelected
+            };
+        }
+        return sug;
+    });
+
+    aiSuggestions.set(updatedSuggestions);
+
+    // Now use the old value to determine if you need to add or remove from the consequences
+    if (!wasSelected) { // if it was not selected before, add it now
+        consequences.push({
+            description: selectedSuggestion.description,
+            outcome: selectedSuggestion.selectedOutcome,
+            impact: ["High", "Medium", "Low"],
+            selectedImpact: "",
+            likelihood: ["High", "Medium", "Low"],
+            selectedLikelihood: "",
+            action: "",
+            AIM: ['Act', 'Influence', 'Monitor'],
+            selectedAIM: "",
+            timeline: ["3 months", "6 months", "1 year", "2 years"], 
+            selectedTimeline: "",
+        });
     } else {
-      // Remove the unselected suggestion from the consequences array
-      const index = consequences.indexOf(selectedSuggestion);
-      if (index > -1) {
-        consequences.splice(index, 1);
-      }
+        // Remove the unselected suggestion from the consequences array
+        const index = consequences.findIndex(consequence => consequence.description === selectedSuggestion.description);
+        if (index > -1) {
+            consequences.splice(index, 1);
+        }
     }
-    aiSuggestions = aiSuggestions
-  }
+    dispatch('updateConsequences', consequences);
+    console.log(consequences);
+}
 
 
     function onProceed() {
@@ -60,26 +79,26 @@
 {/if}
 {#if aiSuggest === true}
 <div class="card">
-  <div class="btn-white-styled-container">
+  <div class="btn-white-styled-container consequence-options">
 <ul>
-  {#each aiSuggestions as suggestion}
+  {#each $aiSuggestions as suggestion}
   <li>
     <button 
-    class="suggestion-button {suggestion.isSelected ? 'selected-suggestion' : ''}" 
+    class="suggestion-button btn-white-styled {suggestion.isSelected ? 'selected-suggestion' : ''}" 
     on:click={() => selectSuggestion(suggestion)}
     >
     {suggestion.description} (Outcome: {suggestion.outcome})
+  </button>
     {#if suggestion.isSelected}
       ✅
     {/if}
-      </button>
     </li>
     {/each}
   </ul>
   </div>
   <div class="btn-white-styled-container" style="display: {customConsequences !== null ? 'none' : ''}">
-    <button class="btn-white-styled" on:click={() => customConsequences = false}>Continue with these consequences</button>
-    <button class="btn-white-styled" on:click={addOwnConsequences}>Add in your own</button>
+    <button class="btn-white-styled" on:click={onProceed}>Continue with these consequences</button>
+    <button class="btn-white-styled" on:click={addOwnConsequences}>Add in your own consequences</button>
 </div>
 </div>
 
@@ -113,21 +132,22 @@
     <div class="input-row">
     <label for="outcome"
       >Outcome
-      <select bind:value={consequence.outcome}>
-        <option disabled selected value>Outcome</option>
-        <option value="Positive">Positive</option>
-        <option value="Negative">Negative</option>
+      <select bind:value={consequence.selectedOutcome}>
+        <option disabled value>Outcome</option>
+        <option selected={consequence.selectedOutcome === "Positive"} value="Positive">Positive</option>
+        <option selected={consequence.selectedOutcome === "Negative"} value="Negative">Negative</option>
       </select>
     </label>
     </div>
   </div>
   {/each}
-    <div class="btn-white-styled-container"></div>
-<button class="btn-white-styled" on:click={onAdd}>Add More</button>
-<button class="btn-white-styled"on:click={onProceed}>Proceed to Evalute Risk</button>
+  <div class="btn-white-styled-container">
+    <button class="btn-white-styled" on:click={onAdd}>Add More</button>
+    <button class="btn-white-styled"on:click={onProceed}>Proceed to Evalute Risk</button>
+  </div>
 </div>
-{/if}
-<style>
+  {/if}
+  <style>
 .selected-suggestion {
   background-color: green;
   color: white;

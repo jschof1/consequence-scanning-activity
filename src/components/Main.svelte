@@ -7,6 +7,7 @@
   import UnintendedConsequences from './UnintendedConsequences.svelte';
   import Action from './Action.svelte';
   import FinalOutcomeTable from './FinalOutcomeTable.svelte';
+  // import ReviewComponent from './ReviewComponent.svelte';
   import IntendedConsequences from './IntendedConsequences.svelte';
   import EvaluateUnintendedRisk from './EvaluateUnintendedRisk.svelte';
 
@@ -22,6 +23,11 @@
   let isViewingTable = false;
   let selectedFile = null;
 
+  // let aiSuggestions = []
+  // // fetch update of ai suggetsion from review component
+  // function updateAiSuggestions(event) {
+  //   aiSuggestions = event.detail.aiSuggestions;
+  // }
   // Project Data Structure
   let projectData = {
     title : "",
@@ -43,7 +49,8 @@
       AIM: ['Act', 'Influence', 'Monitor'],
       selectedAIM: "",
       timeline: ["3 months", "6 months", "1 year", "2 years"], 
-      selectedTimeline: ""
+      selectedTimeline: "",
+      KPI : "",
     }],
     preLoadedStudies: [
       "Case Study 1",
@@ -237,7 +244,6 @@ function downloadProjectDataAsHTML() {
     document.body.removeChild(a);
 }
 
-
 function handleProceedExport(event) {
   const format = event.detail.format;
   if (format === 'csv') {
@@ -259,11 +265,18 @@ function setImpact(index, impactChoice){
 }
 
   function onAssignAction () {
+    showEvaluation = false
+    showUnintendedConsequences = false
     isAssigningActions = true;
   }
 
   function setActionForUnintendedConsequence(index, action) {
         projectData.unintendedConsequences[index].action = action;
+    }
+
+
+  function setKPIForUnintendedConsequence(index, KPI) {
+        projectData.unintendedConsequences[index].KPI = KPI;
     }
 
     function setTimelineForUnintendedConsequence(index, timeline) {
@@ -357,6 +370,7 @@ function setImpact(index, impactChoice){
 <IntendedConsequences on:proceed={handleProceedToUnintendedConsequences} intendedConsequences={projectData.intendedConsequences} onAdd={addIntendedConsequence} />
 {/if} -->
 {#if showUnintendedConsequences}
+<!-- <ReviewComponent  projectData={projectData}/> -->
 <UnintendedConsequences on:proceed={handleEvaluateUnintendedRisk} consequences={projectData.unintendedConsequences} onAdd={addUnintendedConsequence} />
 {/if}
 {#if showEvaluation}
@@ -369,6 +383,7 @@ consequences={projectData.unintendedConsequences}
 onSetTimeline={setTimelineForUnintendedConsequence} 
 onSetAction={setActionForUnintendedConsequence} 
 onSetMeasure={setMeasureForUnintendedConsequence} 
+onSetKPI={setKPIForUnintendedConsequence}
 />
 {/if}
 {#if isViewingTable}

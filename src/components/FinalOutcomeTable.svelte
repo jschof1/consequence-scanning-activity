@@ -33,8 +33,8 @@
 
 </script>
       <div id="Review" class="card project-overview">
-        <h1>{projectTitle}</h1>
-        <h2>Project Overview</h2>
+        <h2>{projectTitle}</h2>
+        <h3>Project Overview</h3>
         <p><strong>Objectives:</strong> {objectives}</p>
         {#if stakeholders}
         <p><strong>Stakeholders:</strong> </p> 
@@ -42,7 +42,7 @@
         <p>{stakeholder.text} <em>({stakeholder.type})</em></p>
         {/each}
         {/if}
-        <h2>Intended/Positive Consequences</h2>
+        <h4>Intended/Positive Consequences</h4>
         <ul>
           {#each intendedConsequences as ic}
             <li>{ic.description}</li>
@@ -53,12 +53,14 @@
         <table class=data-table>
           <thead>
             <tr>
-              <th>Unintended Consequences </th>
+              <th>Unintended Consequences</th>
               <th>Likelihood</th>
               <th>Impact</th>
               <th>AIM</th>
               <th>Action</th>
+              <th>Outcome</th>
               <th>Timescale</th>
+              <th>KPI</th>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +71,9 @@
                 <td>{uc.selectedImpact}</td>
                 <td>{uc.selectedAIM}</td>
                 <td>{uc.action}</td>
+                <td>{uc.outcome}</td>
                 <td>{uc.selectedTimeline}</td>
+                <td>{uc.KPI}</td>
               </tr>
             {/each}
           </tbody>

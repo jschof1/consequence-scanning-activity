@@ -1,4 +1,85 @@
+import { writable } from 'svelte/store';
 
-  import { writable } from 'svelte/store';
 
-  export const hypotheses = writable([]);
+export const aiSuggestions = writable([
+  { 
+    description: "Potential impact on the environment due to waste.",
+    outcome: ["Negative"],
+    selectedOutcome: "Negative",
+    impact: ["High", "Medium", "Low"],
+    selectedImpact: "High",
+    likelihood: ["High", "Medium", "Low"],
+    selectedLikelihood: "Low",
+    action: "DO this then THAT",
+    AIM: ['Act', 'Influence', 'Monitor'],
+    selectedAIM: "Act",
+    timeline: ["3 months", "6 months", "1 year", "2 years"], 
+    selectedTimeline: "3 months",
+    KPI: "HEY",
+    isSelected: false
+  },
+  {
+    description: "Possible misuse of the product by end-users.",
+    outcome: ["Negative"],
+    selectedOutcome: "Positive",
+    impact: ["High", "Medium", "Low"],
+    selectedImpact: "High",
+    likelihood: ["High", "Medium", "Low"],
+    selectedLikelihood: "Low",
+    action: "DO this then THAT",
+    AIM: ['Act', 'Influence', 'Monitor'],
+    selectedAIM: "Act",
+    timeline: ["3 months", "6 months", "1 year", "2 years"],
+    selectedTimeline: "3 months",
+    KPI: "HEY",
+    isSelected: false
+  },
+  {
+    description: "Might lead to job losses due to automation.",
+    outcome: ["Negative"],
+    selectedOutcome: "Positive",
+    impact: ["High", "Medium", "Low"],
+    selectedImpact: "High",
+    likelihood: ["High", "Medium", "Low"],
+    selectedLikelihood: "Low",
+    action: "DO this then THAT",
+    AIM: ['Act', 'Influence', 'Monitor'],
+    selectedAIM: "Act",
+    timeline: ["3 months", "6 months", "1 year", "2 years"],
+    selectedTimeline: "3 months",
+    KPI: "HEY",
+    isSelected: false
+  },
+  {
+    description: "Could be used unethically in certain situations.",
+    outcome: ["Negative"],
+    selectedOutcome: "Positive",
+    impact: ["High", "Medium", "Low"],
+    selectedImpact: "High",
+    likelihood: ["High", "Medium", "Low"],
+    selectedLikelihood: "Low",
+    action: "DO this then THAT",
+    AIM: ['Act', 'Influence', 'Monitor'],
+    selectedAIM: "Act",
+    timeline: ["3 months", "6 months", "1 year", "2 years"],
+    selectedTimeline: "3 months",
+    KPI: "HEY",
+    isSelected: false
+  },
+  {
+    description: "Improves accessibility for differently-abled individuals.",
+    outcome: ["Positive"],
+    selectedOutcome: "Positive",
+    impact: ["High", "Medium", "Low"],
+    selectedImpact: "High",
+    likelihood: ["High", "Medium", "Low"],
+    selectedLikelihood: "Low",
+    action: "DO this then THAT",
+    AIM: ['Act', 'Influence', 'Monitor'],
+    selectedAIM: "Act",
+    timeline: ["3 months", "6 months", "1 year", "2 years"],
+    selectedTimeline: "3 months",
+    KPI: "HEY",
+    isSelected: false
+  }
+]);

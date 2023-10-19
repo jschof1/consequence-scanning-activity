@@ -79,25 +79,24 @@ function handleTitleKeyPress(event) {
       </div>
       <div class="question">
       {#each intendedConsequences as ic, i}
-      <div class="stakeholder-section">
+      <h3>Intended consequences {i+1}</h3>
+      <div class="add-more-large">
         <label for="description"
-          >Intended consequence {i+1}
+          >
           <textarea
-            class="consequence-input textarea-padding"
+            class= "textarea-padding"
             bind:value={ic.description}
             placeholder="Description"
           />
         </label>
         </div>
          {/each}
-        <div class="btn-white-styled-container">
 <button class="btn-white-styled" on:click={onAddIntendedConsequence}>Add another Intended Consequence</button>
 </div>
-         </div>
   <div class="question">
       <h3>Who are the stakeholders?</h3>
       {#each stakeholders as stakeholder, index}
-          <div class="stakeholder-section">
+          <div class="add-more-large">
               <textarea class="textarea-padding" bind:value={stakeholder.text}></textarea>
               <select class="stakeholder-select" bind:value={stakeholder.type}>
                   <option disabled selected value>Internal/External</option>
@@ -125,7 +124,7 @@ function handleTitleKeyPress(event) {
     border-bottom: 2px solid #2a45a0
   }
 
-  .stakeholder-section {
+  .add-more-large {
     display: flex;
     flex-direction: column;
     align-items: center;

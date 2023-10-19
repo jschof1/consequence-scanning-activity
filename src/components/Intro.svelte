@@ -11,6 +11,7 @@ function onProceed() {
     <p>Through Consequence Scanning, you consider the potential consequences of what you&rsquo;re building and document the potential outcomes in order to provide you with the opportunity to mitigate or address potential harms or disasters before they happen.&nbsp;</p>
     <p><strong>[Video Overview]</strong></p>
     </div>
+    <div class="grid-two-by-two">
     <div class="card card-long-text">
     <h2>How to use the tool</h2>
     <p>There are two routes through the tool:</p>
@@ -21,8 +22,20 @@ function onProceed() {
     </div>
     <div class="card card-long-text">
     <h2>Supported by AI</h2>
+    <div class="vertical-align">
     <p>The tool uses a ChatGPT plugin to assist you in the process of Consequence Scanning. At several steps throughout the tool you will have the option to generate suggestions and ideas for your project in order to help you capture the potential consequences and suggest appropriate actions.</p>
+    </div>
+    </div>
     </div>
     <div class="btn-white-styled-container">
 <button class="btn-white-styled" on:click={onProceed}>Begin</button>
 </div>
+
+
+<style>
+    .grid-two-by-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+    }
+</style>
