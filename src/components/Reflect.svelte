@@ -2,6 +2,7 @@
   import { fade } from 'svelte/transition';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
+  import insert from "../../public/icons_insert.svg"
 
   export let objectives;
   export let title;
@@ -44,9 +45,11 @@ function handleTitleKeyPress(event) {
   $: console.log("In Reflect.svelte, received title:", title);
 </script>
 
-<div id="ProjectBrief" class="questions-section card">
-    <div class="questions-header header-btn">
-      <h3>Enter the details of your project</h3>
+<div id="ProjectBrief" class="bg-blue-100 p-12">
+  <div class="flex">
+    <img class="h-10 w-9 mr-5 filter-blue"  src={insert}/>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Enter the details of your project</div>
+      </div>
       <button class="info-button" title="Information" on:click={toggleModal}>
         ℹ
       </button>
@@ -58,12 +61,11 @@ function handleTitleKeyPress(event) {
         </div>
       </div>
       {/if}
-      </div>
-      <div class="question reflect-title">
-        <p>Project Title:</p>
+        <div class="text-xl pb-4 pt-6 font-bold text-blue-800">Project Title:</div>
         {#if editingTitle}
         <input 
         type="text" 
+
         bind:value={localTitle} 
         placeholder="Enter title of project" 
         on:keypress={handleTitleKeyPress}
@@ -72,29 +74,29 @@ function handleTitleKeyPress(event) {
             <h1>{localTitle}</h1>
 
         {/if}
-    </div>
-      <div class="question">
-          <h3>What are the objectives of your project?</h3>
+        </div>
+      <div class="bg-white p-12">
+          <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">What are the objectives of your project?</div>
           <textarea class="textarea-padding" bind:value={localObjectives} />
       </div>
-      <div class="question">
+      <div class="bg-orange-100 p-12">
       {#each intendedConsequences as ic, i}
-      <h3>Intended consequences {i+1}</h3>
+      <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">Intended consequences {i+1}</div>
       <div class="add-more-large">
         <label for="description"
           >
           <textarea
             class= "textarea-padding"
             bind:value={ic.description}
-            placeholder="Description"
+            placeholder="Description of intended consequence"
           />
         </label>
         </div>
          {/each}
-<button class="btn-white-styled" on:click={onAddIntendedConsequence}>Add another Intended Consequence</button>
+<button class="mt-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAddIntendedConsequence}>Add another Intended Consequence</button>
 </div>
-  <div class="question">
-      <h3>Who are the stakeholders?</h3>
+  <div class="bg-blue-100 p-12">
+      <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">Who are the stakeholders?</div>
       {#each stakeholders as stakeholder, index}
           <div class="add-more-large">
               <textarea class="textarea-padding" bind:value={stakeholder.text}></textarea>
@@ -105,18 +107,17 @@ function handleTitleKeyPress(event) {
               </select>
           </div>
       {/each}
-      <button on:click={onAdd}>Add another stakholder</button>
+      <button class="mt-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAdd}>Add another stakholder</button>
   </div>
 
-  <div class="question">
-      <h3>What data will you be using?</h3>
-      <textarea class="textarea-padding" bind:value={dataUsed}></textarea>
+  <div class="bg-white p-12">
+      <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">What data will you be using?</div>
+      <textarea class="textarea-padding" placeholder="Description of data" bind:value={dataUsed}></textarea>
   </div>
 
-  <div class="btn-white-styled-container">
-<button class="btn-white-styled" on:click={onProceed}>Proceed to Consequences</button>
-</div>
-</div>  
+  <div class="bg-blue-800 px-12 pb-72 pt-8">
+<button class="m-5 bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3" on:click={onProceed}>Proceed to Consequences</button>
+</div> 
 
 <style>
   .reflect-title {
@@ -127,7 +128,6 @@ function handleTitleKeyPress(event) {
   .add-more-large {
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
   .stakeholder-select {
     margin-bottom: 10px;

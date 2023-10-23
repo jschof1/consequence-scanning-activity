@@ -18,7 +18,7 @@
   </script>
   
   <div class="modal">
-    <h3>Select columns to export:</h3>
+    <div class="text-blue-800 font-bold text-xl md:text-2xl">Select columns to export:</div>
     {#each columns as column}
       <label>
         <input type="checkbox" bind:checked={column.selected} />

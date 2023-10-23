@@ -32,24 +32,25 @@
   }
 
 </script>
-      <div id="Review" class="card project-overview">
-        <h2>{projectTitle}</h2>
-        <h3>Project Overview</h3>
-        <p><strong>Objectives:</strong> {objectives}</p>
+      <div id="Review" class="p-12 bg-blue-800">
+        <div class="text-white mb-4 font-bold text-3xl md:text-2xl">{projectTitle}</div>
+        <div class="text-white mb-4 font-bold text-2xl md:text-2xl">Project Overview</div>
+        <div class="text-xl text-white mb-4 font-bold md:text-2xl">Objectives:</div>
+        <div class="text-base text-white" >{objectives}</div>
         {#if stakeholders}
-        <p><strong>Stakeholders:</strong> </p> 
+        <div class="text-2xl text-white font-bold md:text-2xl">Stakeholders:</div> 
         {#each stakeholders as stakeholder, i}
         <p>{stakeholder.text} <em>({stakeholder.type})</em></p>
         {/each}
         {/if}
-        <h4>Intended/Positive Consequences</h4>
+        <div class="text-xl text-white mb-4 font-bold md:text-2xl">Intended/Positive Consequences</div>
         <ul>
           {#each intendedConsequences as ic}
             <li>{ic.description}</li>
           {/each}
         </ul>
       
-        <h2>Risk Management Table</h2>
+        <div class="text-white mb-4 font-bold text-3xl md:text-2xl">Risk Management Table</div>
         <table class=data-table>
           <thead>
             <tr>
@@ -79,21 +80,19 @@
           </tbody>
         </table>
       
-        <p><strong>Risk Score:</strong> {calculateRiskScore()}</p>
+        <div class="text-white mb-4 font-bold text-3xl md:text-2xl">Risk Score: {calculateRiskScore()}</div>
       
-        <button on:click={handleDownloadAsHTML}>Get full report</button>
+        <button class="mr-5 bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3" on:click={handleDownloadAsHTML}>Get full report</button>
   <!-- The Modal -->
-  <button on:click={() => { showModal = true; }}>Download the data</button>
+  <button class="mr-5 bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3" on:click={() => { showModal = true; }}>Download the data</button>
   
 
 {#if showModal}
   <div class="modal" in:fade={{duration: 300}}>
     <div class="modal-content">
       <span class="close" on:click={() => { showModal = false; }}>&times;</span>
-      <p>Download the data as a CSV file</p>
-      <button on:click={handleDownloadAsCsv}>Download as CSV</button>
-      <p>Download the data as a CSV file</p>
-      <button on:click={handleDownloadAsJson}>Download data as JSON</button>
+      <button class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={handleDownloadAsCsv}>Download as CSV</button>
+      <button class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={handleDownloadAsJson}>Download data as JSON</button>
     </div>
   </div>
 {/if}

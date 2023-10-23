@@ -305,7 +305,7 @@ function handleExport(columns) {
 <!-- Initial Questions -->
 {#if showQuestions}
   <div id="Questions" class="questions-section card" bind:this={questionsSection}>
-    <h3>Reflect on your project</h3>
+    <div class="text-blue-800 font-bold text-xl md:text-2xl">Reflect on your project</div>
 
     <div class="question">
       <p>What are the objectives of your project?</p>
@@ -330,7 +330,7 @@ function handleExport(columns) {
 <!-- Dual-pane for consequences -->
 <!-- {#if showConsequences}
     <div class="pane">
-      <h3>Consequences</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences</div>
       {#each consequences as consequences, i}
         <input type="text" bind:value={consequences[i]} />
       {/each}
@@ -344,7 +344,7 @@ function handleExport(columns) {
 <!-- Categorization -->
 {#if showCategorization}
   <div class="card" id="Consequences">
-    <h3>Consequences</h3>
+    <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences</div>
     {#each consequences as consequence, i}
       <div class="consequence-options">
         <label for="description"
@@ -411,13 +411,13 @@ function handleExport(columns) {
     <div class="long-text-review">
       <h2>Case Study: {selectedStudy}</h2>
       <hr />
-      <h3>Objectives:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Objectives:</div>
       <p>{objectives}</p>
-      <h3>Stakeholders:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Stakeholders:</div>
       <p>{stakeholders}</p>
-      <h3>Data used:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Data used:</div>
       <p>{dataUsed}</p>
-      <h3>Consequences</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences</div>
     </div>
     <!-- Act table -->
   <div class="filter-buttons">
@@ -478,7 +478,7 @@ Influence
   <div class="card attach-hypothesis">
     {#if currentHypothesisIndex !== null}
       <!-- Displaying consequences to attach -->
-      <h3>Consequences:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences:</div>
       <div class="consequences-checkbox">
         {#each consequences as consequence, i}
           <label class="checkbox-item">
@@ -498,7 +498,7 @@ Influence
 {/if}
 {#if isAssigningActions}
   <div class="card">
-    <h3>Assign Actions to Hypotheses:</h3>
+    <div class="text-blue-800 font-bold text-xl md:text-2xl">Assign Actions to Hypotheses:</div>
 
     {#each hypotheses as hypothesis, i}
       <div class="long-text-review">

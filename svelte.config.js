@@ -19,10 +19,10 @@ export default defineConfig({
             plugins: [
               require('tailwindcss'),
               require('autoprefixer'),
-              require('daisyui'),
             ],
           },
         },
       }),
     },
+    preprocess: vitePreprocess(),
 });

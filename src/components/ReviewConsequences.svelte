@@ -37,7 +37,7 @@
 
 <div class="card">
   <div class="review-header header-btn">
-    <h3>Reflect on your project</h3>
+    <div class="text-blue-800 font-bold text-xl md:text-2xl">Reflect on your project</div>
     <button class="info-button" title="Information" on:click={toggleModal}>
       ℹ
     </button>
@@ -53,32 +53,32 @@
     <div class="long-text-review">
       <h2>Project: {selectedStudy}</h2>
       <hr />
-      <h3>Objectives:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Objectives:</div>
       <p>{objectives}</p>
-      <h3>Stakeholders:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Stakeholders:</div>
       <p>{stakeholders}</p>
-      <h3>Data used:</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Data used:</div>
       <p>{dataUsed}</p>
-      <h3>Consequences</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences</div>
     </div>
     <!-- Act table -->
   <div class="filter-buttons">
-    <div class="btn-white-styled-container">
-<button class="btn-white-styled"  
+    <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"  
     on:click={() => filter.set('Act', check.isEqualTo)}
     class:active={$selected.includes('Act')}
 >
     Act
 </button>
-<div class="btn-white-styled-container">
-<button class="btn-white-styled" 
+<div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" 
 on:click={() => filter.set('Monitor', check.isEqualTo)}
 class:active={$selected.includes('Monitor')}
 >
 Monitor
 </button>
-<div class="btn-white-styled-container">
-<button class="btn-white-styled" 
+<div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" 
 on:click={() => filter.set('Influence', check.isEqualTo)}
 class:active={$selected.includes('Influence')}
 >
@@ -109,8 +109,8 @@ Influence
   </div>
   </div>
   <!-- Button to print -->
-  <div class="btn-white-styled-container">
-<button class="btn-white-styled" onclick="window.print()">Print this page</button>
-  <div class="btn-white-styled-container">
-<button class="btn-white-styled"on:click={onProceed}>Proceed to hypothesis</button>
+  <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" onclick="window.print()">Print this page</button>
+  <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"on:click={onProceed}>Proceed to hypothesis</button>
   

@@ -32,7 +32,7 @@
 
 <div class="card" id="Hypothesis">
   <div class="questions-header header-btn">
-      <h3>Hypotheses</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Hypotheses</div>
       <button class="info-button" title="Information" on:click={toggleModal}>
           ℹ
       </button>
@@ -46,9 +46,9 @@
       {/if}
   </div>
   <textarea class="textarea-padding"bind:value={hypothesisText} />
-  <div class="btn-white-styled-container">
-<button class="btn-white-styled" on:click={onAddAnother}>Add another Hypothesis</button>
-<button class="btn-white-styled" on:click={handleAttach}>Attach Consequences</button>
+  <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAddAnother}>Add another Hypothesis</button>
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={handleAttach}>Attach Consequences</button>
 </div>
 </div>
 
@@ -57,7 +57,7 @@
   {#if currentHypothesisIndex !== null}
   <!-- Displaying consequences to attach -->
   <div class="questions-header header-btn">
-      <h3>Attach consequences</h3>
+      <div class="text-blue-800 font-bold text-xl md:text-2xl">Attach consequences</div>
       <button class="info-button" title="Information" on:click={toggleModal}>
           ℹ
       </button>
@@ -82,9 +82,9 @@
       </label>
       {/each}
   </div>
-  <div class="btn-white-styled-container">
-<button class="btn-white-styled" on:click={onAddAnother}>Add another Hypothesis</button>
-<button class="btn-white-styled" on:click={onProceed}>Assign Actions</button>
+  <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAddAnother}>Add another Hypothesis</button>
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onProceed}>Assign Actions</button>
 </div>
   {/if}
 </div>

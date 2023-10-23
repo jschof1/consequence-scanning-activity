@@ -19,7 +19,7 @@
 
 <div class="card" id="Consequences">
   <div class="header-btn">
-  <h3>Consequences</h3>
+  <div class="text-blue-800 font-bold text-xl md:text-2xl">Consequences</div>
   <button class="info-button" title="Information" on:click={toggleModal}>
     ℹ
   </button>
@@ -80,8 +80,8 @@
     </div>
   </div>
   {/each}
-    <div class="btn-white-styled-container">
-<button class="btn-white-styled" on:click={onAdd}>Add More</button>
-<button class="btn-white-styled"on:click={onProceed}>Proceed to Review</button>
+    <div class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAdd}>Add More</button>
+<button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"on:click={onProceed}>Proceed to Review</button>
 </div>
 </div>

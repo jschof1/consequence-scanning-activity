@@ -1,6 +1,7 @@
 <script>
   import { fade } from 'svelte/transition';
   export let preLoadedStudies;
+  import caseStudy from "../../public/icons_case-study.svg"
 
   import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
@@ -17,9 +18,11 @@
   }
 
 </script>
-<div class="card" id="Preloaded-studies">
-  <div class="questions-header header-btn">
-    <h3>Pick your case study</h3>
+  <div class="bg-blue-100 p-12">
+    <div class="flex">
+      <img class="h-10 w-9 mr-5 filter-blue"  src={caseStudy}/>
+    <div class="text-2xl font-bold text-blue-800">Pick your case study</div>
+    </div>
     <button class="info-button" title="Information" on:click={toggleModal}>
       ℹ
     </button>
@@ -31,14 +34,11 @@
       </div>
     </div>
     {/if}
-    </div>
 <ul>
   {#each preLoadedStudies as study}
-  <div class="btn-white-styled-container">
     <li>
-<button class="btn-white-styled" on:click={()=>selectStudy(study)}>{study}</button>
+<button class="my-5 mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={()=>selectStudy(study)}>{study}</button>
 </li>
-</div>
   {/each}
 </ul>
 </div>
