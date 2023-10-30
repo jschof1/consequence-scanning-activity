@@ -4,7 +4,7 @@
   import { createEventDispatcher } from "svelte";
   import tool from "../../public/icons_tool.svg";
   import ai from "../../public/icons_ai.svg";
-  import arrow from "../../public/icons_arrow.svg";
+  import arrow from "../../public/icons_arrow-blue.svg";
   
   const dispatch = createEventDispatcher();
   
@@ -62,7 +62,7 @@
     <div class="grid gap-28 grid-cols-2 pb-5">
       <div>
         <div class="flex">
-          <img class="h-7 mr-2 pb-1 filter-yellow" src={arrow} />
+          <img class="h-7 mr-2 pb-1" src={arrow} />
           <div class="font-bold text-blue-800 text-lg mb-2">
             Select from example case studies:
           </div>
@@ -73,7 +73,7 @@
       </div>
       <div>
         <div class="flex">
-          <img class="h-7 mr-2 pb-1 filter-yellow" src={arrow} />
+          <img class="h-7 mr-2 pb-1" src={arrow} />
           <div class="font-bold text-blue-800 text-lg mb-2">
             Start a new project:
           </div>

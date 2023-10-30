@@ -6,9 +6,14 @@
   import Glossary from "./Glossary.svelte";
   let showModal = false;
   import {activeSection} from "./section.js";
-  function toggleModal() {
-    showModal = !showModal;
+function toggleModal() {
+  showModal = !showModal;
+  if (showModal) {
+    document.body.style.overflow = 'hidden'; // Prevent scrolling on the background when modal is shown
+  } else {
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
   }
+}
 
   
 
@@ -48,7 +53,7 @@
           </a>
         </li>
       {/each}
-      <li class="flex" on:click={toggleModal}>
+      <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
         <img class="h-7 ml-3 pr-1 pb-1 filter-yellow" src={arrow} />
         Glossary
       </li>
@@ -66,3 +71,7 @@
     </ul>
   </div>
 </div>
+
+<style>
+
+</style>

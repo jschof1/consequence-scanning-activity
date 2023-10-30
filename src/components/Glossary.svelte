@@ -1,9 +1,8 @@
 <script>
-  import { onMount } from "svelte";
   import { glossaryItems } from "../data/glossary.js";
 
   let glossarySearchInput = "";
-  let activeNav = "#";
+  let activeNav = null;
 
   function filterResults() {
     const inputValue = glossarySearchInput.toUpperCase();
@@ -50,7 +49,7 @@
     <!-- Glossary Nav -->
     <nav class="glossary__nav pb-4 border-b border-blue-800">
       <ul class="flex space-x-4 justify-center">
-        {#each ["#", "A", "B", "C", "D"] as navItem}
+        {#each ["C", "D", "E", "I", "K", "L", "M", "O", "P", "R", "S", "U"] as navItem}
           <li
             class={`glossary__nav__item ${
               activeNav === navItem ? "active" : ""
@@ -89,9 +88,7 @@
     <div class="glossary__results mb-6">
       {#each Object.keys(glossaryItems) as term}
         <div
-          class={`glossary__results__row ${
-            activeNav === term ? "" : "inactive"
-          }`}
+class={`glossary__results__row ${activeNav && activeNav !== term ? "inactive" : ""}`}
           data-term={term}
         >
           <div class="text-blue-800 text-4xl mb-4 font-extrabold">{term}</div>
@@ -117,6 +114,7 @@
 <!-- Additional Styles (if needed) -->
 <style>
   .inactive {
+    pointer-events: none;  /* Make it non-interactive */
     opacity: 0;
     height: 0;
     margin: 0;
@@ -126,5 +124,4 @@
     color: #fff;
     background-color: #2b98eb;
   }
-  /* ...rest of your styles */
 </style>
