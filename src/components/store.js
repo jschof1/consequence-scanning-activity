@@ -21,7 +21,7 @@ export const unintendedConsequenceSuggestions = writable([
     isSelected: true,
   },
   {
-    description: "This is a mock response",
+    description: "This is one mock response",
     impact: "High",
     selectedImpact: "High",
     outcome: "Positive",
@@ -37,7 +37,7 @@ export const unintendedConsequenceSuggestions = writable([
     isSelected: true,
   },
   {
-    description: "This is a mock response",
+    description: "This is another mock response",
     impact: "High",
     selectedImpact: "High",
     outcome: "Positive",
@@ -56,23 +56,23 @@ export const unintendedConsequenceSuggestions = writable([
 
 export const intendedConsequenceSuggestions = writable([
   {
-    description: "this is a mock response",
+    description: "this is one mock response",
     isSelected: true,
   },
   {
-    description: "this is a mock response",
+    description: "this is another mock response",
     isSelected: true,
   },
   {
-    description: "this is a mock response",
+    description: "this is an additional mock response",
     isSelected: true,
   },
   {
-    description: "this is a mock response",
+    description: "this is another additional mock response",
     isSelected: true,
   },
   {
-    description: "this is a mock response",
+    description: "this is the final mock response",
     isSelected: true,
   },
 ]);
