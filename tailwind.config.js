@@ -2,10 +2,9 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {listStyleImage: {
-      arrow: "url('/icons_arrow.svg')",
+    listStyleImage: {
+      arrow: "url('../public/icons_arrow.svg')",
     },
-  },
   },
   plugins: [],
 }

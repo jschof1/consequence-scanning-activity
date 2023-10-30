@@ -6,24 +6,47 @@
   import UnintendedConsequences from "./UnintendedConsequences.svelte";
   import Action from "./Action.svelte";
   import FinalOutcomeTable from "./FinalOutcomeTable.svelte";
-  import ReviewComponent from "./ReviewComponent.svelte";
+  import ConsequenceOutline from "./ConsequenceOutline.svelte";
+  import IntendedConsequences from "./intendedConsequences.svelte";
+  import IntendedConsequencesSuggester from "./IntendedConsequenceSuggester.svelte";
+  import UnintendedConsequenceSuggester from "./UnintendedConsequenceSuggester.svelte";
   import EvaluateUnintendedRisk from "./EvaluateUnintendedRisk.svelte";
+  import {
+    unintendedConsequenceSuggestions,
+    intendedConsequenceSuggestions,
+  } from "./store.js";
 
+  import { activeSection } from './section.js';
   import { downloadProjectDataAsCSV } from "../utils/downloadCsv.js";
   import { downloadProjectDataAsJSON } from "../utils/downloadJson.js";
   import { downloadProjectDataAsHTML } from "../utils/downloadHtml.js";
 
-  import { fade, fly } from "svelte/transition";
+  import caseStudy1 from "../data/caseStudy1";
+  import caseStudy2 from "../data/caseStudy2";
+  import caseStudy3 from "../data/caseStudy3";
+
+   import { onMount } from 'svelte';
+  // import IntendedConsequences from "./IntendedConsequences.svelte";
 
   let explainerIntro = true;
   let selectOption = false;
   let showPreLoadedOptions = false;
   let showQuestions = false;
+  let showConsequences = false;
+  let showIntendedConsequences = false;
   let showUnintendedConsequences = false;
   let showEvaluation = false;
   let isAssigningActions = false;
   let isViewingTable = false;
   let selectedFile = null;
+  let currentSection = null;  
+  
+  let preLoadedStudies = [
+    { title: caseStudy1.title, data: caseStudy1 },
+    { title: caseStudy2.title, data: caseStudy2 },
+    { title: caseStudy3.title, data: caseStudy3 },
+  ];
+  console.log("preLoadedStudies:", preLoadedStudies);
 
   let projectData = {
     title: "",
@@ -53,37 +76,63 @@
     preLoadedStudies: ["Case Study 1", "Case Study 2", "Case Study 3"],
   };
 
-  function handleBegin() {
-    explainerIntro = !explainerIntro;
+function scrollToTop() {
+  window.scrollTo(0, 0);
+}
+  function handleBegin(event) {
+    resetAllSections(event);
     selectOption = true;
   }
   function onStartNewProject() {
+     resetAllSections();
     showPreLoadedOptions = false;
     selectOption = false;
     showQuestions = true;
   }
 
-  function handleProceedToUnintendedConsequences() {
+  function handleProceedConsequencesOutline() {
+     resetAllSections();
+    showConsequences = true;
     showQuestions = false;
+    scrollToTop();
+  }
+
+  function handleProceedToIntendedConsequences() {
+     resetAllSections();
+    showConsequences = false;
+    showIntendedConsequences = true;
+    scrollToTop();
+  }
+  function handleProceedToUnintendedConsequences(event) {
+     resetAllSections(event);
+    showIntendedConsequences = false
     showUnintendedConsequences = true;
+    scrollToTop();
   }
   function handleProceedToPreLoadedOptions() {
+     resetAllSections();
     selectOption = false;
     showPreLoadedOptions = true;
   }
 
   function handleEvaluateUnintendedRisk() {
-    showUnintendedConsequences = false;
+     resetAllSections();
     showEvaluation = true;
+    showUnintendedConsequences = false;
+    scrollToTop();
   }
 
   function onAssignAction() {
-    showEvaluation = false;
-    showUnintendedConsequences = false;
+     resetAllSections();
     isAssigningActions = true;
+    showEvaluation = false;
+    scrollToTop();
   }
   function viewTable() {
+     resetAllSections();
     isViewingTable = true;
+    isAssigningActions = false;
+     scrollToTop();
   }
 
   function updateProjectData(event) {
@@ -91,8 +140,43 @@
     projectData.objectives = event.detail.objectives;
     projectData.stakeholders = event.detail.stakeholders;
     projectData.dataUsed = event.detail.dataUsed;
-    handleProceedToUnintendedConsequences();
+    handleProceedConsequencesOutline();
   }
+function resetAllSections(even) {
+  if (event) event.preventDefault(); 
+  explainerIntro = false;
+  selectOption = false;
+  showPreLoadedOptions = false;
+  showQuestions = false;
+  showConsequences = false;
+  showIntendedConsequences = false;
+  showUnintendedConsequences = false;
+  showEvaluation = false;
+  isAssigningActions = false;
+  isViewingTable = false;
+}
+const sectionHandlers = {
+  selectOption: handleBegin,
+  PreLoadedOptions: handleProceedToPreLoadedOptions,
+  Questions: onStartNewProject,
+  Consequences: handleProceedConsequencesOutline,
+  IntendedConsequences: handleProceedToIntendedConsequences,
+  UnintendedConsequences: handleProceedToUnintendedConsequences,
+  Evaluation: handleEvaluateUnintendedRisk,
+  AssigningActions: onAssignAction,
+  ViewingTable: viewTable,
+};
+onMount(() => {
+  activeSection.subscribe(value => {
+    console.log('Active section changed to:', value);
+    currentSection = value;
+    if (sectionHandlers[currentSection]) {
+      sectionHandlers[currentSection]();
+    } else {
+      console.error('No handler found for section:', currentSection);
+    }
+  });
+});
 
   function handleProceedExport(event) {
     const format = event.detail.format;
@@ -100,7 +184,7 @@
       downloadProjectDataAsCSV(projectData);
     } else if (format === "json") {
       downloadProjectDataAsJSON(projectData);
-    } else if (format === "html") {
+    } else if (format === "pdf") {
       downloadProjectDataAsHTML();
     }
   }
@@ -157,8 +241,9 @@
 
   function confirmSelection(event) {
     const study = event.detail.study;
-    projectData.selectedStudy = study;
-    alert(`You have selected ${projectData.selectedStudy}`);
+    console.log(event.detail.study);
+    projectData = study;
+    alert(`You have selected "${study.title}"`);
     showPreLoadedOptions = false;
     showQuestions = true;
   }
@@ -208,10 +293,7 @@
   />
 {/if}
 {#if showPreLoadedOptions}
-  <PreLoadedStudySelection
-    preLoadedStudies={projectData.preLoadedStudies}
-    on:proceed={confirmSelection}
-  />
+  <PreLoadedStudySelection {preLoadedStudies} on:proceed={confirmSelection} />
 {/if}
 {#if showQuestions}
   <Reflect
@@ -220,20 +302,28 @@
     stakeholders={projectData.stakeholders}
     dataUsed={projectData.dataUsed}
     intendedConsequences={projectData.intendedConsequences}
-    onAddIntendedConsequence={addIntendedConsequence}
     onAdd={addStakeholder}
     on:proceed={updateProjectData}
   />
 {/if}
-<!-- {#if showIntendedConsequences}
-<IntendedConsequences on:proceed={handleProceedToUnintendedConsequences} intendedConsequences={projectData.intendedConsequences} onAdd={addIntendedConsequence} />
-{/if} -->
+{#if showConsequences}
+  <ConsequenceOutline on:proceed={handleProceedToIntendedConsequences} />
+{/if}
+{#if showIntendedConsequences}
+  <!-- <IntendedConsequencesSuggester {projectData} /> -->
+  <IntendedConsequences
+    onAdd={addIntendedConsequence}
+    consequences={projectData.intendedConsequences}
+    consequenceSuggestions={intendedConsequenceSuggestions}
+    on:proceed={handleProceedToUnintendedConsequences}
+  />
+{/if}
 {#if showUnintendedConsequences}
-  <ReviewComponent {projectData} />
+  <!-- <UnintendedConsequenceSuggester {projectData} /> -->
   <UnintendedConsequences
-    on:proceed={handleEvaluateUnintendedRisk}
     consequences={projectData.unintendedConsequences}
     onAdd={addUnintendedConsequence}
+    on:proceed={handleEvaluateUnintendedRisk}
   />
 {/if}
 {#if showEvaluation}

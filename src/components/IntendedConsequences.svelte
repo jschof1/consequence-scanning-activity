@@ -1,50 +1,52 @@
 <script>
-    import { fade } from 'svelte/transition';
-    export let intendedConsequences;
-    export let onAdd;
+  import AiSuggestions from './AiSuggestions.svelte'
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   
-    let showModal = false;
+  export let consequenceSuggestions
+  export let consequences;
+  export let onAdd;
   
-    import { createEventDispatcher } from 'svelte';
-      const dispatch = createEventDispatcher();
-  
-      function onProceed() {
-          dispatch('proceed');
-      }
-      function toggleModal() {
-          showModal = !showModal;
-    }
-  
-  </script>
-  
-  <div class="card" id="IntendedConsequences">
-    <div class="header-btn">
-    <div class="text-blue-800 font-bold text-xl md:text-2xl">Intended Consequences</div>
-    <button class="info-button" title="Information" on:click={toggleModal}>
-      ℹ
-    </button>
-    {#if showModal}
-    <div class="modal" in:fade={{duration: 300}}>
-      <div class="modal-content">
-        <span class="close" on:click={toggleModal}>&times;</span>
-        <p>Input some text explaining this section</p>
-      </div>
+    let customConsequences = false;
+    let aiSuggest = null
+
+    function addOwnConsequences() {
+    customConsequences = true;
+    aiSuggest = false;
+    console.log('addOwnConsequences called', { customConsequences, aiSuggest });
+  }
+
+  function onProceed() {
+    const selectedSuggestions = $consequenceSuggestions.filter(
+      (sug) => sug.isSelected
+    );
+    selectedSuggestions.forEach((selectedSuggestion, outcome) => {
+      consequences.unshift({
+        description: selectedSuggestion.description,
+      });
+    });
+    dispatch("proceed");
+  }
+
+</script>
+<div id="IntendedConsequences">
+  <div class="bg-orange-100 p-12">
+    <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">
+     Intended Consequences
     </div>
-    {/if}
+    <div class="mb-7 p-8 bg-white shadow-md">
+    <div class="mb-4">
+        Start by creating a clear list of intended consequences. 
+        These consequences enable your project to remain focused on its objectives and desired outcomes. Intended consequences serve as a guide for project evaluation and success measurement.
     </div>
-    {#each intendedConsequences as ic, i}
-    <div class="consequence-options">
-      <label for="description"
-        >Intended consequence {i+1}
-        <textarea
-          class="consequence-input"
-          bind:value={ic.description}
-          placeholder="Description"
-        />
-      </label>
-      </div>
-       {/each}
-      <button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3" on:click={onAdd}>Add More</button>
-      <button class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"on:click={onProceed}>Enter Unintended Consequences</button>
+    <div class="mb-4">
+        Intended consequences are the positive impacts and benefits you expect to create with your data project. This could include improved decision-making, increased efficiency, cost savings, enhanced customer satisfaction, or any other favourable results.
+    </div>
+</div>
   </div>
-  
+
+
+<AiSuggestions consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
+
+ </div>
+ 

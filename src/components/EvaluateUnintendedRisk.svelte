@@ -1,6 +1,6 @@
 <script>
   import { fade } from "svelte/transition";
-  import { aiSuggestions } from "./store.js";
+  import { unintendedConsequenceSuggestions } from "./store.js";
   export let unintendedConsequences;
   export let onSetImpact;
   export let onSetLikelihood;
@@ -17,33 +17,22 @@
     showModal = !showModal;
   }
   function fillConsequencesFromAI(index) {
-    if ($aiSuggestions[index]) {
+    if ($unintendedConsequenceSuggestions[index]) {
       unintendedConsequences[index].selectedImpact =
-        $aiSuggestions[index].selectedImpact;
+        $unintendedConsequenceSuggestions[index].impact;
       unintendedConsequences[index].selectedLikelihood =
-        $aiSuggestions[index].selectedLikelihood;
+        $unintendedConsequenceSuggestions[index].likelihood;
     }
   }
 </script>
 
-<div class="bg-blue-100 p-12" id="Consequences">
-  <div class="text-blue-800 mb-4 font-bold text-xl md:text-2xl">
+<div class="bg-orange-100 p-12" id="Consequences">
+  <div class="text-blue-800 mb-6 font-bold text-xl md:text-3xl">
     Evaluate Risks of Unintended Consequences
   </div>
-  <button class="info-button" title="Information" on:click={toggleModal}>
-    ℹ
-  </button>
-  {#if showModal}
-    <div class="modal" in:fade={{ duration: 300 }}>
-      <div class="modal-content">
-        <span class="close" on:click={toggleModal}>&times;</span>
-        <p>Input some text explaining this section</p>
-      </div>
-    </div>
-  {/if}
 {#each unintendedConsequences as consequence, i}
   <div class="consequence-options">
-    <div class="text-blue-800 font-bold text-xl md:text-2xl">
+    <div class="text-blue-800 font-bold p-5 text-xl md:text-md">
       {consequence.description}
     </div>
     <button
@@ -60,6 +49,7 @@
         >
           <option disabled selected value>impact</option>
           <option value="High">High</option>
+          <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
       </label>
@@ -71,6 +61,7 @@
         >
           <option disabled selected value>likelihood</option>
           <option value="High">High</option>
+          <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
       </label>

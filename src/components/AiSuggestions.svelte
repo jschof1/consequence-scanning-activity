@@ -1,118 +1,151 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
-  
-    export let consequences = []
-  
-    const aiSuggestions = [
-  { 
-    description: "Potential impact on the environment due to waste.",
-    outcome: ["Negative"],
-    selectedOutcome: "Negative",
-    impact: ["High", "Medium", "Low"],
-    selectedImpact: "High",
-    likelihood: ["High", "Medium", "Low"],
-    selectedLikelihood: "Low",
-    action: "",
-    AIM: ['Act', 'Influence', 'Monitor'],
-    selectedAIM: "Act",
-    timeline: ["3 months", "6 months", "1 year", "2 years"], 
-    selectedTimeline: "",
-    isSelected: false
-  },
-  {
-    description: "Possible misuse of the product by end-users.",
-    outcome: ["Negative"],
-    selectedOutcome: "Positive",
-    impact: ["High", "Medium", "Low"],
-    selectedImpact: "High",
-    likelihood: ["High", "Medium", "Low"],
-    selectedLikelihood: "Low",
-    action: "",
-    AIM: ['Act', 'Influence', 'Monitor'],
-    selectedAIM: "Act",
-    timeline: ["3 months", "6 months", "1 year", "2 years"],
-    selectedTimeline: "",
-    isSelected: false
-  },
-  {
-    description: "Might lead to job losses due to automation.",
-    outcome: ["Negative"],
-    selectedOutcome: "Positive",
-    impact: ["High", "Medium", "Low"],
-    selectedImpact: "High",
-    likelihood: ["High", "Medium", "Low"],
-    selectedLikelihood: "Low",
-    action: "",
-    AIM: ['Act', 'Influence', 'Monitor'],
-    selectedAIM: "Act",
-    timeline: ["3 months", "6 months", "1 year", "2 years"],
-    selectedTimeline: "",
-    isSelected: false
-  },
-  {
-    description: "Could be used unethically in certain situations.",
-    outcome: ["Negative"],
-    selectedOutcome: "Positive",
-    impact: ["High", "Medium", "Low"],
-    selectedImpact: "High",
-    likelihood: ["High", "Medium", "Low"],
-    selectedLikelihood: "Low",
-    action: "",
-    AIM: ['Act', 'Influence', 'Monitor'],
-    selectedAIM: "Act",
-    timeline: ["3 months", "6 months", "1 year", "2 years"],
-    selectedTimeline: "",
-    isSelected: false
-  },
-  {
-    description: "Improves accessibility for differently-abled individuals.",
-    outcome: ["Positive"],
-    selectedOutcome: "Positive",
-    impact: ["High", "Medium", "Low"],
-    selectedImpact: "High",
-    likelihood: ["High", "Medium", "Low"],
-    selectedLikelihood: "Low",
-    action: "",
-    AIM: ['Act', 'Influence', 'Monitor'],
-    selectedAIM: "Act",
-    timeline: ["3 months", "6 months", "1 year", "2 years"],
-    selectedTimeline: "",
-    isSelected: false
-  }
-];
+  import Textarea from "../utils/Textarea.svelte";
 
-  
-function selectSuggestion(selectedSuggestion) {
-    selectedSuggestion.isSelected = !selectedSuggestion.isSelected;
-    dispatch('selectSuggestion', selectedSuggestion); // dispatch the event
-}
-    function proceed() {
-    dispatch('proceed', consequences);  // passing the consequences data with the event
-}
-  </script>
-  
-  <ul>
-    {#each aiSuggestions as suggestion}
-    <li>
-      <button 
-        class="suggestion-button {suggestion.isSelected ? 'selected-suggestion' : ''}" 
-        on:click={() => selectSuggestion(suggestion)}
-      >
-        {suggestion.description} (Outcome: {suggestion.selectedOutcome})
-        {#if suggestion.isSelected}
-          ✅
-        {/if}
-      </button>
-    </li>
-    {/each}
-  </ul>
-  <button on:click={proceed}>Proceed</button>
-  
-  <style>
-  .selected-suggestion {
-    background-color: green;
-    color: white;
+  import { fade } from "svelte/transition";
+  import { derived } from "svelte/store";
+
+	export let onProceed
+
+  import loading from "../../public/loading.gif";
+  import bin from "../../public/icons_bin.svg";
+	import ai from '../../public/icons_ai.svg'
+
+
+  export let customConsequences = null;
+  function addOwnConsequences() {
+    customConsequences = true;
+    aiSuggest = false;
   }
-  </style>
-  
+
+	let aiSuggest = null
+  export let consequenceSuggestions;
+	export let consequences
+
+	export let onAdd
+
+function suggestConsequences() {
+		aiSuggest = true;
+		    setTimeout(() => {
+        window.scrollTo(0,document.body.scrollHeight);
+    }, 200); 
+}
+  const isLoading = derived(
+    consequenceSuggestions,
+    ($consequenceSuggestions) =>
+      !$consequenceSuggestions || $consequenceSuggestions.length === 0
+  );
+
+  function handleBinClick(selectedDescription) {
+    const updatedSuggestions = $consequenceSuggestions.map((sug) => {
+      if (sug.description === selectedDescription) {
+        return {
+          ...sug,
+          isSelected: false,
+        };
+      }
+      return sug;
+    });
+
+    consequenceSuggestions.set(updatedSuggestions);
+  }
+</script>
+  {#if customConsequences === null}
+    <div class="bg-blue-100 p-12">
+      <div class="flex">
+        <img class="h-10 w-9 mr-5 filter-blue" src={ai} />
+        <div class="text-blue-800 font-bold text-xl md:text-2xl" in:fade={{duration: 2000, delay: 400}}>
+          Do you want AI to suggest intended consequences?
+        </div>
+      </div>
+      <div class="mt-7 p-8 bg-white shadow-md bg-opacity-70">
+        The AI will review the details of the project and make suggestions for
+        what the possible intended and unintended consequences might be. The
+        generated consequences should be treated as a guide that supports your
+        project planning.
+      </div>
+      <div class="" style="display:{aiSuggest === true || false ? 'none' : ''}">
+        <button
+          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+          style="display"
+          on:click={suggestConsequences}>Yes</button>
+        <button
+          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+          on:click={addOwnConsequences}>No</button
+        >
+      </div>
+    </div>
+  {/if}
+  {#if aiSuggest === true}
+  <div class="bg-orange-100 p-12">
+    {#if $isLoading}
+      <div class="loading h-2 ml-10" transition:fade={{ duration: 300 }}>
+        <img alt="loading-icon ml-8 mt-10" src={loading} />
+      </div>
+    {/if}
+    <div class="mb-7 p-8 bg-white opacity-80 shadow-md">
+      These consequences have been generated by the AI. Each generated
+      consequence has also been identified as having either a positive or
+      negative outcome. Review the consequences and edit or remove any that
+      require amendments. You can also create your own consequences and add them
+      to the list.
+    </div>
+    <div class="flex flex-col w-full justify-center">
+      {#each $consequenceSuggestions as suggestion}
+        <div class="relative">
+          {#if suggestion.isSelected}
+            <Textarea bind:value={suggestion.description} />
+            <img
+              src={bin}
+              alt="bin icon"
+              class="filter-blue absolute top-2 right-2 mt-1 pb-1 mr-4 cursor-pointer h-5"
+              on:click={() => handleBinClick(suggestion.description)}
+            />
+          {/if}
+        </div>
+      {/each}
+    </div>
+  </div>
+    <div
+      class="bg-orange-100 p-12"
+      style="display: {customConsequences !== null ? 'none' : ''}"
+    >
+      <button
+        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+        on:click={onProceed}>Continue with these consequences</button
+      >
+      <button
+        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+        on:click={addOwnConsequences}>Add in your own consequences</button
+      >
+    </div>
+{/if}
+{#if aiSuggest === false && customConsequences === true}
+    <div id="UnintendedConsequences" class="bg-blue-100 p-12">
+          <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
+          Intended Consequences
+      </div>
+      {#each consequences as consequence, i}
+        <div class="consequence-options">
+          <label for="description">
+            <div class="text-blue-800 mb-4 font-bold text-lg md:text-md">
+              Intended Consequence {i + 1}
+            </div>
+            <Textarea
+              bind:value={consequence.description}
+              placeholder="Description"
+            />
+          </label>
+          </div>
+      {/each}
+			 <div>
+        <button
+          class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
+          on:click={onAdd}>Add More</button
+        >
+        <button
+          class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
+          on:click={onProceed}>Proceed to Unintended Consequences</button
+        >
+      </div>
+    </div>
+  {/if}

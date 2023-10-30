@@ -2,18 +2,20 @@
   export let explainerIntro = true;
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
+  import tool from "../../public/icons_tool.svg";
+  import ai from "../../public/icons_ai.svg";
+  import arrow from "../../public/icons_arrow.svg";
+  
   const dispatch = createEventDispatcher();
-  import tool from "../../public/icons_tool.svg"
-  import ai from "../../public/icons_ai.svg"
-
+  
   function onProceed() {
     explainerIntro = false;
-    dispatch("proceed");
+    dispatch("proceed", event);
   }
-</script>
 
+</script>
 {#if explainerIntro}
-  <div class="text-white px-10 pb-12" transition:fade>
+  <div class="text-white px-28 pb-12" transition:fade>
     <div class="grid-two-by-two">
       <div class="card-long-text">
         <p class="text-sm md:text-xl">
@@ -29,6 +31,8 @@
           order to provide you with the opportunity to mitigate or address
           potential harms or disasters before they happen.&nbsp;
         </p>
+        <p class="text-sm md:text-xl">This interactive tool provides a framework to carry out a Consequence Scanning activity and generate a risk register that can be downloaded and incorporated into your project planning and governance. 
+</p>
       </div>
       <div class="card-long-text">
         <!-- ifrmae -->
@@ -45,54 +49,66 @@
       </div>
     </div>
   </div>
-  <div class="card-long-text bg-blue-200 p-12">
+  <div class="card-long-text bg-blue-200 px-28 p-12">
     <div class="flex">
-    <img class="h-10 w-9 mr-5 filter-blue"  src={tool}/>
-    <div class="text-blue-800 font-bold text-xl md:text-2xl pt-1"> How to use the tool
-    </div>
+      <img class="h-10 w-9 mr-5 filter-blue" alt="tool-icon" src={tool} />
+      <div class="text-blue-800 font-bold text-xl md:text-2xl pt-1">
+        How to use the tool
+      </div>
     </div>
     <div class="text-sm pb-10 md:text-base">
       There are two routes through the tool:
     </div>
     <div class="grid gap-28 grid-cols-2 pb-5">
       <div>
-        <div class="font-bold text-blue-800">
-          Select from example case studies:
+        <div class="flex">
+          <img class="h-7 mr-2 pb-1 filter-yellow" src={arrow} />
+          <div class="font-bold text-blue-800 text-lg mb-2">
+            Select from example case studies:
+          </div>
         </div>
         <div>
-          learn more about Consequence Scanning by selecting one of our example
-          case studies and carry out a hypothetical Consequence Scanning
-          activity to learn more about the process and how it can support your
-          professional practice.
+        Learn how to conduct a Consequence Scan by working through one of our example case studies and identify consequences, determine risk and plan actions.
         </div>
       </div>
       <div>
-        <div class="font-bold text-blue-800">Start a new project:</div>
+        <div class="flex">
+          <img class="h-7 mr-2 pb-1 filter-yellow" src={arrow} />
+          <div class="font-bold text-blue-800 text-lg mb-2">
+            Start a new project:
+          </div>
+        </div>
         <div>
-          follow the steps in the interactive tool to carry review your own
-          project and work toward outputting a project overview and accompanying
-          risk log that can be used within your own project processes as you
-          plan your backlog and upcoming actions.
+         Follow the steps in the interactive tool to carry out a review of your own project and generate  a project overview and accompanying risk register .
         </div>
       </div>
     </div>
   </div>
-  <div class="p-12 text-white">
+  <div class="p-12 text-white px-28">
     <div class="flex">
-        <img class="h-10 w-9 mr-5 filter-white"  src={ai}/>
-    <div class="text-2xl font-bold pb-3">Supported by AI</div>
+      <img class="h-10 w-9 mr-5 filter-white" src={ai} />
+      <div class="text-2xl font-bold pb-3">Supported by AI</div>
     </div>
     <div>
-        The tool uses a ChatGPT plugin to assist you in the process of
-        Consequence Scanning. At several steps throughout the tool you will have
-        the option to generate suggestions and ideas for your project in order
-        to help you capture the potential consequences and suggest appropriate
-        actions.
+      The tool uses a ChatGPT plugin to assist you in the process of Consequence
+      Scanning. At several steps throughout the tool you will have the option to
+      generate suggestions and ideas for your project in order to help you
+      capture the potential consequences and suggest appropriate actions.
+      <!-- add disclaimer -->
+      <div class="italic pt-5 font-bold">
+        Please note: Suggestions from the AI assistant are provided for
+        consideration and should be taken as presented.
+      </div>
     </div>
-    <div class="bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container">
-        <button class="bg-transparent highlight border border-2 border-white hover:border-white text-white font-bold text-lg border-white px-8 py-2 mt-4" on:click={onProceed}>Begin</button>
+    <div
+      class="bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3-container"
+    >
+      <button
+        class="bg-transparent highlight border border-2 border-white hover:border-white text-white font-bold text-lg border-white px-8 py-2 mt-4"
+        on:click={onProceed}>Begin</button
+      >
     </div>
-</div>
+  </div>
 {/if}
 
 <style>

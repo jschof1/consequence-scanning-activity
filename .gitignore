@@ -3,3 +3,10 @@ dist/.DS_Store
 dist/.DS_Store
 .DS_Store
 src/components/ReviewComponent.svelte
+chatgpt-api-server
+chatgpt-api-server/.env
+chatgpt-api-server/node_modules
+src/components/UnintendedConsequenceSuggester.svelte
+src/components/IntendedConsequenceSuggester.svelte
+chatgpt-api-server/index.js
+.vscode

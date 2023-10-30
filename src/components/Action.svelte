@@ -1,6 +1,6 @@
 <script>
   import { fade } from "svelte/transition";
-  import { aiSuggestions } from "./store.js";
+  import { unintendedConsequenceSuggestions } from "./store.js";
 
   export let consequences;
   export let onSetAction;
@@ -22,51 +22,55 @@
   }
 
   function fillActionFromAI(index) {
-    if ($aiSuggestions[index]) {
-      consequences[index].action = $aiSuggestions[index].action;
+    if ($unintendedConsequenceSuggestions[index]) {
+      consequences[index].action = $unintendedConsequenceSuggestions[index].action;
     }
   }
   function fillTimelineFromAI(index) {
-    if ($aiSuggestions[index]) {
-      consequences[index].timescale = $aiSuggestions[index].selectedTimeline;
+    if ($unintendedConsequenceSuggestions[index]) {
+      consequences[index].timeline = $unintendedConsequenceSuggestions[index].timeline;
     }
   }
   function fillMeasureFromAI(index) {
-    if ($aiSuggestions[index]) {
-      consequences[index].selectedAIM = $aiSuggestions[index].selectedAIM;
+    if ($unintendedConsequenceSuggestions[index]) {
+      consequences[index].selectedAIM = $unintendedConsequenceSuggestions[index].AIM;
     }
   }
   function fillKPIFromAI(index) {
-    if ($aiSuggestions[index]) {
-      consequences[index].KPI = $aiSuggestions[index].KPI;
+    if ($unintendedConsequenceSuggestions[index]) {
+      consequences[index].KPI = $unintendedConsequenceSuggestions[index].KPI;
     }
   }
 </script>
 
 <div id="Actions" class="bg-blue-100 p-12">
-    <div class="text-blue-800 font-bold text-xl md:text-2xl pb-5">
+    <div class="text-blue-800 font-bold text-xl md:text-3xl pb-5">
       Assign Actions to Consequences
     </div>
-    <button class="info-button" title="Information" on:click={toggleModal}>
-      ℹ
-    </button>
-    {#if showModal}
-      <div class="modal" in:fade={{ duration: 300 }}>
-        <div class="modal-content">
-          <span class="close" on:click={toggleModal} role="button" tabindex="0"
-            >&times;</span
-          >
-          <p>Input some text explaining this section</p>
-        </div>
-      </div>
-    {/if}
+   <div class="mb-7 p-8 bg-white shadow-md">
+    <div class="mb-4">For each unintended consequence, you will now assign specific actions to mitigate or manage the risk and add a Key Performance Indicator (KPI) to track the effectiveness of each action. You should:</div>
+    <ul class="list-disc pl-5 mb-4">
+        <li class="mb-2">
+            <strong>Create the mitigation Action:</strong> Describe the specific action(s) that need to be taken to mitigate or manage the consequence effectively. Be as detailed as possible, specifying what needs to be done and who is responsible.
+        </li>
+        <li class="mb-2">
+            <strong>Define the Key Performance Indicator (KPI):</strong> Define a KPI that will help measure the success or progress of the mitigation action. The KPI should be a measurable metric that indicates the desired outcome. It could be related to time, cost, performance, or any other relevant measure.
+        </li>
+        <li class="mb-2">
+            For each action, you should also assign an estimated timescale (3 months, 6 months, 1 year, etc).
+        </li>
+    </ul>
+    <div class="mb-2">
+        When creating your actions, you have the option of using the AI to generate a possible action and associated KPI. These should be reviewed and updated accordingly.
+    </div>
+</div>
   {#each consequences as consequence, i}
   <div class="consequence-options">
       <span class="consequence-actions-container">
-        <div class="text-blue-800 font-bold mb-10 text-lg md:text-2xl">
+        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
           consequence {i + 1}:
         </div>
-        <h2>{consequence.description}</h2>
+        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">{consequence.description}</div>
       </span>
       <label for="action">
         <span class="text-blue-800 font-bold text-lg">Action</span>
@@ -104,7 +108,7 @@
         <label for="timescale">
           <span class="text-blue-800 font-bold text-lg"> Timescale </span>
           <select
-            bind:value={consequence.timescale}
+            bind:value={consequence.timeline}
             on:change={(event) => onSetTimeline(i, event.target.value)}
           >
             <option disabled selected value>Timescale</option>
@@ -143,7 +147,7 @@
   {/each}
   <button
     class="mr-5 mt-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-    on:click={onProceed}>View Data in Table Format</button
+    on:click={onProceed}>Publish Risk Register</button
   >
 </div>
 
