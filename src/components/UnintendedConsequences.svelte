@@ -31,6 +31,9 @@
   function addOwnConsequences() {
     customConsequences = true;
     aiSuggest = false;
+    $unintendedConsequenceSuggestions.map((a) =>{
+      a.isSelected = false
+    })
   }
 
   function handleBinClick(selectedDescription) {

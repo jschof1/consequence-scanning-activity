@@ -32,6 +32,6 @@
 </div>
   <button
     class="bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-    on:click={onProceed}>Proceed to Unintended Consequences</button
+    on:click={onProceed}>Proceed to Intended Consequences</button
   >
 </div>

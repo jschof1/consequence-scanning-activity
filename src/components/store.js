@@ -15,8 +15,11 @@ export const unintendedConsequenceSuggestions = writable([
     action: "This is a mock action response",
     AIM: ["Act", "Influence", "Monitor"],
     selectedAIM: "Monitor",
-    timeline: "3 Months",
-    selectedTimeline: "3 months",
+    timeline: {
+      date: "3 Months",
+      stakeholder: "Project manager (internal)",
+      selectedTimeline: "3 months",
+    },
     KPI: "THIS IS A KPI",
     isSelected: true,
   },
@@ -31,8 +34,11 @@ export const unintendedConsequenceSuggestions = writable([
     action: "This is a mock action response",
     AIM: ["Act", "Influence", "Monitor"],
     selectedAIM: "Monitor",
-    timeline: "3 Months",
-    selectedTimeline: "3 months",
+    timeline: {
+      date: "3 Months",
+      stakeholder: "Project manager (internal)",
+      selectedTimeline: "3 months",
+    },
     KPI: "THIS IS A KPI",
     isSelected: true,
   },
@@ -47,10 +53,13 @@ export const unintendedConsequenceSuggestions = writable([
     action: "This is a mock action response",
     AIM: ["Act", "Influence", "Monitor"],
     selectedAIM: "Monitor",
-    timeline: "3 Months",
-    selectedTimeline: "3 months",
+    timeline: {
+      date: "3 Months",
+      stakeholder: "Project manager (internal)",
+      selectedTimeline: "3 months",
+    },
     KPI: "THIS IS A KPI",
-    isSelected: true
+    isSelected: true,
   },
 ]);
 

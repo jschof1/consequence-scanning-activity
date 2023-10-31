@@ -144,15 +144,15 @@
   <div class="mb-7 p-8 bg-white bg-opacity-50 shadow-md">
     <div class="mb-4 font-bold">Provide details on the data that is being utilised within the project. You may wish to include details on the following:</div>
     <ul class="list-disc pl-5 mb-4">
-        <li class="mb-2">What type of data is being used (e.g., customer info, sales data, etc.)</li>
-        <li class="mb-2">Where you get the data from (sources and providers)</li>
-        <li class="mb-2">How the data looks (format, quality)</li>
-        <li class="mb-2">How much data there is (volume)</li>
-        <li class="mb-2">Whether there is any sensitive or private information in the data</li>
-        <li class="mb-2">How you keep the data secure</li>
-        <li class="mb-2">Who has access to the data (team members, external parties)</li>
-        <li class="mb-2">Any legal or compliance rules you follow</li>
-        <li class="mb-2">How long you keep the data and how you get rid of it when done.</li>
+        <li class="mb-2">What type of data is being used? (e.g., customer info, sales data, etc.)</li>
+        <li class="mb-2">Where you get the data from? (sources and providers)</li>
+        <li class="mb-2">How the data looks? (format, quality)</li>
+        <li class="mb-2">How much data there is? (volume)</li>
+        <li class="mb-2">Whether there is any sensitive or private information in the data?</li>
+        <li class="mb-2">How you keep the data secure?</li>
+        <li class="mb-2">Who has access to the data? (team members, external parties)</li>
+        <li class="mb-2">Any legal or compliance rules you follow?</li>
+        <li class="mb-2">How long you keep the data and how you get rid of it when done?</li>
     </ul>
 </div>
 
@@ -261,7 +261,7 @@
   {/if} -->
 <!-- </div> -->
 
-<div class="bg-blue-800 p-12 pt-72">
+<div class="bg-blue-800 p-12">
         <button
           class="bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3"
           on:click={onProceed}>Proceed to Consequences</button

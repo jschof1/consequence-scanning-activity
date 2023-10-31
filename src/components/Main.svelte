@@ -57,27 +57,17 @@
     dataUsed: "",
     intendedConsequences: [{ description: "" }],
     unintendedConsequences: [
-      {
-        description: "",
-        impact: ["High", "Medium", "Low"],
-        selectedImpact: "",
-        outcome: ["Positive", "Negative"],
-        selectedOutcome: "",
-        likelihood: ["High", "Medium", "Low"],
-        selectedLikelihood: "",
-        action: "",
-        AIM: ["Act", "Influence", "Monitor"],
-        selectedAIM: "",
-        timeline: ["3 months", "6 months", "1 year", "2 years"],
-        selectedTimeline: "",
-        KPI: "",
-      },
     ],
     preLoadedStudies: ["Case Study 1", "Case Study 2", "Case Study 3"],
   };
 
 function scrollToTop() {
   window.scrollTo(0, 0);
+}
+
+function handleIntro() {
+   resetAllSections();
+  explainerIntro = true
 }
   function handleBegin(event) {
     resetAllSections(event);
@@ -142,7 +132,7 @@ function scrollToTop() {
     projectData.dataUsed = event.detail.dataUsed;
     handleProceedConsequencesOutline();
   }
-function resetAllSections(even) {
+function resetAllSections(event) {
   if (event) event.preventDefault(); 
   explainerIntro = false;
   selectOption = false;
@@ -156,6 +146,7 @@ function resetAllSections(even) {
   isViewingTable = false;
 }
 const sectionHandlers = {
+  Intro: handleIntro,
   selectOption: handleBegin,
   PreLoadedOptions: handleProceedToPreLoadedOptions,
   Questions: onStartNewProject,
@@ -189,7 +180,7 @@ onMount(() => {
     }
   }
 
-  function setLkelihood(index, likelihoodChoice) {
+  function setLikelihood(index, likelihoodChoice) {
     projectData.unintendedConsequences[index].selectedLikelihood =
       likelihoodChoice;
   }
@@ -206,8 +197,12 @@ onMount(() => {
     projectData.unintendedConsequences[index].KPI = KPI;
   }
 
-  function setTimelineForUnintendedConsequence(index, timeline) {
-    projectData.unintendedConsequences[index].selectedTimeline = timeline;
+  function setDateForUnintendedConsequence(index, date) {
+    projectData.unintendedConsequences[index].timeline.date = date;
+  }
+
+    function setStakeholderTimelineForUnintendedConsequence(index, stakeholder) {
+    projectData.unintendedConsequences[index].timeline.stakeholder = stakeholder;
   }
 
   function setMeasureForUnintendedConsequence(index, aim) {
@@ -274,15 +269,19 @@ onMount(() => {
         action: "",
         AIM: ["Act", "Influence", "Monitor"],
         selectedAIM: "",
-        timeline: "",
+        timeline: {
+          date : "",
+          stakeholder: ""
+        }
       },
     ];
   }
 
   $: console.log("Current project title:", projectData.title);
 </script>
-
+{#if explainerIntro}
 <Intro {explainerIntro} on:proceed={handleBegin} />
+{/if}
 {#if selectOption}
   <FileInput
     on:fileData={handleFileData}
@@ -331,17 +330,19 @@ onMount(() => {
     unintendedConsequences={projectData.unintendedConsequences}
     on:proceed={onAssignAction}
     onSetImpact={setImpact}
-    onSetLikelihood={setLkelihood}
+    onSetLikelihood={setLikelihood}
   />
 {/if}
 {#if isAssigningActions}
   <Action
     on:proceed={viewTable}
+    stakeholders={projectData.stakeholders}
     consequences={projectData.unintendedConsequences}
-    onSetTimeline={setTimelineForUnintendedConsequence}
+    onSetTimeline={setDateForUnintendedConsequence}
     onSetAction={setActionForUnintendedConsequence}
     onSetMeasure={setMeasureForUnintendedConsequence}
     onSetKPI={setKPIForUnintendedConsequence}
+    onSetStakeholderForTimeline={setStakeholderTimelineForUnintendedConsequence}
   />
 {/if}
 {#if isViewingTable}

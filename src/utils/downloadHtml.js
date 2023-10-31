@@ -62,58 +62,98 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 export function downloadProjectDataAsHTML() {
-  const modal = document.getElementById("outcome-modal"); // Replace 'modalId' with the id of your modal
+  const modal = document.getElementById("outcome-modal");
   const downloadButton = document.getElementById("download-button");
+  const downloadText = document.getElementById("download-text");
 
   const wasModalDisplayed = window.getComputedStyle(modal).display !== "none";
   const wasDownloadButtonDisplayed =
     window.getComputedStyle(downloadButton).display !== "none";
+  const wasDownloadTextDisplayed =
+    window.getComputedStyle(downloadText).display !== "none";
   if (wasModalDisplayed) {
     modal.style.display = "none";
   }
   if (wasDownloadButtonDisplayed) {
     downloadButton.style.display = "none";
   }
+  if (wasDownloadTextDisplayed) {
+    downloadButton.style.display = "none";
+  }
 
-   const sectionToPrint = document.getElementById("Review");
-    const riskManagementTable = document.getElementById("risk-management-table");
+  const outline = document.getElementById("explanation");
+  const overview = document.getElementById("overview")
+  const riskManagementTable = document.getElementById("risk-management-table");
 
-    // Capture the main content
-    html2canvas(sectionToPrint).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        const pdfWidth = 210;  // A4 width in mm
-        const pdfHeight = 297;  // A4 height in mm
-        const imgWidth = pdfWidth;
-        const imgHeight = pdfWidth * canvas.height / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 0;
+   const pdf = new jsPDF();
 
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
+  // Capture the main content
+    const addSectionToPDF = (sectionElement, rotate = false) => {
+      return html2canvas(sectionElement).then((canvas) => {
+        const pdfWidth = 210; // A4 width in mm
+        const pdfHeight = 297; // A4 height in mm
 
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
+        let imgWidth = pdfWidth;
+        let imgHeight = (pdfWidth * canvas.height) / canvas.width;
+
+        if (rotate) {
+          const temp = imgWidth;
+          imgWidth = imgHeight;
+          imgHeight = temp;
         }
 
-        // Capture the risk management table and add to a new page
-        html2canvas(riskManagementTable).then(canvas => {
-            pdf.addPage();
-            const tableImgData = canvas.toDataURL('image/png');
-            const tableImgHeight = pdfWidth * canvas.height / canvas.width;
-            pdf.addImage(tableImgData, 'PNG', 0, 0, pdfWidth, tableImgHeight);
+        if (imgHeight > pdfHeight) {
+          imgWidth *= pdfHeight / imgHeight;
+          imgHeight = pdfHeight;
+        }
 
-            pdf.save("download.pdf");
+        const x = (pdfWidth - imgWidth) / 2;
+        const y = (pdfHeight - imgHeight) / 2;
 
-            if (wasModalDisplayed) {
-                modal.style.display = "";
-            }
-            if (wasDownloadButtonDisplayed) {
-                downloadButton.style.display = "";
-            }
-        });
-    });
+        if (rotate) {
+          pdf.addImage(
+            canvas.toDataURL("image/png"),
+            "PNG",
+            y,
+            x,
+            imgHeight,
+            imgWidth
+          );
+        } else {
+          pdf.addImage(
+            canvas.toDataURL("image/png"),
+            "PNG",
+            x,
+            y,
+            imgWidth,
+            imgHeight
+          );
+        }
+        pdf.addPage();
+      });
+    };
+
+    overview.style.color = "black";
+
+    addSectionToPDF(outline)
+      .then(() => addSectionToPDF(overview))
+      .then(() => {
+        // Revert the text color of the overview section
+        overview.style.color = "";
+        return addSectionToPDF(riskManagementTable, true); // Rotate the table
+      })
+      .then(() => {
+        pdf.deletePage(pdf.internal.getNumberOfPages()); // Remove the extra page added at the end
+        pdf.save("odi-risk-register.pdf");
+
+        if (wasModalDisplayed) {
+          modal.style.display = "";
+        }
+        if (wasDownloadButtonDisplayed) {
+          downloadButton.style.display = "";
+        }
+        if (wasDownloadTextDisplayed) {
+          downloadText.style.display = "";
+        }
+      });
 }

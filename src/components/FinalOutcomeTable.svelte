@@ -26,7 +26,7 @@
     let score = 0;
     unintendedConsequences.forEach((uc) => {
       if (uc.selectedImpact === "High" && uc.selectedLikelihood === "High") {
-        score += 10;
+        score += 1;
       }
     });
     return score;
@@ -34,21 +34,65 @@
 </script>
 
 <div id="Review" class="p-12 bg-blue-800">
-  <div class="text-3xl text-white font-bold mb-4">Risk Register</div>
-  <div class="mb-7 p-8 bg-white bg-opacity-70 shadow-md">
-    <div class="mb-4">
-        The Risk Register is a valuable tool that helps project teams to understand the project's context, its associated risks and potential outcomes, and the strategies in place to manage and mitigate these risks.
+  <div id="explanation">
+    <div class="text-3xl text-white font-bold mb-4">Risk Register</div>
+    <div class="mb-7 p-8 bg-white bg-opacity-70 shadow-md">
+      <div class="mb-4">
+        The Risk Register is a valuable tool that helps project teams to
+        understand the project's context, its associated risks and potential
+        outcomes, and the strategies in place to manage and mitigate these
+        risks.
+      </div>
+      <div class="mb-4">
+        It serves as a reference point throughout the project's lifecycle to
+        ensure that risk assessment and mitigation efforts remain aligned with
+        project objectives and priorities.
+      </div>
+      <div class="mb-4" id="download-text">
+        Here, you can review your risk register, as well as download the full
+        report (PDF) and the raw data (CSV).
+      </div>
+      <div class="w-full overflow-hidden shadow-md mt-6">
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th
+                class="w-1/3 py-2 px-4 border-b border-gray-300 bg-gray-100 text-left text-gray-600 uppercase font-bold"
+                >Risk Score = Likelihood x Impact</th
+              >
+              <th
+                class="w-1/3 py-2 px-4 border-b border-gray-300 bg-gray-100 text-left text-gray-600 uppercase font-bold"
+                >Risk Level</th
+              >
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">1 - 3</td>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">Low Risk</td>
+            </tr>
+            <tr>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">4 - 5</td>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300"
+                >Low/Medium Risk</td
+              >
+            </tr>
+            <tr>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">6 - 7</td>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300"
+                >Medium/High Risk</td
+              >
+            </tr>
+            <tr>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">8 - 10</td>
+              <td class="w-1/3 py-2 px-4 border-b border-gray-300">High Risk</td
+              >
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="mb-4">
-        It serves as a reference point throughout the project's lifecycle to ensure that risk assessment and mitigation efforts remain aligned with project objectives and priorities.
-    </div>
-    <div class="mb-4">
-        Here, you can review your risk register, as well as download the full report (PDF) and the raw data (CSV).
-    </div>
-    <div class="mb-2 font-bold">
-        Risk Score: # (Risk Score = likelihood x impact)
-    </div>
-</div>
+  </div>
   <div id="overview">
     <div class="text-white py-5 font-bold text-3xl border-b md:text-4xl">
       {projectTitle}
@@ -85,8 +129,8 @@
       {/each}
     </ul>
   </div>
+  <div  id="risk-management-table">
   <div
-    id="risk-management-table"
     class="text-white my-5 font-bold text-3xl md:text-2xl"
   >
     Risk Management Table
@@ -113,7 +157,7 @@
           <td>{uc.selectedAIM}</td>
           <td>{uc.action}</td>
           <td>{uc.selectedOutcome}</td>
-          <td>{uc.selectedTimeline}</td>
+          <td>{uc.timeline.date} - {uc.timeline.stakeholder}</td>
           <td>{uc.KPI}</td>
         </tr>
       {/each}
@@ -122,17 +166,18 @@
   <div class="text-white my-4 font-bold text-3xl md:text-2xl">
     Risk Score: {calculateRiskScore()}
   </div>
-  
-  <!-- The Modal -->
-  <button
-  id="download-button"
-  class="mr-5 bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3"
-  on:click={() => {
-    showModal = true;
-  }}>Download the data</button
->
 </div>
-
+</div>
+<!-- The Modal -->
+<div class="flex justify-center">
+  <button
+    id="download-button"
+    class="mr-5 bg-transparent text-white font-bold text-base border-white border-2 py-2 px-3 mb-8"
+    on:click={() => {
+      showModal = true;
+    }}>Download the data</button
+  >
+</div>
 {#if showModal}
   <div class="modal" id="outcome-modal" in:fade={{ duration: 300 }}>
     <div class="modal-content">
@@ -152,7 +197,7 @@
       >
       <button
         class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-        on:click={handleDownloadAsHTML}>Get full report</button
+        on:click={handleDownloadAsHTML}>Get full PDF report</button
       >
     </div>
   </div>

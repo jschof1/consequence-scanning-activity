@@ -18,6 +18,7 @@ function toggleModal() {
   
 
   let sections = [
+    {id:"Intro", name: "How to page", visible: false},
     {id:"Questions", name: "Project Details", visible: false},
     {id:"IntendedConsequences", name: "Intended Consequences", visible: false},
     {id:"UnintendedConsequences", name: "Unintended Consequences", visible: false},
@@ -42,18 +43,7 @@ function toggleModal() {
       class="list-style-image-arrow flex flex-col py-4 space-y-6 text-m text-black"
     >
       <li class="pl-12 py-5 mb-7"><img alt="odi-logo" {src} class="h-9" /></li>
-      {#each sections as section}
-        <li class="flex" on:click={() => changeSection(event, section.id)}>
-          <img class="h-7 ml-3 pb-1 filter-yellow" src={arrow} />
-          <a
-            href={`#${section.id}`}
-            class="ml-2 mb-2 {section.visible ? 'visible' : ''}"
-          >
-            {section.name}
-          </a>
-        </li>
-      {/each}
-      <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
+            <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
         <img class="h-7 ml-3 pr-1 pb-1 filter-yellow" src={arrow} />
         Glossary
       </li>
@@ -68,6 +58,17 @@ function toggleModal() {
           </div>
         </div>
       {/if}
+      {#each sections as section}
+        <li class="flex" on:click={() => changeSection(event, section.id)}>
+          <img class="h-7 ml-3 pb-1 filter-yellow" src={arrow} />
+          <a
+            href={`#${section.id}`}
+            class="ml-2 mb-2 {section.visible ? 'visible' : ''}"
+          >
+            {section.name}
+          </a>
+        </li>
+      {/each}
     </ul>
   </div>
 </div>

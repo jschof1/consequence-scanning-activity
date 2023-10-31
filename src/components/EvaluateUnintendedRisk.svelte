@@ -30,6 +30,17 @@
   <div class="text-blue-800 mb-6 font-bold text-xl md:text-3xl">
     Evaluate Risks of Unintended Consequences
   </div>
+    <div class="mb-7 p-8 bg-white shadow-md">
+    <div class="mb-4">
+        To evaluate the risks associated with your data project, we are going to further examine the unintended consequences.
+    </div>
+    <div class="mb-4">
+        For each unintended consequence, please assess both its impact and likelihood on a scale of low, medium, and high. This evaluation will help prioritise and manage risks effectively.
+    </div>
+    <div class="mb-4">
+        Would you like the AI to assess the consequences for the potential impact and likelihood? The AI will provide a low, medium or high score for each consequence. You can review and update these before continuing.
+    </div>
+</div>
 {#each unintendedConsequences as consequence, i}
   <div class="consequence-options">
     <div class="text-blue-800 font-bold p-5 text-xl md:text-md">
@@ -42,7 +53,7 @@
     >
     <div class="input-row">
       <label for="impact"
-        >         <span class="text-blue-800 font-bold text-lg">impact</span>
+        >         <span class="text-blue-800 font-bold text-lg">Impact</span>
         <select
           bind:value={consequence.selectedImpact}
           on:input={(event) => onSetImpact(i, event.target.value)}

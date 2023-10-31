@@ -15,6 +15,10 @@
   function addOwnConsequences() {
     customConsequences = true;
     aiSuggest = false;
+    consequenceSuggestions.map((a) =>{
+      a.isSelected = false
+    })
+
   }
 
 	let aiSuggest = null

@@ -9,8 +9,8 @@ import Papa from "papaparse";
         for (const [key, value] of Object.entries(item)) {
           dataToDownload.push({
             Section: `${section} ${index + 1}`,
-            Key: key,
-            Value: value,
+            // Key: key,
+            'User Input': value,
           });
         }
       });

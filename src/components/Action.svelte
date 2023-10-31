@@ -7,6 +7,8 @@
   export let onSetTimeline;
   export let onSetMeasure;
   export let onSetKPI;
+  export let onSetStakeholderForTimeline;
+  export let stakeholders
 
   let showModal = false;
 
@@ -104,20 +106,31 @@
           on:click={() => fillKPIFromAI(i)}>Fill KPI using AI</button
         >
       </div>
-      <div class="input-row mb-5">
-        <label for="timescale">
-          <span class="text-blue-800 font-bold text-lg"> Timescale </span>
-          <select
-            bind:value={consequence.timeline}
-            on:change={(event) => onSetTimeline(i, event.target.value)}
+      <div class="input-row mb-5 ">
+       <label for="datePicker">
+    <span class="text-blue-800 font-bold text-lg">Select Date</span>
+    <input 
+        type="date" 
+        id="datePicker"
+        bind:value={consequence.timeline.date} 
+        class="mt-3 border-2 border-blue-800 py-[22px]"
+        on:change={(event) => onSetTimeline(i, event.target.value)} 
+    />
+</label>
+<!-- label to select stakeholders -->
+<label for="stakeholders">
+     <span class="text-blue-800 font-bold text-lg">
+            Stakeholders </span
           >
-            <option disabled selected value>Timescale</option>
-            <option value="3 months">3 months</option>
-            <option value="6 months">6 months</option>
-            <option value="1 year">1 year</option>
-            <option value="2 years">2 years</option>
-          </select>
-        </label>
+                 <select
+            bind:value={consequence.timeline.stakeholder}
+            on:change={(event) => onSetStakeholderForTimeline(i, event.target.value)}
+          >
+          <option disabled selected value>Select a stakeholder</option>
+        {#each stakeholders as stakeholder}
+            <option value={stakeholder.text}>{stakeholder.text} ({stakeholder.type})</option>
+        {/each}
+</label>
         <label for="measure">
           <span class="text-blue-800 font-bold text-lg">
             Act, Influence, or Monitor</span
