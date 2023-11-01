@@ -15,10 +15,11 @@ function toggleModal() {
   }
 }
 
-  
+
 
   let sections = [
-    {id:"Intro", name: "How to page", visible: false},
+    {id:"Intro", name: "Homepage", visible: false},
+    {id: "Glossary", "name": "Glossary", visible: false},
     {id:"Questions", name: "Project Details", visible: false},
     {id:"IntendedConsequences", name: "Intended Consequences", visible: false},
     {id:"UnintendedConsequences", name: "Unintended Consequences", visible: false},
@@ -43,10 +44,6 @@ function toggleModal() {
       class="list-style-image-arrow flex flex-col py-4 space-y-6 text-m text-black"
     >
       <li class="pl-12 py-5 mb-7"><img alt="odi-logo" {src} class="h-9" /></li>
-            <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
-        <img class="h-7 ml-3 pr-2 pb-1 filter-yellow" src={arrow} />
-         Glossary
-      </li>
       {#if showModal}
         <div
           class="block fixed bg-slate-100 bg-opacity-20 left-20 bottom-20 w-full h-full overflow-hidden"
@@ -59,6 +56,13 @@ function toggleModal() {
         </div>
       {/if}
       {#each sections as section}
+        {#if section.name === "Glossary"}
+          <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
+            <img class="h-7 ml-3 pr-2 pb-1 filter-yellow" src={arrow} />
+          Glossary
+          </li>
+        {/if}
+        {#if section.name != "Glossary"}
         <li class="flex" on:click={() => changeSection(event, section.id)}>
           <img class="h-7 ml-3 pb-1 filter-yellow" src={arrow} />
           <a
@@ -68,6 +72,7 @@ function toggleModal() {
             {section.name}
           </a>
         </li>
+        {/if}
       {/each}
     </ul>
   </div>

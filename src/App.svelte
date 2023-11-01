@@ -15,7 +15,6 @@
 <Navbar />
 <div class="ml-64 bg-blue-800">
   <div class="text-5xl font-bold py-16 text-center">
-    <span class="text-yellow-400">Interactive Tool:</span>
     <span class="text-white">Consequence Scanning</span>
   </div>
   <Main />

@@ -1,1 +1,1 @@
-<div class="text-5xl font-bold my-16 text-center"><span class="text-yellow-400">Interactive Tool:</span> <span class="text-white">Consequence Scanning</span></div>
+<div class="text-5xl font-bold my-16 text-center"><span class="text-white">Consequence Scanning</span></div>

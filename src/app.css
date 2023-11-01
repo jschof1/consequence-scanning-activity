@@ -7,10 +7,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -425,6 +421,14 @@ input[type="checkbox"]:checked::before {
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 20px;
+  position: relative;
+  float: right;
+  top: -50px;
+  border: 1px solid gray;
+  min-height: 50px;
+  min-width: 50px;
+  float: right;
+  border-radius: 25px;
 }
 
 .close:hover,
