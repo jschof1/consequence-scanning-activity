@@ -1,10 +1,11 @@
 <script>
+  const dispatch = createEventDispatcher();
+  
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
   import { unintendedConsequenceSuggestions } from "./store.js";
   import { derived } from "svelte/store";
   import loading from "../../public/loading.gif";
-  const dispatch = createEventDispatcher();
   import ai from "../../public/icons_ai.svg";
   import Textarea from "../utils/Textarea.svelte";
   import bin from "../../public/icons_bin.svg";
