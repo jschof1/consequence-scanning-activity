@@ -15,7 +15,7 @@
 <Navbar />
 <div class="ml-64 bg-blue-800">
   <div class="text-5xl font-bold py-16 text-center">
-    <span class="text-white">Consequence Scanning</span>
+    <span class="text-white">Consequence and Risk Evaluation (CARE)</span>
   </div>
   <Main />
 </div>
