@@ -5,6 +5,7 @@
 
   let HOST = HOST_NAME || "http://localhost:3000/";
   HOST += "openai-completion"
+  
   export let projectData;
 
   async function convertProjectDataToString() {
