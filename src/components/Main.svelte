@@ -7,7 +7,7 @@
   import Action from "./Action.svelte";
   import FinalOutcomeTable from "./FinalOutcomeTable.svelte";
   import ConsequenceOutline from "./ConsequenceOutline.svelte";
-  import IntendedConsequences from "./intendedConsequences.svelte";
+  import IntendedConsequences from "./IntendedConsequences.svelte";
   import IntendedConsequencesSuggester from "./IntendedConsequenceSuggester.svelte";
   import UnintendedConsequenceSuggester from "./UnintendedConsequenceSuggester.svelte";
   import EvaluateUnintendedRisk from "./EvaluateUnintendedRisk.svelte";

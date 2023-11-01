@@ -61,6 +61,7 @@
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+
 export function downloadProjectDataAsHTML() {
   const modal = document.getElementById("outcome-modal");
   const downloadButton = document.getElementById("download-button");
@@ -80,80 +81,56 @@ export function downloadProjectDataAsHTML() {
   if (wasDownloadTextDisplayed) {
     downloadButton.style.display = "none";
   }
-
+  const sectionToPrint = document.getElementById("Review");
   const outline = document.getElementById("explanation");
-  const overview = document.getElementById("overview")
+  const overview = document.getElementById("overview");
   const riskManagementTable = document.getElementById("risk-management-table");
 
-   const pdf = new jsPDF();
 
   // Capture the main content
-    const addSectionToPDF = (sectionElement, rotate = false) => {
-      return html2canvas(sectionElement).then((canvas) => {
-        const pdfWidth = 210; // A4 width in mm
-        const pdfHeight = 297; // A4 height in mm
+  html2canvas(sectionToPrint).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "pt", "a4", true);
+    pdf.setFontSize(14);
+    pdf.setDrawColor(0, 0, 0);
+    pdf.text(testText, 30, 30, { maxWidth: 200, align: "justify" });
+    pdf.internal.write(0, "Tw"); // <- add this
+  
+    const pdfWidth = 210; // A4 width in mm
+    const pdfHeight = 297; // A4 height in mm
+    const imgWidth = pdfWidth;
+    const imgHeight = (pdfWidth * canvas.height) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
 
-        let imgWidth = pdfWidth;
-        let imgHeight = (pdfWidth * canvas.height) / canvas.width;
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
 
-        if (rotate) {
-          const temp = imgWidth;
-          imgWidth = imgHeight;
-          imgHeight = temp;
-        }
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+    }
 
-        if (imgHeight > pdfHeight) {
-          imgWidth *= pdfHeight / imgHeight;
-          imgHeight = pdfHeight;
-        }
+    // Capture the risk management table and add to a new page
+    html2canvas(riskManagementTable).then((canvas) => {
+      pdf.addPage();
+      const tableImgData = canvas.toDataURL("image/png");
+      const tableImgHeight = (pdfWidth * canvas.height) / canvas.width;
+      pdf.addImage(tableImgData, "PNG", 0, 0, pdfWidth, tableImgHeight);
 
-        const x = (pdfWidth - imgWidth) / 2;
-        const y = (pdfHeight - imgHeight) / 2;
+      pdf.save("odi-risk-register.pdf");
 
-        if (rotate) {
-          pdf.addImage(
-            canvas.toDataURL("image/png"),
-            "PNG",
-            y,
-            x,
-            imgHeight,
-            imgWidth
-          );
-        } else {
-          pdf.addImage(
-            canvas.toDataURL("image/png"),
-            "PNG",
-            x,
-            y,
-            imgWidth,
-            imgHeight
-          );
-        }
-        pdf.addPage();
-      });
-    };
-
-    overview.style.color = "black";
-
-    addSectionToPDF(outline)
-      .then(() => addSectionToPDF(overview))
-      .then(() => {
-        // Revert the text color of the overview section
-        overview.style.color = "";
-        return addSectionToPDF(riskManagementTable, true); // Rotate the table
-      })
-      .then(() => {
-        pdf.deletePage(pdf.internal.getNumberOfPages()); // Remove the extra page added at the end
-        pdf.save("odi-risk-register.pdf");
-
-        if (wasModalDisplayed) {
-          modal.style.display = "";
-        }
-        if (wasDownloadButtonDisplayed) {
-          downloadButton.style.display = "";
-        }
-        if (wasDownloadTextDisplayed) {
-          downloadText.style.display = "";
-        }
-      });
+      if (wasModalDisplayed) {
+        modal.style.display = "";
+      }
+      if (wasDownloadButtonDisplayed) {
+        downloadButton.style.display = "";
+      }
+      if (wasDownloadTextDisplayed) {
+        downloadText.style.display = "";
+      }
+    });
+  });
 }

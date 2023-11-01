@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import { unintendedConsequenceSuggestions } from "./store.js";
+  // get vite env variable
+  import.meta.env.VITE_TEST_VAR
 
   let apiKey 
   // api key config variable or blank string

@@ -129,13 +129,13 @@
       {/each}
     </ul>
   </div>
-  <div  id="risk-management-table">
+  <div>
   <div
     class="text-white my-5 font-bold text-3xl md:text-2xl"
   >
     Risk Management Table
   </div>
-  <table class="data-table">
+  <table class="data-table" id="risk-management-table">
     <thead>
       <tr>
         <th>Unintended Consequences</th>

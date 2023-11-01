@@ -2,6 +2,7 @@
   export let explainerIntro = true;
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
+  import placeholder from "../../public/placeholder.png";
   import Glossary from "./Glossary.svelte";
   import tool from "../../public/icons_tool.svg";
   import ai from "../../public/icons_ai.svg";
@@ -49,14 +50,15 @@
       <div class="card-long-text">
         <!-- ifrmae -->
         <div class="video-container pt-3">
-          <iframe
+          <!-- <iframe
             width="560"
             height="315"
             src="https://www.youtube.com/embed/2Xc9gXyf2G4"
             frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
-          />
+          /> -->
+          <img src={placeholder} />
         </div>
       </div>
     </div>

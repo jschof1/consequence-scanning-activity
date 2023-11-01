@@ -44,8 +44,8 @@ function toggleModal() {
     >
       <li class="pl-12 py-5 mb-7"><img alt="odi-logo" {src} class="h-9" /></li>
             <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleModal}>
-        <img class="h-7 ml-3 pr-1 pb-1 filter-yellow" src={arrow} />
-        Glossary
+        <img class="h-7 ml-3 pr-2 pb-1 filter-yellow" src={arrow} />
+         Glossary
       </li>
       {#if showModal}
         <div
