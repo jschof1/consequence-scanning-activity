@@ -309,7 +309,7 @@ onMount(() => {
   <ConsequenceOutline on:proceed={handleProceedToIntendedConsequences} />
 {/if}
 {#if showIntendedConsequences}
-  <!-- <IntendedConsequencesSuggester {projectData} /> -->
+  <IntendedConsequencesSuggester {projectData} />
   <IntendedConsequences
     onAdd={addIntendedConsequence}
     ProjectData={projectData}
@@ -319,7 +319,7 @@ onMount(() => {
   />
 {/if}
 {#if showUnintendedConsequences}
-  <!-- <UnintendedConsequenceSuggester {projectData} /> -->
+  <UnintendedConsequenceSuggester {projectData} />
   <UnintendedConsequences
     ProjectData={projectData}
     consequences={projectData.unintendedConsequences}
