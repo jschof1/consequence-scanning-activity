@@ -3,8 +3,8 @@
   import { unintendedConsequenceSuggestions } from "./store.js";
   const HOST_NAME = import.meta.env.HOST_NAME
 
-
-  const HOST = HOST_NAME || "http://localhost:3000/openai-completion"
+  let HOST = HOST_NAME || "http://localhost:3000/";
+  HOST += "openai-completion"
 
   let apiKey 
   // api key config variable or blank string
