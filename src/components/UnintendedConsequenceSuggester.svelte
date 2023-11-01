@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { unintendedConsequenceSuggestions } from "./store.js";
-  const HOST_NAME = import.meta.env.HOST_NAME
+  const HOST_NAME = import.meta.env.VITE.HOST_NAME
 
   let HOST = HOST_NAME || "http://localhost:3000/";
   HOST += "openai-completion"
