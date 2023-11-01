@@ -15,7 +15,6 @@
      var printContents = document.getElementById('Review').innerHTML;
      var originalContents = document.body.innerHTML;
 
-
 var styledPrintContents = '<div style="color: black; !important">' + printContents + '</div>';
 
     document.body.innerHTML = styledPrintContents;
@@ -159,6 +158,7 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
         <th>Action</th>
         <th>Outcome</th>
         <th>Timescale</th>
+        <th>Assignee</th>
         <th>KPI</th>
       </tr>
     </thead>
@@ -171,7 +171,8 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
           <td>{uc.selectedAIM}</td>
           <td>{uc.action.description}</td>
           <td>{uc.selectedOutcome}</td>
-          <td>{uc.action.date} - {uc.action.stakeholder}</td>
+          <td>{uc.action.date}</td>
+          <td>{uc.action.stakeholder}</td>
           <td>{uc.KPI}</td>
         </tr>
       {/each}
@@ -193,8 +194,8 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
   >
 </div>
 {#if showModal}
-  <div class="modal" id="outcome-modal">
-    <div class="modal-content">
+<div class="modal" id="outcome-modal">
+  <div class="modal-content">
       <div
         class="close"
         on:click={(event) => {

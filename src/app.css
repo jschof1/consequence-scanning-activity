@@ -492,6 +492,10 @@ input[type="checkbox"]:checked::before {
   }
 }
 
+input[type="date"] {
+  width: 100%;
+  padding-block: 21.8px;
+}
 /* responsive table */
 @media screen and (max-width: 600px) {
   table {

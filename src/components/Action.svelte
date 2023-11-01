@@ -169,13 +169,13 @@ function fillTimelineFromAI(index) {
         </label>
         <!-- label to select stakeholders -->
         <label for="stakeholders">
-          <span class="text-blue-800 font-bold text-lg"> Stakeholders </span>
+          <span class="text-blue-800 font-bold text-lg"> Assignee </span>
           <select
             bind:value={consequence.action.stakeholder}
             on:change={(event) =>
               onSetStakeholderForTimeline(i, event.target.value)}
           >
-            <option disabled selected value>Select an assigneec</option>
+            <option disabled selected value>Select an assignee</option>
             {#each stakeholders as stakeholder}
               <option value={stakeholder.text}
                 >{stakeholder.text} ({stakeholder.type})</option
