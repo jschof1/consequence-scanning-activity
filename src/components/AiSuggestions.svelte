@@ -19,7 +19,7 @@
   function addOwnConsequences() {
     customConsequences = true;
     aiSuggest = false;
-    consequenceSuggestions.map((a) =>{
+    $consequenceSuggestions.map((a) =>{
       a.isSelected = false
     })
 

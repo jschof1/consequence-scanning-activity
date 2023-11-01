@@ -9,3 +9,4 @@ chatgpt-api-server/node_modules
 chatgpt-api-server/index.js
 .vscode
 .env
+.DS_Store
