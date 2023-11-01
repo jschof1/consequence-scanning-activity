@@ -84,7 +84,7 @@ Based on the information provided, please provide me with a list of 5 potential 
     }
   }
 
-  onMount(async () => {
+ async function triggerReview() {
     try {
       const projectDataString = await convertProjectDataToString();
       const dataFromAI = await reviewWithAI(projectDataString);
@@ -94,5 +94,5 @@ Based on the information provided, please provide me with a list of 5 potential 
     } catch (error) {
       console.error("Error:", error);
     }
-  });
+ }
 </script>

@@ -40,6 +40,7 @@
   let isViewingTable = false;
   let selectedFile = null;
   let currentSection = null;  
+
   
   let preLoadedStudies = [
     { title: caseStudy1.title, data: caseStudy1 },
@@ -56,8 +57,7 @@
     stakeholders: [{ text: "", type: "" }],
     dataUsed: "",
     intendedConsequences: [{ description: "" }],
-    unintendedConsequences: [
-    ],
+    unintendedConsequences: [{ description: "" }],
     preLoadedStudies: ["Case Study 1", "Case Study 2", "Case Study 3"],
   };
 

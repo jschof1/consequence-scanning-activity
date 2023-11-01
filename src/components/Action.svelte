@@ -1,5 +1,4 @@
 <script>
-  import { fade } from "svelte/transition";
   import { unintendedConsequenceSuggestions } from "./store.js";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -118,7 +117,7 @@ function fillTimelineFromAI(index) {
   {#each consequences as consequence, i}
     <div class="consequence-options">
       <span class="consequence-actions-container">
-        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
+        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl uppercase">
           consequence {i + 1}:
         </div>
         <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
@@ -159,7 +158,7 @@ function fillTimelineFromAI(index) {
       </div>
       <div class="input-row mb-5">
         <label for="datePicker">
-          <span class="text-blue-800 font-bold text-lg">Select Date</span>
+          <span class="text-blue-800 font-bold text-lg">Date</span>
 <input 
     type="date" 
     id="datePicker"
@@ -176,7 +175,7 @@ function fillTimelineFromAI(index) {
             on:change={(event) =>
               onSetStakeholderForTimeline(i, event.target.value)}
           >
-            <option disabled selected value>Select a stakeholder</option>
+            <option disabled selected value>Select an assigneec</option>
             {#each stakeholders as stakeholder}
               <option value={stakeholder.text}
                 >{stakeholder.text} ({stakeholder.type})</option

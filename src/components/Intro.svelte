@@ -50,15 +50,15 @@
       <div class="card-long-text">
         <!-- ifrmae -->
         <div class="video-container pt-3">
-          <!-- <iframe
+          <iframe
+            title="vimeo-player"
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/2Xc9gXyf2G4"
+            src="https://player.vimeo.com/video/880160624?h=9a9582c2ca&amp;badge=0&amp;autopause=0&amp;quality_selector=1&amp;player_id=0&amp;app_id=58479"
             frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
-          /> -->
-          <img src={placeholder} />
+          />
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div>
-        Learn how to conduct a Consequence Scan by working through one of our example case studies and identify consequences, determine risk and plan actions. <br><span class="underline font-semibold cursor-pointer" on:click={toggleModal}>Click here </span> to view a glossary of the key terms.
+        Learn how to conduct a Consequence Scan by working through one of our example case studies and identify consequences, determine risk and plan actions. <br><br><div class="underline font-semibold cursor-pointer" on:click={toggleModal}>Click here  to view a glossary of the key terms.</div>
         </div>
          {#if showModal}
         <div

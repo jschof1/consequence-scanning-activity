@@ -1,15 +1,13 @@
 <script>
-  import { onMount } from "svelte";
   import { intendedConsequenceSuggestions } from "./store.js";
   const HOST_NAME = import.meta.env.VITE_HOST_NAME
-
   let HOST = HOST_NAME || "http://localhost:3000/";
   HOST += "openai-completion"
-  
-  export let projectData;
+
+  export let ProjectData;
 
   async function convertProjectDataToString() {
-    const { objectives, title, stakeholders, dataUsed } = projectData;
+    const { objectives, title, stakeholders, dataUsed } = ProjectData;
 
     return `
         Project Title: ${title}
@@ -58,7 +56,7 @@
     }
   }
 
-  onMount(async () => {
+   async function triggerReview() {
     try {
       const projectDataString = await convertProjectDataToString();
       const dataFromAI = await reviewWithAI(projectDataString);
@@ -68,5 +66,6 @@
     } catch (error) {
       console.error("Error:", error);
     }
-  });
+  }  
+
 </script>
