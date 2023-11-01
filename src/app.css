@@ -15,26 +15,34 @@
 }
 
 .filter-blue {
-  filter: invert(21%) sepia(40%) saturate(4113%) hue-rotate(217deg) brightness(86%) contrast(94%);
+  filter: invert(21%) sepia(40%) saturate(4113%) hue-rotate(217deg)
+    brightness(86%) contrast(94%);
 }
 .filter-white {
-filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(297deg) brightness(103%) contrast(105%);
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(297deg)
+    brightness(103%) contrast(105%);
 }
 .filter-yellow {
-  filter: brightness(0) saturate(100%) invert(84%) sepia(91%) saturate(1746%) hue-rotate(318deg) brightness(100%) contrast(88%);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(91%) saturate(1746%)
+    hue-rotate(318deg) brightness(100%) contrast(88%);
 }
 
 .selected {
   background-color: green;
   color: white;
 }
-
+@media print {
+  #Review,
+  #Review * {
+    color: black !important;
+  }
+}
 ul {
   padding-inline-start: 0;
 }
 
-
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   background-color: #2146a6;
@@ -81,7 +89,6 @@ h1 {
 .section-link.visible {
   opacity: 1;
 }
-
 
 .card {
   background-color: #e5f1f5;
@@ -162,7 +169,6 @@ p {
   border: 1px solid #ccc;
   padding: 20px;
 }
-
 
 /* .intended {
     background-color: lightgreen;
@@ -255,7 +261,6 @@ select {
   gap: 20px;
 }
 
-
 .consequence-input {
   font-size: 15px;
   margin-top: 10px;
@@ -344,7 +349,6 @@ input[type="checkbox"]:checked::before {
   background-color: white;
 }
 
-
 .filter-buttons {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -356,7 +360,6 @@ input[type="checkbox"]:checked::before {
   padding-block: 5px;
   align-items: baseline;
 }
-
 
 .info-button {
   display: none;
@@ -407,8 +410,8 @@ input[type="checkbox"]:checked::before {
 .modal-content {
   text-align: center;
   background-color: #fefefe;
-    max-height: 70vh;
-      overflow-y: auto;
+  max-height: 70vh;
+  overflow-y: auto;
   margin: 15% auto;
   padding: 60px;
   border: 1px solid #888;
@@ -417,6 +420,7 @@ input[type="checkbox"]:checked::before {
 
 .close {
   color: #aaa;
+  padding-top: 1px;
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
@@ -424,7 +428,7 @@ input[type="checkbox"]:checked::before {
   position: relative;
   float: right;
   top: -50px;
-  border: 1px solid gray;
+  border: 2px solid gray;
   min-height: 50px;
   min-width: 50px;
   float: right;
@@ -461,7 +465,6 @@ input[type="checkbox"]:checked::before {
   }
 
   .navbar {
-
     flex-direction: column;
   }
 
@@ -487,9 +490,7 @@ input[type="checkbox"]:checked::before {
   .modal-content {
     margin-top: 300px;
   }
-
 }
-
 
 /* responsive table */
 @media screen and (max-width: 600px) {
@@ -509,7 +510,7 @@ input[type="checkbox"]:checked::before {
     /* each cell will occupy full width */
     padding: 4px;
     /* reduce padding for small screens */
-    font-size: .9em;
+    font-size: 0.9em;
     /* reduce font-size slightly for mobile */
   }
 

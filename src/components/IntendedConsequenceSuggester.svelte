@@ -1,8 +1,10 @@
 <script>
   import { onMount } from "svelte";
   import { intendedConsequenceSuggestions } from "./store.js";
-  // import UnintendedConsequences from "./UnintendedConsequences.svelte";
+  const HOST_NAME = import.meta.env.HOST_NAME
 
+
+  const HOST = HOST_NAME || "http://localhost:3000/openai-completion"
   export let projectData;
 
   async function convertProjectDataToString() {
@@ -23,7 +25,7 @@
   
   Based on the information provided, please provide me with a list of 5 potential intended consequences. Your response should be in the format of an undeclared javascript array of strings`;
     try {
-      const review = await fetch("http://localhost:3000/openai-completion", {
+      const review = await fetch(HOST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

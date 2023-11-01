@@ -16,8 +16,13 @@
       $unintendedConsequenceSuggestions.length === 0
   );
 
+    let showModal = false;
+  function toggleModal() {
+    showModal = !showModal;
+  }
   export let consequences;
   export let onAdd;
+  export let ProjectData;
 
   let aiSuggest = null;
   let customConsequences = null;
@@ -64,11 +69,9 @@
         selectedImpact: "",
         likelihood: ["High", "Medium", "Low"],
         selectedLikelihood: "",
-        action: "",
+        action : { description: "", stakeholder: "", date: "" },
         AIM: ["Act", "Influence", "Monitor"],
         selectedAIM: "",
-        timeline: ["3 months", "6 months", "1 year", "2 years"],
-        selectedTimeline: "",
       });
     });
 
@@ -133,7 +136,35 @@
         what the possible intended and unintended consequences might be. The
         generated consequences should be treated as a guide that supports your
         project planning.
-      </div>
+     <br><br>
+    <span class="underline font-semibold cursor-pointer" on:click={toggleModal}>Click here</span> to see what data the AI will be using.
+      {#if showModal}
+        <div
+          class="block z-10 fixed bg-slate-100 bg-opacity-20 left-20 bottom-20 w-full h-full overflow-hidden"
+          in:fade={{ duration: 300 }}
+        >
+          <div class="modal-content shadow-2xl">
+            <div class="close" on:click={() => toggleModal()}>&times;</div>
+         <div class="space-y-4">
+    <div class="text-lg font-semibold text-gray-700">The Project Title:</div>
+    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.title}</div>
+    
+    <div class="text-lg font-semibold text-gray-700">The Project Objectives:</div>
+    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.objectives}</div>
+    
+    <div class="text-lg font-semibold text-gray-700">The Project Stakeholders:</div>
+    {#each ProjectData.stakeholders as stakeholder}
+    <div class="bg-gray-100 p-3 rounded text-gray-800">{stakeholder.text} - ({stakeholder.type})</div>
+    {/each}
+
+    <div class="text-lg font-semibold text-gray-700">The data you will be using in your project:</div>
+    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.dataUsed}</div>
+</div>
+
+          </div>
+        </div>
+      {/if}
+          </div>
       <div class="" style="display:{aiSuggest === true || false ? 'none' : ''}">
         <button
           class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"

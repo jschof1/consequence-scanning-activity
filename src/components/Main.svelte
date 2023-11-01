@@ -190,7 +190,7 @@ onMount(() => {
   }
 
   function setActionForUnintendedConsequence(index, action) {
-    projectData.unintendedConsequences[index].action = action;
+    projectData.unintendedConsequences[index].action.description = action;
   }
 
   function setKPIForUnintendedConsequence(index, KPI) {
@@ -198,11 +198,11 @@ onMount(() => {
   }
 
   function setDateForUnintendedConsequence(index, date) {
-    projectData.unintendedConsequences[index].timeline.date = date;
+    projectData.unintendedConsequences[index].action.date = date;
   }
 
     function setStakeholderTimelineForUnintendedConsequence(index, stakeholder) {
-    projectData.unintendedConsequences[index].timeline.stakeholder = stakeholder;
+    projectData.unintendedConsequences[index].action.stakeholder = stakeholder;
   }
 
   function setMeasureForUnintendedConsequence(index, aim) {
@@ -266,13 +266,13 @@ onMount(() => {
         selectedOutcome: "",
         likelihood: ["H", "M", "L"],
         selectedLikelihood: "",
-        action: "",
+        action:{
+          description: "",
+            date : "",
+            stakeholder: ""
+        },
         AIM: ["Act", "Influence", "Monitor"],
         selectedAIM: "",
-        timeline: {
-          date : "",
-          stakeholder: ""
-        }
       },
     ];
   }
@@ -312,6 +312,7 @@ onMount(() => {
   <!-- <IntendedConsequencesSuggester {projectData} /> -->
   <IntendedConsequences
     onAdd={addIntendedConsequence}
+    ProjectData={projectData}
     consequences={projectData.intendedConsequences}
     consequenceSuggestions={intendedConsequenceSuggestions}
     on:proceed={handleProceedToUnintendedConsequences}

@@ -1,14 +1,16 @@
 <script>
   import { fade } from "svelte/transition";
   import { unintendedConsequenceSuggestions } from "./store.js";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   export let consequences;
   export let onSetAction;
-  export let onSetTimeline;
   export let onSetMeasure;
   export let onSetKPI;
+  export let onSetTimeline;
   export let onSetStakeholderForTimeline;
-  export let stakeholders
+  export let stakeholders;
 
   let showModal = false;
 
@@ -16,26 +18,61 @@
     showModal = !showModal;
   }
 
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
+function toYYYYMMDD(date) {
+    if (typeof date === 'string' && date.includes('/')) {
+        const [day, month, year] = date.split('/');
+        return `${year}-${month}-${day}`;
+    }
+    return date; // This should be the input if it doesn't match the format.
+}
 
+function toDDMMYYYY(date) {
+    if (typeof date === 'string' && date.includes('-')) {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;
+    }
+    return date; // This should be the input if it doesn't match the format.
+}
+  function updateDateInOriginalFormat(i, value) {
+    const newDate = toDDMMYYYY(value);
+    consequences = consequences.map((conseq, index) => {
+      if (index === i) {
+        conseq.action.date = newDate;
+      }
+      return conseq;
+    });
+    onSetTimeline(i, newDate);
+  }
   function onProceed() {
     dispatch("proceed");
   }
 
   function fillActionFromAI(index) {
     if ($unintendedConsequenceSuggestions[index]) {
-      consequences[index].action = $unintendedConsequenceSuggestions[index].action;
+      consequences[index].action.description =
+        $unintendedConsequenceSuggestions[index].action.description;
     }
   }
-  function fillTimelineFromAI(index) {
+function fillTimelineFromAI(index) {
     if ($unintendedConsequenceSuggestions[index]) {
-      consequences[index].timeline = $unintendedConsequenceSuggestions[index].timeline;
+        let suggestedDate = $unintendedConsequenceSuggestions[index].action.date;
+        if (suggestedDate && suggestedDate.length === 8) { // if format is 'DD-MM-YY'
+            const [day, month, shortYear] = suggestedDate.split('-');
+            const fullYear = `20${shortYear}`;
+            suggestedDate = `${day}/${month}/${fullYear}`;
+        }
+        consequences = consequences.map((conseq, idx) => {
+            if (idx === index) {
+                conseq.action.date = toDDMMYYYY(suggestedDate);
+            }
+            return conseq;
+        });
     }
-  }
+}
   function fillMeasureFromAI(index) {
     if ($unintendedConsequenceSuggestions[index]) {
-      consequences[index].selectedAIM = $unintendedConsequenceSuggestions[index].AIM;
+      consequences[index].selectedAIM =
+        $unintendedConsequenceSuggestions[index].AIM;
     }
   }
   function fillKPIFromAI(index) {
@@ -46,39 +83,53 @@
 </script>
 
 <div id="Actions" class="bg-blue-100 p-12">
-    <div class="text-blue-800 font-bold text-xl md:text-3xl pb-5">
-      Assign Actions to Consequences
+  <div class="text-blue-800 font-bold text-xl md:text-3xl pb-5">
+    Assign Actions to Consequences
+  </div>
+  <div class="mb-7 p-8 bg-white shadow-md">
+    <div class="mb-4">
+      For each unintended consequence, you will now assign specific actions to
+      mitigate or manage the risk and add a Key Performance Indicator (KPI) to
+      track the effectiveness of each action. You should:
     </div>
-   <div class="mb-7 p-8 bg-white shadow-md">
-    <div class="mb-4">For each unintended consequence, you will now assign specific actions to mitigate or manage the risk and add a Key Performance Indicator (KPI) to track the effectiveness of each action. You should:</div>
     <ul class="list-disc pl-5 mb-4">
-        <li class="mb-2">
-            <strong>Create the mitigation Action:</strong> Describe the specific action(s) that need to be taken to mitigate or manage the consequence effectively. Be as detailed as possible, specifying what needs to be done and who is responsible.
-        </li>
-        <li class="mb-2">
-            <strong>Define the Key Performance Indicator (KPI):</strong> Define a KPI that will help measure the success or progress of the mitigation action. The KPI should be a measurable metric that indicates the desired outcome. It could be related to time, cost, performance, or any other relevant measure.
-        </li>
-        <li class="mb-2">
-            For each action, you should also assign an estimated timescale (3 months, 6 months, 1 year, etc).
-        </li>
+      <li class="mb-2">
+        <strong>Create the mitigation Action:</strong> Describe the specific action(s)
+        that need to be taken to mitigate or manage the consequence effectively.
+        Be as detailed as possible, specifying what needs to be done and who is responsible.
+      </li>
+      <li class="mb-2">
+        <strong>Define the Key Performance Indicator (KPI):</strong> Define a KPI
+        that will help measure the success or progress of the mitigation action.
+        The KPI should be a measurable metric that indicates the desired outcome.
+        It could be related to time, cost, performance, or any other relevant measure.
+      </li>
+      <li class="mb-2">
+        For each action, you should also assign an estimated timescale (3
+        months, 6 months, 1 year, etc).
+      </li>
     </ul>
     <div class="mb-2">
-        When creating your actions, you have the option of using the AI to generate a possible action and associated KPI. These should be reviewed and updated accordingly.
+      When creating your actions, you have the option of using the AI to
+      generate a possible action and associated KPI. These should be reviewed
+      and updated accordingly.
     </div>
-</div>
+  </div>
   {#each consequences as consequence, i}
-  <div class="consequence-options">
+    <div class="consequence-options">
       <span class="consequence-actions-container">
         <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
           consequence {i + 1}:
         </div>
-        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">{consequence.description}</div>
+        <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
+          {consequence.description}
+        </div>
       </span>
       <label for="action">
         <span class="text-blue-800 font-bold text-lg">Action</span>
         <textarea
           class="consequence-input"
-          bind:value={consequence.action}
+          bind:value={consequence.action.description}
           placeholder="Enter action for this consequence"
           on:input={(event) => onSetAction(i, event.target.value)}
         />
@@ -106,31 +157,33 @@
           on:click={() => fillKPIFromAI(i)}>Fill KPI using AI</button
         >
       </div>
-      <div class="input-row mb-5 ">
-       <label for="datePicker">
-    <span class="text-blue-800 font-bold text-lg">Select Date</span>
-    <input 
-        type="date" 
-        id="datePicker"
-        bind:value={consequence.timeline.date} 
-        class="mt-3 border-2 border-blue-800 py-[22px]"
-        on:change={(event) => onSetTimeline(i, event.target.value)} 
-    />
-</label>
-<!-- label to select stakeholders -->
-<label for="stakeholders">
-     <span class="text-blue-800 font-bold text-lg">
-            Stakeholders </span
+      <div class="input-row mb-5">
+        <label for="datePicker">
+          <span class="text-blue-800 font-bold text-lg">Select Date</span>
+<input 
+    type="date" 
+    id="datePicker"
+    value={toYYYYMMDD(consequence.action.date)}
+    class="mt-3 border-2 border-blue-800 py-[22px]"
+    on:change={(event) => updateDateInOriginalFormat(i, event.target.value)}
+/>
+        </label>
+        <!-- label to select stakeholders -->
+        <label for="stakeholders">
+          <span class="text-blue-800 font-bold text-lg"> Stakeholders </span>
+          <select
+            bind:value={consequence.action.stakeholder}
+            on:change={(event) =>
+              onSetStakeholderForTimeline(i, event.target.value)}
           >
-                 <select
-            bind:value={consequence.timeline.stakeholder}
-            on:change={(event) => onSetStakeholderForTimeline(i, event.target.value)}
-          >
-          <option disabled selected value>Select a stakeholder</option>
-        {#each stakeholders as stakeholder}
-            <option value={stakeholder.text}>{stakeholder.text} ({stakeholder.type})</option>
-        {/each}
-</label>
+            <option disabled selected value>Select a stakeholder</option>
+            {#each stakeholders as stakeholder}
+              <option value={stakeholder.text}
+                >{stakeholder.text} ({stakeholder.type})</option
+              >
+            {/each}
+          </select></label
+        >
         <label for="measure">
           <span class="text-blue-800 font-bold text-lg">
             Act, Influence, or Monitor</span
@@ -163,10 +216,3 @@
     on:click={onProceed}>Publish Risk Register</button
   >
 </div>
-
-
-<style>
-  h4 {
-    padding-left: 5px;
-  }
-</style>

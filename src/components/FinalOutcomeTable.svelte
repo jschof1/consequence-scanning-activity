@@ -11,6 +11,20 @@
   export let objectives;
   export let stakeholders;
 
+  function printDiv() {
+     var printContents = document.getElementById('Review').innerHTML;
+     var originalContents = document.body.innerHTML;
+
+
+var styledPrintContents = '<div style="color: black; !important">' + printContents + '</div>';
+
+    document.body.innerHTML = styledPrintContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+}
+
   function handleDownloadAsCsv() {
     dispatch("proceed", { format: "csv" });
   }
@@ -33,7 +47,7 @@
   }
 </script>
 
-<div id="Review" class="p-12 bg-blue-800">
+<div id="Review" class="p-12 bg-blue-800 print:text-black">
   <div id="explanation">
     <div class="text-3xl text-white font-bold mb-4">Risk Register</div>
     <div class="mb-7 p-8 bg-white bg-opacity-70 shadow-md">
@@ -155,9 +169,9 @@
           <td>{uc.selectedLikelihood}</td>
           <td>{uc.selectedImpact}</td>
           <td>{uc.selectedAIM}</td>
-          <td>{uc.action}</td>
+          <td>{uc.action.description}</td>
           <td>{uc.selectedOutcome}</td>
-          <td>{uc.timeline.date} - {uc.timeline.stakeholder}</td>
+          <td>{uc.action.date} - {uc.action.stakeholder}</td>
           <td>{uc.KPI}</td>
         </tr>
       {/each}
@@ -179,13 +193,14 @@
   >
 </div>
 {#if showModal}
-  <div class="modal" id="outcome-modal" in:fade={{ duration: 300 }}>
+  <div class="modal" id="outcome-modal">
     <div class="modal-content">
-      <span
+      <div
         class="close"
-        on:click={() => {
+        on:click={(event) => {
+          event.stopPropagation();
           showModal = false;
-        }}>&times;</span
+        }}>&times;</div
       >
       <button
         class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
@@ -197,7 +212,7 @@
       >
       <button
         class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-        on:click={handleDownloadAsHTML}>Get full PDF report</button
+        on:click={printDiv}>Get full PDF report</button
       >
     </div>
   </div>

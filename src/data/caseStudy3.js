@@ -37,15 +37,15 @@ let caseStudy3 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Implement a review process for candidates who are filtered out of the system with a relevant outcome to assess system validity",
+      action: {
+        description:
+          "Implement a review process for candidates who are filtered out of the system with a relevant outcome to assess system validity",
+        date: ["3 months", "6 months", "1 year", "2 years"],
+        stakeholder: "HR Team",
+        selectedDate: "14/01/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-      timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -57,14 +57,14 @@ let caseStudy3 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action: "",
-      AIM: ["Act", "Influence", "Monitor"],
-      selectedAIM: "",
-      timeline: {
+      action: {
+        description: "",
         date: ["3 months", "6 months", "1 year", "2 years"],
         stakeholder: "",
         selectedDate: "",
       },
+      AIM: ["Act", "Influence", "Monitor"],
+      selectedAIM: "",
       KPI: "",
     },
     {
@@ -76,15 +76,15 @@ let caseStudy3 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Remove CV information from the algorithm and focus only on reviewing the responses to questions related to the role",
+      action: {
+        description:
+          "Remove CV information from the algorithm and focus only on reviewing the responses to questions related to the role",
+        date: ["3 months", "6 months", "1 year", "2 years"],
+        stakeholder: "HR Team",
+        selectedDate: "01/02/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-      timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -96,14 +96,15 @@ let caseStudy3 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      actions: "Review training data and remove identifiers related to people",
+      action: {
+        description:
+          "Review training data and remove identifiers related to people",
+        date: ["3 months", "6 months", "1 year", "2 years"],
+        stakeholder: "IT Team",
+        selectedDate: "01/06/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-      timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
   ],

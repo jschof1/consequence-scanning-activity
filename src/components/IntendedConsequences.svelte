@@ -5,6 +5,7 @@
   
   export let consequenceSuggestions
   export let consequences;
+  export let ProjectData;
   export let onAdd;
   
     let customConsequences = false;
@@ -46,7 +47,7 @@
   </div>
 
 
-<AiSuggestions consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
+<AiSuggestions ProjectData={ProjectData} consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
 
  </div>
  

@@ -1,8 +1,10 @@
 <script>
   import { onMount } from "svelte";
   import { unintendedConsequenceSuggestions } from "./store.js";
-  // get vite env variable
-  import.meta.env.VITE_TEST_VAR
+  const HOST_NAME = import.meta.env.HOST_NAME
+
+
+  const HOST = HOST_NAME || "http://localhost:3000/openai-completion"
 
   let apiKey 
   // api key config variable or blank string
@@ -35,9 +37,8 @@ Based on the information provided, please provide me with a list of 5 potential 
     outcome: ["Negative" or "Positive"],
     impact: ["High" or "Medium" or "Low"],
     likelihood: ["High" or "Medium" or "Low"],
-    action: [Suggested action]
+    action: {description: ["Suggested action"], stakeholder: ["Stakeholder responsible for completion of the action"], date : [A date in this format YYYY-MM-DD]},
     AIM: ['Act' or 'Influence' or 'Monitor'],
-    timeline: ["3 months" or "6 months" or "1 year" or "2 years"], 
     KPI: [Suggested KPIs]
     isSelected: [true // always mark as true]
    },
@@ -46,16 +47,15 @@ Based on the information provided, please provide me with a list of 5 potential 
    outcome: ["Negative" or "Positive"],
     impact: ["High" or "Medium" or "Low"],
     likelihood: ["High" or "Medium" or "Low"],
-    action: [Suggested action]
+    action: {description: ["Suggested action"], stakeholder: ["Stakeholder responsible for completion of the action"], date : [A date in this format YYYY-MM-DD]},
     AIM: ['Act' or 'Influence' or 'Monitor'],
-    timeline: {date: A date in this format YYYY-MM-DD, stakeholder: the possible stakeholder responsible for completion of the action taken from the stakeholders listed above}, 
     KPI: [Suggested KPIs]
     isSelected: [true // always mark as true]
    }
   ]
 `;
     try {
-      const review = await fetch("http://localhost:3000/openai-completion", {
+      const review = await fetch(HOST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

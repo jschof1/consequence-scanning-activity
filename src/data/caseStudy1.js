@@ -15,6 +15,7 @@ let caseStudy1 = {
     { text: "Adopters", type: "External" },
     { text: "Donors", type: "External" },
     { text: "Charity Partners)", type: "External" },
+    { text: "IT Team", type: "External" },
   ],
   dataUsed:
     "The data the charity holds includes (amongst others): Financial Donors: personal details, level of involvement, etc; Volunteers: personal details, experience, etc; Adopters: potential, previous and existing. Including details of refusals and returns; Users: individuals who have previously handed an animal to the charity.",
@@ -52,15 +53,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Reduce profiling activities of service users to and research additional approaches to reviewing suitability of animal adoption.",
+      action: {
+        description:
+          "Reduce profiling activities of service users to and research additional approaches to reviewing suitability of animal adoption.",
+          date: "NO DATE GIVEN",
+          stakeholder: "STAKEHOLDER GIVEN",
+          selectedDate: "",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: "NO DATE GIVEN",
-        stakeholder: "STAKEHOLDER GIVEN",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -72,15 +73,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Implement new/improved data schemas once data is consolidated to ensure that data is managed effectively and sustainably maintained in the longer term.",
+      action: {
+        description:
+          "Implement new/improved data schemas once data is consolidated to ensure that data is managed effectively and sustainably maintained in the longer term.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "",
+          selectedDate: "",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -92,15 +93,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Define clear permissions and user groups to ensure that any access to systems by stakeholders is managed and that only relevant data can be accessed, used or shared.",
+      action: {
+        description:
+          "Define clear permissions and user groups to ensure that any access to systems by stakeholders is managed and that only relevant data can be accessed, used or shared.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "Charity Digital Team",
+          selectedDate: "01/02/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -112,15 +113,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
+      action: {
+        description:
+          "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "IT Team",
+          selectedDate: "01/06/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -132,15 +133,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
+      action: {
+        description:
+          "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "L&D Team",
+          selectedDate: "01/03/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -152,15 +153,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
+      action: {
+        description:
+          "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "IT Team",
+          selectedDate: "01/06/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -172,15 +173,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Reduce profiling activities of service users to and research additional approaches to reviewing suitability of animal adoption.",
+      action: {
+        description:
+          "Reduce profiling activities of service users to and research additional approaches to reviewing suitability of animal adoption.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "Animal Team",
+          selectedDate: "01/03/2024",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
     {
@@ -192,15 +193,15 @@ let caseStudy1 = {
       selectedOutcome: "",
       likelihood: ["High", "Medium", "Low"],
       selectedLikelihood: "",
-      action:
-        "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
+      action: {
+        description:
+          "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
+          date: ["3 months", "6 months", "1 year", "2 years"],
+          stakeholder: "",
+          selectedDate: "",
+      },
       AIM: ["Act", "Influence", "Monitor"],
       selectedAIM: "",
-       timeline: {
-        date: ["3 months", "6 months", "1 year", "2 years"],
-        stakeholder: "",
-        selectedDate: "",
-      },
       KPI: "",
     },
   ],
