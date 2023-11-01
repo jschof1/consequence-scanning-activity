@@ -30,26 +30,26 @@
 {#if explainerIntro}
   <div class="text-white px-28 pb-12" id="Intro">
     <div class="grid-two-by-two">
-      <div class="card-long-text">
-        <p class="text-sm md:text-xl">
+      <div class="card-long-text -ml-14">
+        <div class="text-sm md:text-lg mb-3">
           Consequence Scanning is a way for organisations to think about the
           potential impact of their product or service on people and society.
           With Consequence Scanning, organisations will be able to anticipate
           and address concerns they might have early on in the development
           cycle, before the final product is shipped.&nbsp;
-        </p>
-        <p class="text-sm md:text-xl">
+        </div>
+        <div class="text-sm md:text-lg mb-3">
           Through Consequence Scanning, you consider the potential consequences
           of what you&rsquo;re building and document the potential outcomes in
           order to provide you with the opportunity to mitigate or address
           potential harms or disasters before they happen.&nbsp;
-        </p>
-        <p class="text-sm md:text-xl">This interactive tool provides a framework to carry out a Consequence Scanning activity and generate a risk register that can be downloaded and incorporated into your project planning and governance. 
+        </div>
+        <p class="text-sm md:text-lg">This interactive tool provides a framework to carry out a Consequence Scanning activity and generate a risk register that can be downloaded and incorporated into your project planning and governance. 
 </p>
       </div>
       <div class="card-long-text">
         <!-- ifrmae -->
-        <div class="video-container pt-3">
+        <div class="video-container -mr-16 pt-4">
           <iframe
             title="vimeo-player"
             width="560"
