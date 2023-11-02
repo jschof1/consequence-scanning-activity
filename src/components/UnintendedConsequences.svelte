@@ -4,6 +4,7 @@
   import { derived } from "svelte/store";
   import loading from "../../public/loading.gif";
   import { unintendedConsequenceSuggestions } from "./store";
+
   const dispatch = createEventDispatcher();
   import ai from "../../public/icons_ai.svg";
   import Textarea from "../utils/Textarea.svelte";
@@ -130,12 +131,6 @@ Based on the information provided, please provide me with a list of 5 potential 
       !$unintendedConsequenceSuggestions ||
       $unintendedConsequenceSuggestions.length === 0
   );
-
-
-  // function checkAIConsequences() {
-  //   console.log($unintendedConsequenceSuggestions);
-  // }
-
 
   function handleBinClick(selectedDescription) {
     const updatedSuggestions = $consequenceSuggestions.map((sug) => {

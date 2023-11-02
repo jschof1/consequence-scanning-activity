@@ -2,7 +2,7 @@
   import Textarea from "../utils/Textarea.svelte";
   import { fade } from "svelte/transition";
   import { derived } from "svelte/store";
-
+  import { intendedConsequenceSuggestions } from "./store";
   export let ProjectData;
   export let onProceed;
 
