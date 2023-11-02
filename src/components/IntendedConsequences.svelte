@@ -8,10 +8,6 @@
   export let projectData;
   export let onAdd;
 
-    let customConsequences = false;
-    let aiSuggest = null
-
-
     function onProceed() {
       const selectedSuggestions = $consequenceSuggestions ? $consequenceSuggestions.filter(
         (sug) => sug.isSelected

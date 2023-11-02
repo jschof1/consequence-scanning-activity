@@ -109,14 +109,14 @@ function addOwnConsequences() {
 async function suggestConsequences() {
   aiSuggest = true;
   isLoading = true; // You should set your loading state to true when the process starts.
-  const projectDataString = await convertProjectDataToString();
   
+  const projectDataString = await convertProjectDataToString();
   let dataFromAI = await reviewWithAI(projectDataString);
+  
   fetchAttempts++; // Increment the attempt counter after each fetch attempt.
 
   if (!dataFromAI && fetchAttempts < 2) {
     console.log("No data returned from AI, retrying...");
-    // Retry fetching data
     dataFromAI = await reviewWithAI(projectDataString);
     fetchAttempts++;
   }
@@ -237,11 +237,12 @@ async function suggestConsequences() {
       require amendments. You can also create your own consequences and add them
       to the list.
     </div>
-        {#if isLoading}
+      {#if isLoading}
         <div class="loading h-2">
-         <span class="text-lg p-4">Loading...</span> <img alt="loading-icon ml-8 mt-1" src={loading} />
+          <span class="text-lg p-4">Loading...</span>
+          <img alt="loading-icon ml-8 mt-1" src={loading} />
         </div>
-    {/if}
+      {/if}
     <div class="flex flex-col w-full justify-center" transition:fade={{ delay: 100, duration: 700 }}>
       {#each $consequenceSuggestions as suggestion}
         <div class="relative">

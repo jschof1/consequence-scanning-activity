@@ -7,6 +7,10 @@
   HOST += "openai-completion"
   export let projectData;
 
+  function removeNumberDot(item) {
+  return item.replace(/\d+\.\s*/g, '');
+}
+
   async function convertProjectDataToString() {
     const { objectives, title, stakeholders, dataUsed } = projectData;
 
@@ -46,7 +50,7 @@
 
       function convertArray(arr) {
         return arr.map((item) => ({
-          description: item.replace("Intended consequences:", ""),
+          description: removeNumberDot(item).replace("Intended consequences:", "").trim(),
           isSelected: "true",
         }));
       }
