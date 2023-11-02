@@ -1,5 +1,4 @@
 <script>
-  import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
   import loading from "../../public/loading.gif";
 
