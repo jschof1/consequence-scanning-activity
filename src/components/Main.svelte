@@ -102,7 +102,7 @@ function handleIntro() {
   }
 
   function handleProceedToIntendedConsequences(event) {
-     resetAllSections();
+    resetAllSections();
     showConsequences = false;
     showIntendedConsequences = true;
     scrollToTop();
@@ -120,15 +120,9 @@ function handleIntro() {
   }
 
   function handleEvaluateUnintendedRisk(event) {
-     resetAllSections();
+    resetAllSections();
     showEvaluation = true;
     showUnintendedConsequences = false;
-      if (event.detail && event.detail.details) {
-      projectData.intendedConsequences = event.detail.details;
-    } else {
-      // Handle the case where the expected data isn't there
-      console.error('The details were not provided in the event.');
-    }
     scrollToTop();
   }
 

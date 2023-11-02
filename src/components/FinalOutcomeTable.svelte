@@ -41,15 +41,46 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
   function handleDownloadAsHTML() {
     dispatch("proceed", { format: "pdf" });
   }
-  function calculateRiskScore() {
-    let score = 0;
-    unintendedConsequences.forEach((uc) => {
-      if (uc.selectedImpact === "High" && uc.selectedLikelihood === "High") {
-        score += 1;
-      }
-    });
-    return score;
+function calculateRiskScore(unintendedConsequences) {
+  let totalScore = 0;
+  let count = 0; // To keep track of the number of scored items
+
+  // Define the numerical values for likelihood and impact
+  const levels = {
+    'Low': 1,
+    'Medium': 2,
+    'High': 3
+  };
+
+  unintendedConsequences.forEach((uc) => {
+    const impactScore = levels[uc.selectedImpact];
+    const likelihoodScore = levels[uc.selectedLikelihood];
+    if (impactScore && likelihoodScore) {
+      totalScore += impactScore * likelihoodScore;
+      count++; // Increment the count for each scored item
+    }
+  });
+
+  // Calculate the average score
+  const averageScore = count > 0 ? totalScore / count : 0;
+
+  let riskLevel = '';
+  // Determine the risk level based on the average score
+  if (averageScore > 0 && averageScore <= 3) {
+    riskLevel = 'Low Risk';
+  } else if (averageScore <= 5) {
+    riskLevel = 'Low/Medium Risk';
+  } else if (averageScore <= 7) {
+    riskLevel = 'Medium/High Risk';
+  } else if (averageScore > 7) {
+    riskLevel = 'High Risk';
   }
+
+  // Return the average risk score and the risk level
+  return { score: averageScore, level: riskLevel };
+}
+
+let riskResult = calculateRiskScore(unintendedConsequences);
 </script>
 
 <div id="Review" class="p-12 bg-blue-800 print:text-black">
@@ -185,8 +216,11 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
     </tbody>
   </table>
   <div class="text-white my-4 font-bold text-3xl md:text-2xl">
-    Risk Score: {calculateRiskScore()}
+    Risk Score: {Math.trunc(riskResult.score)}
   </div>
+    <div class="text-white my-4 font-bold text-3xl md:text-2xl">
+    Risk Level: {riskResult.level}
+    </div>
 </div>
 </div>
 <!-- The Modal -->
