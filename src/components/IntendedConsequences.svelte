@@ -17,15 +17,19 @@
         (sug) => sug.isSelected
       ) : [];
 
-      consequences = [
-        ...selectedSuggestions.map((selectedSuggestion) => ({
-          description: selectedSuggestion.description,
-            })),
-          ...consequences
-      ];
+      const newConsequences = selectedSuggestions.map((selectedSuggestion) => ({
+        description: selectedSuggestion.description,
+      }));
 
-      consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
-      dispatch("proceed",  { details: consequences });
+      const validNewConsequences = newConsequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
+
+      const updatedConsequences = [
+        ...$consequenceSuggestions,
+        ...consequences
+      ];
+      consequences = updatedConsequences;
+
+      dispatch("proceed", { details: updatedConsequences });
     }
 
 </script>

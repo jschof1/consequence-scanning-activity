@@ -8,7 +8,6 @@
   import FinalOutcomeTable from "./FinalOutcomeTable.svelte";
   import ConsequenceOutline from "./ConsequenceOutline.svelte";
   import IntendedConsequences from "./IntendedConsequences.svelte";
-  import IntendedConsequencesSuggester from "./IntendedConsequenceSuggester.svelte";
   import UnintendedConsequenceSuggester from "./UnintendedConsequenceSuggester.svelte";
   import EvaluateUnintendedRisk from "./EvaluateUnintendedRisk.svelte";
   import {
@@ -324,7 +323,6 @@ onMount(() => {
   <ConsequenceOutline on:proceed={handleProceedToIntendedConsequences} />
 {/if}
 {#if showIntendedConsequences}
-  <IntendedConsequencesSuggester {projectData} />
   <IntendedConsequences
     onAdd={addIntendedConsequence}
     ProjectData={projectData}

@@ -20,9 +20,9 @@
   async function reviewWithAI(content) {
     let promptContext = `
       Anticipate and address the potential impacts of a product or service on society. I need insights and suggestions based on the following project data:
-  
+
   ${content}
-  
+
   Based on the information provided, please provide me with a list of 5 potential intended consequences. Your response should be in the format of an undeclared javascript array of strings`;
     try {
       const review = await fetch(HOST, {
@@ -56,16 +56,18 @@
       console.error("Error:", error);
     }
   }
-
-  onMount(async () => {
+  async function triggerAI() {
+  //onMount(async () => {
     try {
       const projectDataString = await convertProjectDataToString();
       const dataFromAI = await reviewWithAI(projectDataString);
 
       intendedConsequenceSuggestions.update(() => dataFromAI);
       console.log($intendedConsequenceSuggestions);
+
     } catch (error) {
       console.error("Error:", error);
     }
-  });
+  }
+  //);
 </script>

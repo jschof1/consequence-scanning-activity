@@ -11,6 +11,7 @@
   // load location of chatgpt server from config variable
 
   export let projectData;
+  console.log(projectData);
 
   async function convertProjectDataToString() {
     const { objectives, title, stakeholders, dataUsed, intendedConsequences } =
