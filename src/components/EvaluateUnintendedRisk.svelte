@@ -1,5 +1,5 @@
 <script>
-  import { fade } from "svelte/transition";
+  import { onMount } from 'svelte';
   import { unintendedConsequenceSuggestions } from "./store.js";
   export let unintendedConsequences;
   export let onSetImpact;
@@ -7,15 +7,23 @@
 
   let showModal = false;
 
+  console.log(unintendedConsequences);
+  console.log($unintendedConsequenceSuggestions);
+
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   function onProceed() {
     dispatch("proceed");
   }
-  function toggleModal() {
-    showModal = !showModal;
-  }
+
+
+  onMount(() => {
+    unintendedConsequences = unintendedConsequences.filter(consequence => 
+      consequence.description && consequence.description.trim() !== ''
+    );
+  });
+
   function fillConsequencesFromAI(index) {
     if ($unintendedConsequenceSuggestions[index]) {
       unintendedConsequences[index].selectedImpact =
@@ -23,6 +31,7 @@
       unintendedConsequences[index].selectedLikelihood =
         $unintendedConsequenceSuggestions[index].likelihood;
     }
+    console.log(unintendedConsequences);
   }
 </script>
 

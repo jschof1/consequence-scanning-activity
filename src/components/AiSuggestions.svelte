@@ -1,115 +1,75 @@
 <script>
   import Textarea from "../utils/Textarea.svelte";
-  import { intendedConsequenceSuggestions } from "./store.js";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   import { fade } from "svelte/transition";
   import { derived } from "svelte/store";
-  
-	export let onProceed
-  export let ProjectData
-  
+
+  export let ProjectData;
+  export let onProceed;
+
   import loading from "../../public/loading.gif";
   import bin from "../../public/icons_bin.svg";
-	import ai from '../../public/icons_ai.svg'
-  
-  const HOST_NAME = import.meta.env.VITE_HOST_NAME
-  let HOST = HOST_NAME || "http://localhost:3000/";
-  HOST += "openai-completion"
-
-  async function convertProjectDataToString() {
-    const { objectives, title, stakeholders, dataUsed } = ProjectData;
-
-    return `
-        Project Title: ${title}
-        Objectives: ${objectives}
-        Stakeholders: ${stakeholders.map((s) => s.text)}
-        Data Used: ${dataUsed}
-        `;
-  }
-  async function reviewWithAI(content) {
-    let promptContext = `
-      Anticipate and address the potential impacts of a product or service on society. I need insights and suggestions based on the following project data:
-  
-  ${content}
-  
-  Based on the information provided, please provide me with a list of 5 potential intended consequences. Your response should be in the format of an undeclared javascript array of strings`;
-    try {
-      const review = await fetch(HOST, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: promptContext }],
-          model: "gpt-3.5-turbo",
-        }),
-      });
-      if (!review.ok) {
-        throw new Error(
-          `Network response was not ok, status: ${review.status}, statusText: ${review.statusText}`
-        );
-      }
-      const data = await review.json();
-
-      const suggestions = await data.choices[0].message.content;
-      function convertArray(arr) {
-        return arr.map((item) => ({
-          description: item.replace("Intended consequences:", ""),
-          isSelected: "true",
-        }));
-      }
-
-      return convertArray(JSON.parse(suggestions));
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  async function triggerReview() {
-    try {
-      const projectDataString = await convertProjectDataToString();
-      const dataFromAI = await reviewWithAI(projectDataString);
-
-      intendedConsequenceSuggestions.update(() => dataFromAI);
-      console.log($intendedConsequenceSuggestions);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }  
-
-  
+  import ai from "../../public/icons_ai.svg";
 
   let showModal = false;
   function toggleModal() {
     showModal = !showModal;
   }
-  export let customConsequences = null;
-  function addOwnConsequences() {
-    customConsequences = true;
-    aiSuggest = false;
-    $consequenceSuggestions.map((a) =>{
-      a.isSelected = false
-    })
 
+  export let customConsequences = null;
+  
+function addOwnConsequences() {
+  customConsequences = true;
+  aiSuggest = false;
+
+  // You might want to add the already selected suggestions to your `consequences` array
+  let selected = $consequenceSuggestions.filter(s => s.isSelected);
+  selected.forEach(s => {
+    consequences.push({
+      description: s.description,
+      outcome: s.selectedOutcome
+    });
+  });
+  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
+  consequenceSuggestions.set($consequenceSuggestions);
+}
+  let aiSuggest = null;
+  export let consequenceSuggestions;
+  export let consequences;
+
+  export let onAdd;
+
+  function suggestConsequences() {
+    console.log("suggestConsequences called");
+
+    const newConsequences = $consequenceSuggestions.map((sug) => {
+        return {
+            description: sug.description,
+        };
+    });
+
+    consequences = [ ...newConsequences, ...consequences ];
+
+    console.log('Updated consequences:', consequences);
+    console.log('consequenceSuggestions:', $consequenceSuggestions);
+    
+    console.log({ consequences });
+    console.log({ consequenceSuggestions });
+    aiSuggest = true;
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 200);
   }
 
-	let aiSuggest = null
-  export let consequenceSuggestions;
-	export let consequences
-
-	export let onAdd
-
-function suggestConsequences() {
-        triggerReview();
-	      aiSuggest = true;
-		    setTimeout(() => {
-        window.scrollTo(0,document.body.scrollHeight);
-    }, 200); 
-}
   const isLoading = derived(
     consequenceSuggestions,
-    ($consequenceSuggestions) =>
-      !$consequenceSuggestions || $consequenceSuggestions.length === 0
+    ($consequenceSuggestions) => {
+      console.log('isLoading derived value updated:', !$consequenceSuggestions || $consequenceSuggestions.length === 0);
+      return !$consequenceSuggestions || $consequenceSuggestions.length === 0;
+    }
   );
+
 
   function handleBinClick(selectedDescription) {
     const updatedSuggestions = $consequenceSuggestions.map((sug) => {
@@ -121,24 +81,32 @@ function suggestConsequences() {
       }
       return sug;
     });
-
     consequenceSuggestions.set(updatedSuggestions);
   }
+
 </script>
-  {#if customConsequences === null}
-    <div class="bg-blue-100 p-12">
-      <div class="flex">
-        <img class="h-10 w-9 mr-5 filter-blue" src={ai} />
-        <div class="text-blue-800 font-bold text-xl md:text-2xl" in:fade={{duration: 2000, delay: 400}}>
-          Do you want AI to suggest intended consequences?
-        </div>
+
+{#if customConsequences === null}
+  <div class="bg-blue-100 p-12">
+    <div class="flex">
+      <img class="h-10 w-9 mr-5 filter-blue" src={ai} />
+      <div
+        class="text-blue-800 font-bold text-xl md:text-2xl"
+        in:fade={{ duration: 2000, delay: 400 }}
+      >
+        Do you want AI to suggest intended consequences?
       </div>
-      <div class="mt-7 p-8 bg-white shadow-md bg-opacity-70">
-        The AI will review the details of the project and make suggestions for
-        what the possible intended and unintended consequences might be. The
-        generated consequences should be treated as a guide that supports your
-        project planning.<br><br>
-    <span class="underline font-semibold cursor-pointer" on:click={toggleModal}>Click here</span> to see what data the AI will be using.
+    </div>
+    <div class="mt-7 p-8 bg-white shadow-md bg-opacity-70">
+      The AI will review the details of the project and make suggestions for
+      what the possible intended and unintended consequences might be. The
+      generated consequences should be treated as a guide that supports your
+      project planning.<br /><br />
+      <span
+        class="underline font-semibold cursor-pointer"
+        on:click={toggleModal}>Click here</span
+      >
+      to see what data the AI will be using.
       {#if showModal}
         <div
           class="block z-10 fixed bg-slate-100 bg-opacity-20 left-20 bottom-20 w-full h-full overflow-hidden"
@@ -146,40 +114,56 @@ function suggestConsequences() {
         >
           <div class="modal-content shadow-2xl">
             <div class="close" on:click={() => toggleModal()}>&times;</div>
-         <div class="space-y-4">
-    <div class="text-lg font-semibold text-gray-700">The Project Title:</div>
-    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.title}</div>
-    
-    <div class="text-lg font-semibold text-gray-700">The Project Objectives:</div>
-    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.objectives}</div>
-    
-    <div class="text-lg font-semibold text-gray-700">The Project Stakeholders:</div>
-    {#each ProjectData.stakeholders as stakeholder}
-    <div class="bg-gray-100 p-3 rounded text-gray-800">{stakeholder.text} - ({stakeholder.type})</div>
-    {/each}
+            <div class="space-y-4">
+              <div class="text-lg font-semibold text-gray-700">
+                The Project Title:
+              </div>
+              <div class="bg-gray-100 p-3 rounded text-gray-800">
+                {ProjectData.title}
+              </div>
 
-    <div class="text-lg font-semibold text-gray-700">The data you will be using in your project:</div>
-    <div class="bg-gray-100 p-3 rounded text-gray-800">{ProjectData.dataUsed}</div>
-</div>
+              <div class="text-lg font-semibold text-gray-700">
+                The Project Objectives:
+              </div>
+              <div class="bg-gray-100 p-3 rounded text-gray-800">
+                {ProjectData.objectives}
+              </div>
 
+              <div class="text-lg font-semibold text-gray-700">
+                The Project Stakeholders:
+              </div>
+              {#each ProjectData.stakeholders as stakeholder}
+                <div class="bg-gray-100 p-3 rounded text-gray-800">
+                  {stakeholder.text} - ({stakeholder.type})
+                </div>
+              {/each}
+
+              <div class="text-lg font-semibold text-gray-700">
+                The data you will be using in your project:
+              </div>
+              <div class="bg-gray-100 p-3 rounded text-gray-800">
+                {ProjectData.dataUsed}
+              </div>
+            </div>
           </div>
         </div>
       {/if}
-          </div>
-
-      <div class="" style="display:{aiSuggest === true || false ? 'none' : ''}">
-        <button
-          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-          style="display"
-          on:click={suggestConsequences}>Yes</button>
-        <button
-          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-          on:click={addOwnConsequences}>No</button
-        >
-      </div>
     </div>
-  {/if}
-  {#if aiSuggest === true}
+
+    <div class="" style="display:{aiSuggest === true || false ? 'none' : ''}">
+      <button
+        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+        style="display"
+        on:click={suggestConsequences}>Yes</button
+      >
+      <button
+        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+        on:click={addOwnConsequences}>No</button
+      >
+    </div>
+  </div>
+{/if}
+{#if aiSuggest === true}
   <div class="bg-orange-100 p-12">
     {#if $isLoading}
       <div class="loading h-2 ml-10" transition:fade={{ duration: 300 }}>
@@ -209,47 +193,47 @@ function suggestConsequences() {
       {/each}
     </div>
   </div>
-    <div
-      class="bg-orange-100 p-12"
-      style="display: {customConsequences !== null ? 'none' : ''}"
+  <div
+    class="bg-orange-100 p-12"
+    style="display: {customConsequences !== null ? 'none' : ''}"
+  >
+    <button
+      class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+      on:click={onProceed}>Continue with these consequences</button
     >
-      <button
-        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-        on:click={onProceed}>Continue with these consequences</button
-      >
-      <button
-        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-        on:click={addOwnConsequences}>Add in your own consequences</button
-      >
-    </div>
+    <button
+      class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+      on:click={addOwnConsequences}>Add in your own consequences</button
+    >
+  </div>
 {/if}
 {#if aiSuggest === false && customConsequences === true}
-    <div id="UnintendedConsequences" class="bg-blue-100 p-12">
-          <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
-          Intended Consequences
-      </div>
-      {#each consequences as consequence, i}
-        <div class="consequence-options">
-          <label for="description">
-            <div class="text-blue-800 mb-4 font-bold text-lg md:text-md">
-              Intended Consequence {i + 1}
-            </div>
-            <Textarea
-              bind:value={consequence.description}
-              placeholder="Description"
-            />
-          </label>
-          </div>
-      {/each}
-			 <div>
-        <button
-          class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={onAdd}>Add More</button
-        >
-        <button
-          class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={onProceed}>Proceed to Unintended Consequences</button
-        >
-      </div>
+  <div id="consequences" class="bg-blue-100 p-12">
+    <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
+      Intended Consequences
     </div>
-  {/if}
+    {#each consequences as consequence, i}
+      <div class="consequence-options">
+        <label for="description">
+          <div class="text-blue-800 mb-4 font-bold text-lg md:text-md">
+            Intended Consequence {i + 1}
+          </div>
+          <Textarea
+            bind:value={consequence.description}
+            placeholder="Description"
+          />
+        </label>
+      </div>
+    {/each}
+    <div>
+      <button
+        class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
+        on:click={onAdd}>Add More</button
+      >
+      <button
+        class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
+        on:click={onProceed}>Proceed to Unintended Consequences</button
+      >
+    </div>
+  </div>
+{/if}

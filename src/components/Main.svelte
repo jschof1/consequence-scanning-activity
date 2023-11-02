@@ -321,7 +321,6 @@ onMount(() => {
 {#if showUnintendedConsequences}
   <UnintendedConsequenceSuggester {projectData} />
   <UnintendedConsequences
-    ProjectData={projectData}
     consequences={projectData.unintendedConsequences}
     onAdd={addUnintendedConsequence}
     on:proceed={handleEvaluateUnintendedRisk}

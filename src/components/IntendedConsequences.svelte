@@ -11,22 +11,20 @@
     let customConsequences = false;
     let aiSuggest = null
 
-    function addOwnConsequences() {
-    customConsequences = true;
-    aiSuggest = false;
-    console.log('addOwnConsequences called', { customConsequences, aiSuggest });
-  }
 
-  function onProceed() {
+    function onProceed() {
     const selectedSuggestions = $consequenceSuggestions.filter(
       (sug) => sug.isSelected
     );
-    selectedSuggestions.forEach((selectedSuggestion, outcome) => {
-      consequences.unshift({
+
+    consequences = [
+       ...selectedSuggestions.map((selectedSuggestion) => ({
         description: selectedSuggestion.description,
-      });
-    });
-    dispatch("proceed");
+           })),
+        ...consequences
+    ];
+  consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
+    dispatch("proceed",  { details: consequences });
   }
 
 </script>

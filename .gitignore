@@ -10,3 +10,5 @@ chatgpt-api-server/index.js
 .vscode
 .env
 .DS_Store
+src/components/IntendedConsequenceSuggester.svelte
+src/components/UnintendedConsequenceSuggester.svelte
