@@ -10,7 +10,7 @@ let caseStudy3 = {
     { text: "Application Portal", type: "External" },
     { text: "Recruitment Agency", type: "External" },
   ],
-  dataBeingUsed: [
+  dataUsed: [
     "Job history (titles, organisation, length of service, etc)",
     "Previous salary",
     "Education history (qualification, awarder, etc)",

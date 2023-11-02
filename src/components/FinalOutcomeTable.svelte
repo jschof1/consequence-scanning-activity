@@ -11,6 +11,12 @@
   export let objectives;
   export let stakeholders;
 
+
+  let surveyModal = false;
+
+  function toggleSurveyModal() {
+    surveyModal = !surveyModal;
+  }
   function printDiv() {
      var printContents = document.getElementById('Review').innerHTML;
      var originalContents = document.body.innerHTML;
@@ -218,3 +224,37 @@ var styledPrintContents = '<div style="color: black; !important">' + printConten
     </div>
   </div>
 {/if}
+
+
+<footer class="bg-white shadow dark:bg-gray-800">
+    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+ <button on:click={toggleSurveyModal}> <strong>Click here</strong> to give us your feedback </button>
+    <div class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">The Open Data Institute</a>.
+    </span>
+    </div>
+</footer>
+
+{#if surveyModal}
+<div class="flex items-center justify-center fixed inset-0 bg-gray-900 bg-opacity-50 z-50">
+  <div class="flex justify-center items-center p-4 w-full h-full">
+        <button
+      class="absolute top-0 right-0 m-4 bg-white p-2 leading-none text-black z-50"
+      on:click={toggleSurveyModal}  
+    >
+    Close Survey
+    </button>
+    <div class="shadow-2xl overflow-auto border border-solid">
+      <iframe
+        class="w-full h-full"
+        style="aspect-ratio: 210 / 297; min-width: 500px; min-height: 800px;"
+        src="https://share.hsforms.com/12mmdJzImSxaudoZFlhypxgg1jy"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+{/if}
+
