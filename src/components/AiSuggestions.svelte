@@ -1,7 +1,5 @@
 <script>
   import Textarea from "../utils/Textarea.svelte";
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
   import { fade } from "svelte/transition";
   import { derived } from "svelte/store";
 
@@ -28,7 +26,6 @@ function addOwnConsequences() {
   customConsequences = true;
   aiSuggest = false;
 
-  // You might want to add the already selected suggestions to your `consequences` array
   let selected = $consequenceSuggestions.filter(s => s.isSelected);
   selected.forEach(s => {
     consequences.push({

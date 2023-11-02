@@ -101,7 +101,7 @@ function handleIntro() {
     scrollToTop();
   }
 
-  function handleProceedToIntendedConsequences() {
+  function handleProceedToIntendedConsequences(event) {
      resetAllSections();
     showConsequences = false;
     showIntendedConsequences = true;
@@ -111,6 +111,12 @@ function handleIntro() {
      resetAllSections(event);
     showIntendedConsequences = false
     showUnintendedConsequences = true;
+         if (event.detail && event.detail.details) {
+      projectData.intendedConsequences = event.detail.details;
+    } else {
+      // Handle the case where the expected data isn't there
+      console.error('The details were not provided in the event.');
+    }
     scrollToTop();
   }
   function handleProceedToPreLoadedOptions() {
@@ -325,7 +331,7 @@ onMount(() => {
 {#if showIntendedConsequences}
   <IntendedConsequences
     onAdd={addIntendedConsequence}
-    ProjectData={projectData}
+    projectData={projectData}
     consequences={projectData.intendedConsequences}
     consequenceSuggestions={intendedConsequenceSuggestions}
     on:proceed={handleProceedToUnintendedConsequences}

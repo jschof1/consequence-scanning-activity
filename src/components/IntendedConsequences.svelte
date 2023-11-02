@@ -5,7 +5,7 @@
 
   export let consequenceSuggestions
   export let consequences;
-  export let ProjectData;
+  export let projectData;
   export let onAdd;
 
     let customConsequences = false;
@@ -24,12 +24,13 @@
       const validNewConsequences = newConsequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
 
       const updatedConsequences = [
-        ...$consequenceSuggestions,
+        ...validNewConsequences,
         ...consequences
       ];
-      consequences = updatedConsequences;
 
-      dispatch("proceed", { details: updatedConsequences });
+    projectData = { ...projectData, intendedConsequences: updatedConsequences };
+
+    dispatch("proceed", { details: projectData.intendedConsequences });
     }
 
 </script>
@@ -50,6 +51,6 @@
   </div>
 
 
-<AiSuggestions ProjectData={ProjectData} consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
+<AiSuggestions ProjectData={projectData} consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
 
  </div>
