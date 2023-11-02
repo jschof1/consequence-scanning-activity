@@ -1,8 +1,6 @@
 <script>
   import Textarea from "../utils/Textarea.svelte";
   import { fade } from "svelte/transition";
-  import { derived } from "svelte/store";
-  import { intendedConsequenceSuggestions } from "./store";
 
   export let ProjectData;
   export let onProceed;
@@ -86,7 +84,7 @@ function addOwnConsequences() {
       }
       const data = await review.json();
 
-      const suggestions = await data.choices[0].message.content.f;
+      const suggestions = await data.choices[0].message.content;
 
       function convertArray(arr) {
         return arr.map((item) => ({
@@ -282,9 +280,6 @@ async function suggestConsequences() {
   </div>
 {/if}
 {#if aiSuggest === false && customConsequences === true}
-{#if errorMessage}
-  <p class="error-message">{errorMessage}</p>
-{/if}
   <div id="consequences" class="bg-blue-100 p-12">
     <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
       Intended Consequences

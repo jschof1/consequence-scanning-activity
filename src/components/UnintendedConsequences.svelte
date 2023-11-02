@@ -1,9 +1,7 @@
 <script>
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
-  import { derived } from "svelte/store";
   import loading from "../../public/loading.gif";
-  import { unintendedConsequenceSuggestions } from "./store";
 
   const dispatch = createEventDispatcher();
   import ai from "../../public/icons_ai.svg";
@@ -17,6 +15,12 @@
   export let consequences;
   export let onAdd;
   let customConsequences = null;
+  let errorMessage = {message: null, status: false}
+
+  
+
+  let fetchAttempts = 0;
+  let isLoading = true;
 
   const HOST_NAME = import.meta.env.VITE_HOST_NAME
 
@@ -24,6 +28,7 @@
   HOST += "openai-completion"
 
 function addOwnConsequences() {
+  errorMessage.status = false;
   customConsequences = true;
   aiSuggest = false;
 
@@ -105,32 +110,47 @@ Based on the information provided, please provide me with a list of 5 potential 
       });
 
       return suggestionsWithIsSelected;
-    } catch (error) {
-      console.error("Error:", error);
+    }  catch (error) {
+        fetchAttempts++;
+        console.error("Fetch attempt failed:", error);
+        if (fetchAttempts >= 2) {
+          errorMessage.message = 'There was an error fetching the AI suggestions. You can add your own consequences.';
+          errorMessage.status = true;
+          return null;
+        }
     }
   }
 
-  async function suggestConsequences() {
-    console.log("suggestConsequences called");
-    aiSuggest = true;
-    const projectDataString = await convertProjectDataToString();
-    const dataFromAI = await reviewWithAI(projectDataString);
-    if (!dataFromAI) {
-      return {};
-    }
+
+async function suggestConsequences() {
+  aiSuggest = true;
+  isLoading = true; // You should set your loading state to true when the process starts.
+  const projectDataString = await convertProjectDataToString();
+  
+  let dataFromAI = await reviewWithAI(projectDataString);
+  fetchAttempts++; // Increment the attempt counter after each fetch attempt.
+
+  if (!dataFromAI && fetchAttempts < 2) {
+    console.log("No data returned from AI, retrying...");
+    // Retry fetching data
+    dataFromAI = await reviewWithAI(projectDataString);
+    fetchAttempts++;
+  }
+  if (!dataFromAI && fetchAttempts >= 2) {
+    console.log("No data returned from AI after two attempts.");
+    errorMessage.message = "Failed to fetch AI suggestions. Please try again later or add your own consequences."; // Set an error message to inform the user.
+    errorMessage.status = true;
+  }
+  if (dataFromAI) {
+    isLoading = false; // Make sure to set loading to false when data is received.
     consequenceSuggestions.update(() => dataFromAI);
-    
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);
     }, 200);
+  } else {
+    isLoading = false; // Ensure loading is set to false if no data is received after retries.
   }
-
-  const isLoading = derived(
-    unintendedConsequenceSuggestions,
-    ($unintendedConsequenceSuggestions) =>
-      !$unintendedConsequenceSuggestions ||
-      $unintendedConsequenceSuggestions.length === 0
-  );
+}
 
   function handleBinClick(selectedDescription) {
     const updatedSuggestions = $consequenceSuggestions.map((sug) => {
@@ -249,11 +269,11 @@ async function onProceed() {
         require amendments. You can also create your own consequences and add
         them to the list.
       </div>
-       {#if $isLoading}
-        <div class="loading h-2 ml-10">
+ {#if isLoading}
+        <div class="loading h-2">
          <span class="text-lg p-4">Loading...</span> <img alt="loading-icon ml-8 mt-1" src={loading} />
         </div>
-      {/if}
+    {/if}
       <div class="flex flex-col w-full justify-center">
         {#each $consequenceSuggestions as suggestion}
           <div class="relative">
@@ -270,20 +290,27 @@ async function onProceed() {
         {/each}
       </div>
     </div>
-    <div
-      class="bg-orange-100 p-12"
-      style="display: {customConsequences !== null ? 'none' : ''}"
-    >
-      <button
-        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-        on:click={onProceed}>Continue with these consequences</button
-      >
-      <button
-        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-        on:click={addOwnConsequences}>Add in your own consequences</button
-      >
-    </div>
+    <div>
+  {#if errorMessage.status}
+    <div class="bg-orange-100 px-10 text-lg font-bold">{errorMessage.message}</div>
   {/if}
+  </div>
+  <div
+    class="bg-orange-100 p-12"
+    style="display: {customConsequences !== null ? 'none' : ''}"
+  >
+  {#if aiSuggest === false}
+    <button
+      class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+      on:click={onProceed}>Continue with these consequences</button
+    >
+  {/if}
+    <button
+      class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+      on:click={addOwnConsequences}>Add in your own consequences</button
+    >
+  </div>
+{/if}
   {#if aiSuggest === false && customConsequences === true}
     <div id="UnintendedConsequences" class="bg-blue-100 p-12">
           <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
