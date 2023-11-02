@@ -4,7 +4,9 @@
   let src = "./odi-logo.png";
   let arrow = "./icons_arrow.svg";
   import Glossary from "./Glossary.svelte";
+  import Disclaimer from "./Disclaimer.svelte";
   let showModal = false;
+  let showDisclaimer = false;
   import {activeSection} from "./section.js";
 function toggleModal() {
   showModal = !showModal;
@@ -15,6 +17,14 @@ function toggleModal() {
   }
 }
 
+function toggleDisclaimer() {
+  showDisclaimer = !showDisclaimer;
+  if (showDisclaimer) {
+    document.body.style.overflow = 'hidden'; // Prevent scrolling on the background when modal is shown
+  } else {
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+}
 
   let sections = [
     {id:"Intro", name: "Homepage", visible: false},
@@ -73,10 +83,30 @@ function toggleModal() {
         </li>
         {/if}
       {/each}
+          <li class="flex hover:text-blue-800 cursor-pointer" on:click={toggleDisclaimer}>
+            <img class="h-7 ml-3 pr-2 pb-1 filter-yellow" src={arrow} />
+          Disclaimer
+          </li>
     </ul>
   </div>
 </div>
-
+ {#if showDisclaimer}
+  <div class="fixed inset-0 bg-slate-100 bg-opacity-20 z-20" in:fade={{ duration: 300 }}>
+    <div class="fixed inset-0 overflow-y-auto">
+      <div class="flex items-center justify-center min-h-full p-4">
+        <div class="relative bg-white border w-[70%] max-h-[90vh] overflow-y-auto p-12 border-solid border-gray-400 shadow-2xl">
+          <button
+            class="absolute top-0 right-0 p-2 text-2xl font-semibold text-black"
+            on:click={toggleDisclaimer}
+          >
+            &times;
+          </button>
+          <Disclaimer />
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
 <style>
 
 </style>
