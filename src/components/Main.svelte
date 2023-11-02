@@ -39,9 +39,9 @@
   let isAssigningActions = false;
   let isViewingTable = false;
   let selectedFile = null;
-  let currentSection = null;  
+  let currentSection = null;
 
-  
+
   let preLoadedStudies = [
     { title: caseStudy1.title, data: caseStudy1 },
     { title: caseStudy2.title, data: caseStudy2 },
@@ -133,7 +133,7 @@ function handleIntro() {
     handleProceedConsequencesOutline();
   }
 function resetAllSections(event) {
-  if (event) event.preventDefault(); 
+  if (event) event.preventDefault();
   explainerIntro = false;
   selectOption = false;
   showPreLoadedOptions = false;

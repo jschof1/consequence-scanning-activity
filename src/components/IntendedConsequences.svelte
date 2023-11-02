@@ -2,30 +2,31 @@
   import AiSuggestions from './AiSuggestions.svelte'
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  
+
   export let consequenceSuggestions
   export let consequences;
   export let ProjectData;
   export let onAdd;
-  
+
     let customConsequences = false;
     let aiSuggest = null
 
 
     function onProceed() {
-    const selectedSuggestions = $consequenceSuggestions.filter(
-      (sug) => sug.isSelected
-    );
+      const selectedSuggestions = $consequenceSuggestions ? $consequenceSuggestions.filter(
+        (sug) => sug.isSelected
+      ) : [];
 
-    consequences = [
-       ...selectedSuggestions.map((selectedSuggestion) => ({
-        description: selectedSuggestion.description,
-           })),
-        ...consequences
-    ];
-  consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
-    dispatch("proceed",  { details: consequences });
-  }
+      consequences = [
+        ...selectedSuggestions.map((selectedSuggestion) => ({
+          description: selectedSuggestion.description,
+            })),
+          ...consequences
+      ];
+
+      consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
+      dispatch("proceed",  { details: consequences });
+    }
 
 </script>
 <div id="IntendedConsequences">
@@ -35,7 +36,7 @@
     </div>
     <div class="mb-7 p-8 bg-white shadow-md">
     <div class="mb-4">
-        Start by creating a clear list of intended consequences. 
+        Start by creating a clear list of intended consequences.
         These consequences enable your project to remain focused on its objectives and desired outcomes. Intended consequences serve as a guide for project evaluation and success measurement.
     </div>
     <div class="mb-4">
@@ -48,4 +49,3 @@
 <AiSuggestions ProjectData={ProjectData} consequences={consequences} onAdd={onAdd} onProceed={onProceed} consequenceSuggestions={consequenceSuggestions}/>
 
  </div>
- 

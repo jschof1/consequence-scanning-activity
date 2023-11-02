@@ -63,9 +63,9 @@
     unintendedConsequenceSuggestions.set(updatedSuggestions);
   }
   function onProceed() {
-    const selectedSuggestions = $unintendedConsequenceSuggestions.filter(
-      (sug) => sug.isSelected
-    );
+    const selectedSuggestions = $unintendedConsequenceSuggestions ? $unintendedConsequenceSuggestions.filter(
+        (sug) => sug.isSelected
+    ) : [];
 
     consequences = [
        ...selectedSuggestions.map((selectedSuggestion) => ({
@@ -83,7 +83,8 @@
            })),
         ...consequences
     ];
-  consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
+
+    consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
     dispatch("proceed",  { details: consequences });
   }
 </script>
