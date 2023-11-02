@@ -125,10 +125,16 @@ function handleIntro() {
     showPreLoadedOptions = true;
   }
 
-  function handleEvaluateUnintendedRisk() {
+  function handleEvaluateUnintendedRisk(event) {
      resetAllSections();
     showEvaluation = true;
     showUnintendedConsequences = false;
+      if (event.detail && event.detail.details) {
+      projectData.intendedConsequences = event.detail.details;
+    } else {
+      // Handle the case where the expected data isn't there
+      console.error('The details were not provided in the event.');
+    }
     scrollToTop();
   }
 
@@ -338,9 +344,10 @@ onMount(() => {
   />
 {/if}
 {#if showUnintendedConsequences}
-  <UnintendedConsequenceSuggester {projectData} />
   <UnintendedConsequences
+    projectData={projectData}
     consequences={projectData.unintendedConsequences}
+    consequenceSuggestions={unintendedConsequenceSuggestions}
     onAdd={addUnintendedConsequence}
     on:proceed={handleEvaluateUnintendedRisk}
   />

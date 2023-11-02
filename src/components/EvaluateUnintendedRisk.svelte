@@ -5,8 +5,6 @@
   export let onSetImpact;
   export let onSetLikelihood;
 
-  let showModal = false;
-
   console.log(unintendedConsequences);
   console.log($unintendedConsequenceSuggestions);
 
@@ -31,7 +29,6 @@
       unintendedConsequences[index].selectedLikelihood =
         $unintendedConsequenceSuggestions[index].likelihood;
     }
-    console.log(unintendedConsequences);
   }
 </script>
 

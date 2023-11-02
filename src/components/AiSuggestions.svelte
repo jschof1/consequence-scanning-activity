@@ -103,19 +103,7 @@ function addOwnConsequences() {
       return {};
     }
     consequenceSuggestions.update(() => dataFromAI);
-/*
-    const newConsequences = $consequenceSuggestions.map((sug) => {
-        return {
-            description: sug.description,
-        };
-    });
-
-    consequences = [ ...newConsequences, ...consequences ];
-
-    console.log('Updated consequences:', consequences);
-
-    console.log({ consequences });
-*/
+    
     aiSuggest = true;
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);

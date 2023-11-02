@@ -1,56 +1,143 @@
 <script>
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
-  import { unintendedConsequenceSuggestions } from "./store.js";
   import { derived } from "svelte/store";
   import loading from "../../public/loading.gif";
   const dispatch = createEventDispatcher();
   import ai from "../../public/icons_ai.svg";
   import Textarea from "../utils/Textarea.svelte";
   import bin from "../../public/icons_bin.svg";
-
-
-  const isLoading = derived(
-    unintendedConsequenceSuggestions,
-    ($unintendedConsequenceSuggestions) =>
-      !$unintendedConsequenceSuggestions ||
-      $unintendedConsequenceSuggestions.length === 0
-  );
-
-  export let consequences;
-  export let onAdd;
+  
 
   let aiSuggest = null;
+  export let projectData
+  export let consequenceSuggestions;
+  export let consequences;
+  export let onAdd;
   let customConsequences = null;
 
+  const HOST_NAME = import.meta.env.VITE_HOST_NAME
 
-  function checkAIConsequences() {
-    console.log($unintendedConsequenceSuggestions);
-  }
+  let HOST = HOST_NAME || "http://localhost:3000/";
+  HOST += "openai-completion"
 
-  checkAIConsequences();
-
-
- function addOwnConsequences() {
+function addOwnConsequences() {
   customConsequences = true;
   aiSuggest = false;
 
-  // You might want to add the already selected suggestions to your `consequences` array
-  let selected = $unintendedConsequenceSuggestions.filter(s => s.isSelected);
+  let selected = $consequenceSuggestions.filter(s => s.isSelected);
   selected.forEach(s => {
     consequences.push({
       description: s.description,
       outcome: s.selectedOutcome
     });
   });
-  $unintendedConsequenceSuggestions = $unintendedConsequenceSuggestions.map(a => ({ ...a, isSelected: false }));
-
-
-  unintendedConsequenceSuggestions.set($unintendedConsequenceSuggestions);
+  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
+  consequenceSuggestions.set($consequenceSuggestions);
 }
 
+
+  async function convertProjectDataToString() {
+    const { objectives, title, stakeholders, dataUsed } = projectData;
+
+    return `
+        Project Title: ${title}
+        Objectives: ${objectives}
+        Stakeholders: ${stakeholders.map((s) => s.text)}
+        Data Used: ${dataUsed}
+        `;
+  }
+  
+  async function reviewWithAI(content) {
+    let promptContext = `
+    Anticipate and address the potential impacts of a product or service on society. I need insights and suggestions based on the following project data:
+
+${content}
+
+Based on the information provided, please provide me with a list of 5 potential unintended consequences, including the description of the unintended consequence appropriate actions, impact, likelihood, AIM, timeline, KPI, outcome along with their impact (High/Medium/Low), outcome (Positive/Negative), likelihood (High/Medium/Low), action, measure (Act/Influence/Monitor), and timeline (3 months/6 months/1 year/2 years). Your output must an object of arrays in JSON format with the following structure:
+   [
+    {
+    description : [Provide a Brief description of the unintended consequence],
+    outcome: ["Negative" or "Positive"],
+    impact: ["High" or "Medium" or "Low"],
+    likelihood: ["High" or "Medium" or "Low"],
+    action: {description: ["Suggested action"], stakeholder: ["Stakeholder responsible for completion of the action"], date : [A date in this format YYYY-MM-DD]},
+    AIM: ['Act' or 'Influence' or 'Monitor'],
+    KPI: [Suggested KPIs]
+    isSelected: [true // always mark as true]
+   },
+   {
+    description : [Provide a Brief description of the unintended consequence],
+   outcome: ["Negative" or "Positive"],
+    impact: ["High" or "Medium" or "Low"],
+    likelihood: ["High" or "Medium" or "Low"],
+    action: {description: ["Suggested action"], stakeholder: ["Stakeholder responsible for completion of the action"], date : [A date in this format YYYY-MM-DD]},
+    AIM: ['Act' or 'Influence' or 'Monitor'],
+    KPI: [Suggested KPIs]
+    isSelected: [true // always mark as true]
+   }
+  ]
+`;
+    try {
+      const review = await fetch(HOST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          //  Authorization: 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: promptContext }],
+          model: "gpt-3.5-turbo",
+        }),
+      });
+      if (!review.ok) {
+        throw new Error(
+          `Network response was not ok, status: ${review.status}, statusText: ${review.statusText}`
+        );
+      }
+      const data = await review.json();
+
+      const suggestions = await data.choices[0].message.content;
+      const suggestionsWithIsSelected = JSON.parse(suggestions).map((suggestion) => {
+        return { ...suggestion, description: suggestion.description.replace("Unintended consequences:", ""), isSelected: true };
+      });
+
+      return suggestionsWithIsSelected;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async function suggestConsequences() {
+    console.log("suggestConsequences called");
+    const projectDataString = await convertProjectDataToString();
+    const dataFromAI = await reviewWithAI(projectDataString);
+    if (!dataFromAI) {
+      return {};
+    }
+    consequenceSuggestions.update(() => dataFromAI);
+    
+    aiSuggest = true;
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 200);
+  }
+
+  // const isLoading = derived(
+  //   unintendedConsequenceSuggestions,
+  //   ($unintendedConsequenceSuggestions) =>
+  //     !$unintendedConsequenceSuggestions ||
+  //     $unintendedConsequenceSuggestions.length === 0
+  // );
+
+
+  // function checkAIConsequences() {
+  //   console.log($unintendedConsequenceSuggestions);
+  // }
+
+
   function handleBinClick(selectedDescription) {
-    const updatedSuggestions = $unintendedConsequenceSuggestions.map((sug) => {
+    const updatedSuggestions = $consequenceSuggestions.map((sug) => {
       if (sug.description === selectedDescription) {
         return {
           ...sug,
@@ -59,34 +146,21 @@
       }
       return sug;
     });
-
-    unintendedConsequenceSuggestions.set(updatedSuggestions);
+    consequenceSuggestions.set(updatedSuggestions);
   }
-  function onProceed() {
-    const selectedSuggestions = $unintendedConsequenceSuggestions ? $unintendedConsequenceSuggestions.filter(
-        (sug) => sug.isSelected
-    ) : [];
-
-    consequences = [
-       ...selectedSuggestions.map((selectedSuggestion) => ({
-        description: selectedSuggestion.description,
-        outcome: selectedSuggestion.selectedOutcome,
-        impact: ["High", "Medium", "Low"],
-        selectedImpact: "",
-        likelihood: ["High", "Medium", "Low"],
-        selectedLikelihood: "",
-        action: "",
-        AIM: ["Act", "Influence", "Monitor"],
-        selectedAIM: "",
-        timeline: ["3 months", "6 months", "1 year", "2 years"],
-        selectedTimeline: "",
-           })),
-        ...consequences
-    ];
-
-    consequences = consequences.filter(consequence => consequence.description && consequence.description.trim() !== '');
-    dispatch("proceed",  { details: consequences });
-  }
+async function onProceed() {
+  let selected = $consequenceSuggestions.filter(s => s.isSelected);
+  selected.forEach(s => {
+    consequences.push({
+      description: s.description,
+      outcome: s.selectedOutcome,
+      
+    });
+  });
+  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
+  await consequenceSuggestions.set($consequenceSuggestions);
+  dispatch("proceed", { details: projectData.unintendedConsequences });
+}
 </script>
 
 <div id="UnintendedConsequences">
@@ -151,7 +225,7 @@
         <button
           class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
           style="display"
-          on:click={() => (aiSuggest = true)}>Yes</button
+            on:click={suggestConsequences}>Yes</button
         >
         <button
           class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
@@ -162,12 +236,6 @@
   {/if}
   {#if aiSuggest === true}
     <div class="bg-orange-100 p-12">
-      {#if $isLoading}
-        <div class="loading h-2 ml-10" transition:fade={{ duration: 300 }}>
-          <img alt="loading-icon ml-8 mt-1" src={loading} />
-        </div>
-      {/if}
-      {#if !$isLoading}
       <div class="mb-7 p-8 bg-white opacity-80 shadow-md">
         These consequences have been generated by the AI. Each generated
         consequence has also been identified as having either a positive or
@@ -175,9 +243,8 @@
         require amendments. You can also create your own consequences and add
         them to the list.
       </div>
-    {/if}
       <div class="flex flex-col w-full justify-center">
-        {#each $unintendedConsequenceSuggestions as suggestion}
+        {#each $consequenceSuggestions as suggestion}
           <div class="relative">
               {#if suggestion.isSelected}
               <Textarea bind:value={suggestion.description} />
@@ -247,7 +314,7 @@
         >
         <button
           class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={onProceed}>Proceed to Evalute Risk</button
+          on:click={onProceed}>Proceed to Evaluate Risk</button
         >
       </div>
     </div>
