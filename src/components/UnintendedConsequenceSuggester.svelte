@@ -6,7 +6,7 @@
   let HOST = HOST_NAME || "http://localhost:3000/";
   HOST += "openai-completion"
 
-  let apiKey 
+  let apiKey
   // api key config variable or blank string
   // load location of chatgpt server from config variable
 

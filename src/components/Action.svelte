@@ -163,7 +163,7 @@ function fillTimelineFromAI(index) {
     type="date"
     id="datePicker"
 
-    value={toYYYYMMDD(consequence.action.date)}
+    value={consequence.action.date ? toYYYYMMDD(consequence.action.date) : ''}
     class="mt-3 border-2 border-blue-800 py-[22px]"
     on:change={(event) => updateDateInOriginalFormat(i, event.target.value)}
 />
