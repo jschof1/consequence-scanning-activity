@@ -1,43 +1,49 @@
 <script>
   import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
-  import { derived } from "svelte/store";
   import loading from "../../public/loading.gif";
-  import { unintendedConsequenceSuggestions } from "./store";
 
   const dispatch = createEventDispatcher();
   import ai from "../../public/icons_ai.svg";
   import Textarea from "../utils/Textarea.svelte";
   import bin from "../../public/icons_bin.svg";
-  
 
-  let aiSuggest = null;
-  export let projectData
+
+  export let projectData;
   export let consequenceSuggestions;
   export let consequences;
   export let onAdd;
+  
+  let errorMessage = { message: null, status: false };
+  let aiSuggest = null;
   let customConsequences = null;
 
-  const HOST_NAME = import.meta.env.VITE_HOST_NAME
+  let fetchAttempts = 0;
+  let isLoading = true;
+
+  const HOST_NAME = import.meta.env.VITE_HOST_NAME;
 
   let HOST = HOST_NAME || "http://localhost:3000/";
-  HOST += "openai-completion"
+  HOST += "openai-completion";
 
-function addOwnConsequences() {
-  customConsequences = true;
-  aiSuggest = false;
+  function addOwnConsequences() {
+    errorMessage.status = false;
+    customConsequences = true;
+    aiSuggest = false;
 
-  let selected = $consequenceSuggestions.filter(s => s.isSelected);
-  selected.forEach(s => {
-    consequences.push({
-      description: s.description,
-      outcome: s.selectedOutcome
+    let selected = $consequenceSuggestions.filter((s) => s.isSelected);
+    selected.forEach((s) => {
+      consequences.push({
+        description: s.description,
+        outcome: s.selectedOutcome,
+      });
     });
-  });
-  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
-  consequenceSuggestions.set($consequenceSuggestions);
-}
-
+    $consequenceSuggestions = $consequenceSuggestions.map((a) => ({
+      ...a,
+      isSelected: false,
+    }));
+    consequenceSuggestions.set($consequenceSuggestions);
+  }
 
   async function convertProjectDataToString() {
     const { objectives, title, stakeholders, dataUsed } = projectData;
@@ -49,7 +55,7 @@ function addOwnConsequences() {
         Data Used: ${dataUsed}
         `;
   }
-  
+
   async function reviewWithAI(content) {
     let promptContext = `
     Anticipate and address the potential impacts of a product or service on society. I need insights and suggestions based on the following project data:
@@ -84,7 +90,7 @@ Based on the information provided, please provide me with a list of 5 potential 
       const review = await fetch(HOST, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
           //  Authorization: 'Bearer ' + apiKey
         },
         body: JSON.stringify({
@@ -100,37 +106,60 @@ Based on the information provided, please provide me with a list of 5 potential 
       const data = await review.json();
 
       const suggestions = await data.choices[0].message.content;
-      const suggestionsWithIsSelected = JSON.parse(suggestions).map((suggestion) => {
-        return { ...suggestion, description: suggestion.description.replace("Unintended consequences:", ""), isSelected: true };
-      });
-
+      const suggestionsWithIsSelected = JSON.parse(suggestions).map(
+        (suggestion) => {
+          return {
+            ...suggestion,
+            description: suggestion.description.replace(
+              "Unintended consequences:",
+              ""
+            ),
+            isSelected: true,
+          };
+        }
+      );
       return suggestionsWithIsSelected;
     } catch (error) {
-      console.error("Error:", error);
+      fetchAttempts++;
+      console.error("Fetch attempt failed:", error);
+      if (fetchAttempts >= 2) {
+        errorMessage.message =
+          "There was an error fetching the AI suggestions. You can add your own consequences.";
+        errorMessage.status = true;
+        return null;
+      }
     }
   }
 
   async function suggestConsequences() {
-    console.log("suggestConsequences called");
     aiSuggest = true;
+    isLoading = true; // You should set your loading state to true when the process starts.
     const projectDataString = await convertProjectDataToString();
-    const dataFromAI = await reviewWithAI(projectDataString);
-    if (!dataFromAI) {
-      return {};
-    }
-    consequenceSuggestions.update(() => dataFromAI);
-    
-    setTimeout(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-    }, 200);
-  }
+    let dataFromAI = await reviewWithAI(projectDataString);
+    fetchAttempts++; // Increment the attempt counter after each fetch attempt.
+    if (!dataFromAI && fetchAttempts < 2) {
+      console.log("No data returned from AI, retrying...");
 
-  const isLoading = derived(
-    unintendedConsequenceSuggestions,
-    ($unintendedConsequenceSuggestions) =>
-      !$unintendedConsequenceSuggestions ||
-      $unintendedConsequenceSuggestions.length === 0
-  );
+      dataFromAI = await reviewWithAI(projectDataString);
+      fetchAttempts++;
+    }
+    if (!dataFromAI && fetchAttempts >= 2) {
+      console.log("No data returned from AI after two attempts.");
+      errorMessage.message =
+        "Failed to fetch AI suggestions. Please try again later or add your own consequences."; // Set an error message to inform the user.
+      errorMessage.status = true;
+    }
+    if (dataFromAI) {
+      isLoading = false;
+      aiSuggest = true;
+      consequenceSuggestions.update(() => dataFromAI);
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 200);
+    } else {
+      isLoading = false; // Ensure loading is set to false if no data is received after retries.
+    }
+  }
 
   function handleBinClick(selectedDescription) {
     const updatedSuggestions = $consequenceSuggestions.map((sug) => {
@@ -144,29 +173,35 @@ Based on the information provided, please provide me with a list of 5 potential 
     });
     consequenceSuggestions.set(updatedSuggestions);
   }
-async function onProceed() {
-  let selected = $consequenceSuggestions.filter(s => s.isSelected);
+  async function onProceed() {
+    let selected = $consequenceSuggestions.filter((s) => s.isSelected);
     for (let i = consequences.length - 1; i >= 0; i--) {
-    if (!consequences[i].description || consequences[i].description.trim() === '') {
-      consequences.splice(i, 1);
+      if (
+        !consequences[i].description ||
+        consequences[i].description.trim() === ""
+      ) {
+        consequences.splice(i, 1);
+      }
     }
-  }
-  selected.forEach(s => {
-    consequences.push({
-      description: s.description,
-      outcome: s.selectedOutcome,
-      impact: "",
-      likelihood: "",
-      action: {description: "", stakeholder: "", date : ""},
-      AIM: "",
-      KPI: ""
+    selected.forEach((s) => {
+      consequences.push({
+        description: s.description,
+        outcome: s.selectedOutcome,
+        impact: "",
+        likelihood: "",
+        action: { description: "", stakeholder: "", date: "" },
+        AIM: "",
+        KPI: "",
+      });
     });
-  });
-  
-  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
-  await consequenceSuggestions.set($consequenceSuggestions);
-  dispatch("proceed", { details: projectData.unintendedConsequences });
-}
+
+    $consequenceSuggestions = $consequenceSuggestions.map((a) => ({
+      ...a,
+      isSelected: false,
+    }));
+    await consequenceSuggestions.set($consequenceSuggestions);
+    dispatch("proceed", { details: projectData.unintendedConsequences });
+  }
 </script>
 
 <div id="UnintendedConsequences">
@@ -231,7 +266,7 @@ async function onProceed() {
         <button
           class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
           style="display"
-            on:click={suggestConsequences}>Yes</button
+          on:click={suggestConsequences}>Yes</button
         >
         <button
           class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
@@ -249,15 +284,16 @@ async function onProceed() {
         require amendments. You can also create your own consequences and add
         them to the list.
       </div>
-       {#if $isLoading}
-        <div class="loading h-2 ml-10">
-         <span class="text-lg p-4">Loading...</span> <img alt="loading-icon ml-8 mt-1" src={loading} />
+      {#if isLoading}
+        <div class="loading h-2">
+          <span class="text-lg p-4">Loading...</span>
+          <img alt="loading-icon ml-8 mt-1" src={loading} />
         </div>
       {/if}
       <div class="flex flex-col w-full justify-center">
         {#each $consequenceSuggestions as suggestion}
           <div class="relative">
-              {#if suggestion.isSelected}
+            {#if suggestion.isSelected}
               <Textarea bind:value={suggestion.description} />
               <img
                 src={bin}
@@ -265,19 +301,26 @@ async function onProceed() {
                 class="filter-blue absolute top-2 right-2 mt-1 pb-1 mr-4 cursor-pointer h-5"
                 on:click={() => handleBinClick(suggestion.description)}
               />
-              {/if}
+            {/if}
           </div>
         {/each}
       </div>
+    </div>
+    <div>
+      {#if errorMessage.status}
+        <div class="bg-orange-100 px-10 text-lg font-bold">
+          {errorMessage.message}
+        </div>
+      {/if}
     </div>
     <div
       class="bg-orange-100 p-12"
       style="display: {customConsequences !== null ? 'none' : ''}"
     >
-      <button
-        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-        on:click={onProceed}>Continue with these consequences</button
-      >
+        <button
+          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+          on:click={onProceed}>Continue with these consequences</button
+        >
       <button
         class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
         on:click={addOwnConsequences}>Add in your own consequences</button
@@ -286,8 +329,8 @@ async function onProceed() {
   {/if}
   {#if aiSuggest === false && customConsequences === true}
     <div id="UnintendedConsequences" class="bg-blue-100 p-12">
-          <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
-          Unintended Consequences
+      <div class="text-blue-800 mb-4 font-bold text-xl md:text-3xl">
+        Unintended Consequences
       </div>
       {#each consequences as consequence, i}
         <div class="consequence-options">
@@ -331,10 +374,3 @@ async function onProceed() {
     </div>
   {/if}
 </div>
-
-<style>
-  .selected-suggestion {
-    background-color: #e7f1f4;
-    color: #2146a7;
-  }
-</style>

@@ -127,6 +127,7 @@ async function suggestConsequences() {
   }
   if (dataFromAI) {
     isLoading = false; // Make sure to set loading to false when data is received.
+    aiSuggest = true;
     consequenceSuggestions.update(() => dataFromAI);
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);
@@ -268,12 +269,10 @@ async function suggestConsequences() {
     class="bg-orange-100 p-12"
     style="display: {customConsequences !== null ? 'none' : ''}"
   >
-  {#if aiSuggest === false}
     <button
       class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
       on:click={onProceed}>Continue with these consequences</button
     >
-  {/if}
     <button
       class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
       on:click={addOwnConsequences}>Add in your own consequences</button
