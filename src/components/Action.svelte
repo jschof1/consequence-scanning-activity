@@ -159,10 +159,10 @@ function fillTimelineFromAI(index) {
       <div class="input-row mb-5">
         <label for="datePicker">
           <span class="text-blue-800 font-bold text-lg">Date</span>
-<input 
-    type="date" 
+<input
+    type="date"
     id="datePicker"
-    
+
     value={toYYYYMMDD(consequence.action.date)}
     class="mt-3 border-2 border-blue-800 py-[22px]"
     on:change={(event) => updateDateInOriginalFormat(i, event.target.value)}

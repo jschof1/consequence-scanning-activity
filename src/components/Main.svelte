@@ -57,7 +57,22 @@
     stakeholders: [{ text: "", type: "" }],
     dataUsed: "",
     intendedConsequences: [{ description: "" }],
-    unintendedConsequences: [{ description: "" }],
+    unintendedConsequences: [{
+      description: "",
+      impact: ["H", "M", "L"],
+      selectedImpact: "",
+      outcome: ["Positive", "Negative"],
+      selectedOutcome: "",
+      likelihood: ["H", "M", "L"],
+      selectedLikelihood: "",
+      action:{
+        description: "",
+        date : "",
+        stakeholder: ""
+      },
+      AIM: ["Act", "Influence", "Monitor"],
+      selectedAIM: "",
+    }],
     preLoadedStudies: ["Case Study 1", "Case Study 2", "Case Study 3"],
   };
 
