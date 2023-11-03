@@ -419,20 +419,19 @@ input[type="checkbox"]:checked::before {
 }
 
 .close {
-  color: #aaa;
+  color: black;
   padding-top: 1px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 20px;
   position: relative;
   float: right;
-  top: -50px;
-  border: 2px solid gray;
+  top: -55px;
   min-height: 50px;
+  margin-right: -60px;
   min-width: 50px;
   float: right;
-  border-radius: 25px;
 }
 
 .close:hover,
