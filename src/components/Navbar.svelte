@@ -7,6 +7,7 @@
   import Disclaimer from "./Disclaimer.svelte";
   let showModal = false;
   let showDisclaimer = false;
+  let showReportBug = false;
   import {activeSection} from "./section.js";
 function toggleModal() {
   showModal = !showModal;
@@ -20,6 +21,15 @@ function toggleModal() {
 function toggleDisclaimer() {
   showDisclaimer = !showDisclaimer;
   if (showDisclaimer) {
+    document.body.style.overflow = 'hidden'; // Prevent scrolling on the background when modal is shown
+  } else {
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+}
+
+function toggleBugReport() {
+  showReportBug = !showReportBug;
+  if (showReportBug) {
     document.body.style.overflow = 'hidden'; // Prevent scrolling on the background when modal is shown
   } else {
     document.body.style.overflow = ''; // Restore scrolling when modal is closed
@@ -89,7 +99,7 @@ function toggleDisclaimer() {
           </li>
     </ul>
     <div class="flex mb-5 justify-center">
-    <a class="font-bold text-blue-800" src=""> Report a bug </a>
+    <div class="cursor-pointer font-bold text-blue-800" on:click={toggleBugReport}> Report a bug </div>
     </div>
   </div>
 </div>
@@ -110,6 +120,24 @@ function toggleDisclaimer() {
     </div>
   </div>
 {/if}
+ {#if showReportBug}
+ <div class="fixed inset-0 bg-slate-100 bg-opacity-20 z-20" in:fade={{ duration: 300 }}>
+    <div class="fixed inset-0 overflow-y-auto">
+      <div class="flex items-center justify-center min-h-full p-4">
+        <div class="relative bg-white border  max-h-[90vh] overflow-y-auto p-12 border-solid border-gray-400 shadow-2xl">
+          <button
+            class="absolute top-0 right-0 mr-2 text-2xl font-semibold text-black"
+            on:click={toggleBugReport}
+          >
+            &times;
+          </button>
+          <iframe class="overflow-hidden" src="https://docs.google.com/forms/d/e/1FAIpQLSfReNaHkZwOZqmzcKncUtcik7CHZe2dNygOLmyDPbwW3WgsCQ/viewform?embedded=true" width="640" height="1768" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
+
 <style>
 
 </style>
