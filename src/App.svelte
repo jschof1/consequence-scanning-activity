@@ -1,13 +1,8 @@
 <script>
   import "./app.css";
-  import { fade } from "svelte/transition";
   import Main from "./components/Main.svelte";
   import Navbar from "./components/Navbar.svelte";
-
-  let src = "./odi-logo.png";
-  let arrow = "./icons_arrow.svg";
-
-  </script>
+</script>
 <Navbar />
   <div class="absolute right-0 top-0 h-16 w-16">
     <div

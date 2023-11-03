@@ -88,6 +88,9 @@ function toggleDisclaimer() {
           Disclaimer
           </li>
     </ul>
+    <div class="flex mb-5 justify-center">
+    <a class="font-bold text-blue-800" src=""> Report a bug </a>
+    </div>
   </div>
 </div>
  {#if showDisclaimer}
@@ -96,7 +99,7 @@ function toggleDisclaimer() {
       <div class="flex items-center justify-center min-h-full p-4">
         <div class="relative bg-white border w-[70%] max-h-[90vh] overflow-y-auto p-12 border-solid border-gray-400 shadow-2xl">
           <button
-            class="absolute top-0 right-0 p-2 text-2xl font-semibold text-black"
+            class="absolute top-0 right-0 mr-2 text-2xl font-semibold text-black"
             on:click={toggleDisclaimer}
           >
             &times;
