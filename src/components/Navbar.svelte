@@ -28,7 +28,7 @@ function toggleDisclaimer() {
 
   let sections = [
     {id:"Intro", name: "Homepage", visible: false},
-    {id: "Glossary", name: "Glossary", visible: false},
+    {id:"Glossary", name: "Glossary", visible: false},
     {id:"Questions", name: "Project Details", visible: false},
     {id:"IntendedConsequences", name: "Intended Consequences", visible: false},
     {id:"UnintendedConsequences", name: "Unintended Consequences", visible: false},

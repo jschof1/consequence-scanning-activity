@@ -118,25 +118,23 @@ function handleIntro() {
     selectOption = false;
     showPreLoadedOptions = true;
   }
-
   function handleEvaluateUnintendedRisk(event) {
     resetAllSections();
     showEvaluation = true;
     showUnintendedConsequences = false;
     scrollToTop();
   }
-
   function onAssignAction() {
-     resetAllSections();
+    resetAllSections();
     isAssigningActions = true;
     showEvaluation = false;
     scrollToTop();
   }
   function viewTable() {
-     resetAllSections();
+    resetAllSections();
     isViewingTable = true;
     isAssigningActions = false;
-     scrollToTop();
+    scrollToTop();
   }
 
   function updateProjectData(event) {

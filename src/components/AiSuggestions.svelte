@@ -108,12 +108,12 @@ function addOwnConsequences() {
 
 async function suggestConsequences() {
   aiSuggest = true;
-  isLoading = true; // You should set your loading state to true when the process starts.
+  isLoading = true;
   
   const projectDataString = await convertProjectDataToString();
   let dataFromAI = await reviewWithAI(projectDataString);
   
-  fetchAttempts++; // Increment the attempt counter after each fetch attempt.
+  fetchAttempts++;
 
   if (!dataFromAI && fetchAttempts < 2) {
     console.log("No data returned from AI, retrying...");
@@ -122,18 +122,18 @@ async function suggestConsequences() {
   }
   if (!dataFromAI && fetchAttempts >= 2) {
     console.log("No data returned from AI after two attempts.");
-    errorMessage.message = "Failed to fetch AI suggestions. Please try again later or add your own consequences."; // Set an error message to inform the user.
+    errorMessage.message = "Failed to fetch AI suggestions. Please try again later or add your own consequences.";
     errorMessage.status = true;
   }
   if (dataFromAI) {
-    isLoading = false; // Make sure to set loading to false when data is received.
+    isLoading = false;
     aiSuggest = true;
     consequenceSuggestions.update(() => dataFromAI);
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);
     }, 200);
   } else {
-    isLoading = false; // Ensure loading is set to false if no data is received after retries.
+    isLoading = false;
   }
 }
  
@@ -244,7 +244,7 @@ async function suggestConsequences() {
           <img alt="loading-icon ml-8 mt-1" src={loading} />
         </div>
       {/if}
-    <div class="flex flex-col w-full justify-center" transition:fade={{ delay: 100, duration: 700 }}>
+    <div class="flex flex-col w-full justify-center" in:fade={{ delay: 100, duration: 700 }}>
       {#each $consequenceSuggestions as suggestion}
         <div class="relative">
           {#if suggestion.isSelected}
