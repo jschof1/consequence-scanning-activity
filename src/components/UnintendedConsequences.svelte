@@ -56,6 +56,11 @@
       consequences.push({
         description: s.description,
         outcome: s.selectedOutcome,
+        impact: "",
+        likelihood: "",
+        action: { description: "", stakeholder: "", date: "" },
+        AIM: "",
+        KPI: "",
       });
     });
     $consequenceSuggestions = $consequenceSuggestions.map((a) => ({
@@ -63,7 +68,6 @@
       isSelected: false,
     }));
     consequenceSuggestions.set($consequenceSuggestions);
-    console.log($consequenceSuggestions);
   }
 
   async function convertProjectDataToString() {

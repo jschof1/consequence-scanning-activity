@@ -76,7 +76,7 @@ let caseStudy1 = {
       action: {
         description:
           "Implement new/improved data schemas once data is consolidated to ensure that data is managed effectively and sustainably maintained in the longer term.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "",
           selectedDate: "",
       },
@@ -96,7 +96,7 @@ let caseStudy1 = {
       action: {
         description:
           "Define clear permissions and user groups to ensure that any access to systems by stakeholders is managed and that only relevant data can be accessed, used or shared.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "Charity Digital Team",
           selectedDate: "01/02/2024",
       },
@@ -116,7 +116,7 @@ let caseStudy1 = {
       action: {
         description:
           "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "IT Team",
           selectedDate: "01/06/2024",
       },
@@ -136,7 +136,7 @@ let caseStudy1 = {
       action: {
         description:
           "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "L&D Team",
           selectedDate: "01/03/2024",
       },
@@ -156,7 +156,7 @@ let caseStudy1 = {
       action: {
         description:
           "Improve IT security resources to ensure appropriate backup systems to reduce risk of data loss and/or breach.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "IT Team",
           selectedDate: "01/06/2024",
       },
@@ -176,7 +176,7 @@ let caseStudy1 = {
       action: {
         description:
           "Reduce profiling activities of service users to and research additional approaches to reviewing suitability of animal adoption.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "Animal Team",
           selectedDate: "01/03/2024",
       },
@@ -196,7 +196,7 @@ let caseStudy1 = {
       action: {
         description:
           "Design and implement communication and training plans as a process of change management. The focus points should be on transparency and clarity of purpose to ensure that stakeholders understand the what, why and how of the programme and be sufficiently supported in developing new skills.",
-          date: ["3 months", "6 months", "1 year", "2 years"],
+          date: "",
           stakeholder: "",
           selectedDate: "",
       },

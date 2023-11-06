@@ -14,7 +14,7 @@
       currentState.intendedIsComplete = true;
       return currentState;
     });
-      
+
       const selectedSuggestions = $consequenceSuggestions ? $consequenceSuggestions.filter(
         (sug) => sug.isSelected
       ) : [];

@@ -121,7 +121,7 @@ function fillTimelineFromAI(index) {
     <div class="consequence-options">
       <span class="consequence-actions-container">
         <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl uppercase">
-          consequence {i + 1}:
+          consequence {i + 1}
         </div>
         <div class="text-blue-800 font-bold mb-10 text-lg md:text-xl">
           {consequence.description}
@@ -165,8 +165,7 @@ function fillTimelineFromAI(index) {
 <input
     type="date"
     id="datePicker"
-
-    value={consequence.action.date ? toYYYYMMDD(consequence.action.date) : ''}
+    value={consequence.action ? toYYYYMMDD(consequence.action.date) : ''}
     class="mt-3 border-2 border-blue-800 py-[22px]"
     on:change={(event) => updateDateInOriginalFormat(i, event.target.value)}
 />

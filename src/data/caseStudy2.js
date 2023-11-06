@@ -56,7 +56,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement a cap on surge pricing to ensure that, despite rapid increases in demand, service users are not unfairly targeted by price rises due to events out of their control.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "",
         selectedDate: "",
       },
@@ -76,7 +76,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement anonymisation methods to data collected about people and their journeys. Randomisation and generalisation methods can ensure that data utility is maintained, and suppression of high risk data points can be used to maintain privacy.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "",
         selectedDate: "",
       },
@@ -96,7 +96,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement standardisation of direct earnings for drivers as a percentage of the base fare where drivers can earn improved fares in areas that are in low demand to support fair coverage of service. Similar processes can be applied to time of day to maintain purported flexibility in driver work/life balance.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "Product Team",
         selectedDate: "01/02/2024",
       },
@@ -116,7 +116,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement a cap on surge pricing to ensure that, despite rapid increases in demand, service users are not unfairly targeted by price rises due to events out of their control.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "Product Team",
         selectedDate: "01/02/2024",
       },
@@ -136,7 +136,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement data collection measures for air quality and environment with incentives and appropriate support for drivers to use more environmentally friendly vehicles.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "Data Team",
         selectedDate: "01/03/2024",
       },
@@ -156,7 +156,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement anonymisation methods to data collected about people and their journeys. Randomisation and generalisation methods can ensure that data utility is maintained, and suppression of high risk data points can be used to maintain privacy.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "Data Team",
         selectedDate: "14/01/2024",
       },
@@ -176,7 +176,7 @@ let caseStudy2 = {
       action: {
         description:
           "Implement standardisation of direct earnings for drivers as a percentage of the base fare where drivers can earn improved fares in areas that are in low demand to support fair coverage of service. Similar processes can be applied to time of day to maintain purported flexibility in driver work/life balance.",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "Product Team",
         selectedDate: "01/02/2024",
       },
