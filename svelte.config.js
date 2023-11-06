@@ -6,7 +6,7 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte()],
-  base: '/consequence-scanning-activity/', // correct path for GitHub Pages
+  base: '/', // correct path for GitHub Pages
   build: {
     outDir: './docs', // output directory
     // emptyOutDir: true, // uncomment if outDir is inside root (if needed)

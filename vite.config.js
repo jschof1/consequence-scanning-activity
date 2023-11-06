@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [svelte(), nodePolyfills(),  json({
     compact: true
   }),],
-  base: '/consequence-scanning-activity/', // correct path for GitHub Pages
+  base: '/', // correct path for GitHub Pages
   build: {
     outDir: './docs', // output directory
     // emptyOutDir: true, // uncomment if outDir is inside root (if needed)
   },
-  
+
 })
