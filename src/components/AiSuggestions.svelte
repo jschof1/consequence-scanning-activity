@@ -5,7 +5,7 @@
 
   export let ProjectData;
   export let onProceed;
-  let errorMessage = {message: null, status: false}
+  let errorMessage = { message: null, status: false };
 
   import loading from "../../public/loading.gif";
   import bin from "../../public/icons_bin.svg";
@@ -14,12 +14,10 @@
   let fetchAttempts = 0;
   let isLoading = true;
 
-
-  const HOST_NAME = import.meta.env.VITE_HOST_NAME
-
+  const HOST_NAME = import.meta.env.VITE_HOST_NAME;
 
   let HOST = HOST_NAME || "http://localhost:3000/";
-  HOST += "openai-completion"
+  HOST += "openai-completion";
 
   let showModal = false;
   function toggleModal() {
@@ -28,28 +26,30 @@
 
   let customConsequences = null;
 
-  consequenceState.subscribe(value => {
+  consequenceState.subscribe((value) => {
     customConsequences = value.intendedIsComplete;
   });
 
-function addOwnConsequences() {
-  errorMessage.status = false;
-    consequenceState.update(value => {
+  function addOwnConsequences() {
+    errorMessage.status = false;
+    consequenceState.update((value) => {
       value.intendedIsComplete = true;
       return value;
-    }); 
-  aiSuggest = false;
-
-  let selected = $consequenceSuggestions.filter(s => s.isSelected);
-  selected.forEach(s => {
-    consequences.push({
-      description: s.description,
-      outcome: s.selectedOutcome
     });
-  });
-  $intendedConsequenceSuggestions = $intendedConsequenceSuggestions.map(a => ({ ...a, isSelected: false }));
-  intendedConsequenceSuggestions.set($intendedConsequenceSuggestions);
-}
+    aiSuggest = false;
+
+    let selected = $consequenceSuggestions.filter((s) => s.isSelected);
+    selected.forEach((s) => {
+      consequences.push({
+        description: s.description,
+        outcome: s.selectedOutcome,
+      });
+    });
+    $intendedConsequenceSuggestions = $intendedConsequenceSuggestions.map(
+      (a) => ({ ...a, isSelected: false })
+    );
+    intendedConsequenceSuggestions.set($intendedConsequenceSuggestions);
+  }
 
   let aiSuggest = false;
   export let consequenceSuggestions;
@@ -97,55 +97,61 @@ function addOwnConsequences() {
 
       function convertArray(arr) {
         return arr.map((item) => ({
-          description: item.replace("Intended consequences:", ""),
+          description: item
+            .replace(
+              /^\[\d+\]\.\s*/,
+              "" // This regex will match the '[number].' pattern at the start of the string
+            )
+            .replace("Intended consequences:", ""),
           isSelected: "true",
         }));
       }
 
- return convertArray(JSON.parse(suggestions));
-      } catch (error) {
-        fetchAttempts++;
-        console.error("Fetch attempt failed:", error);
-        if (fetchAttempts >= 2) {
-          errorMessage.message = 'There was an error fetching the AI suggestions. You can add your own consequences.';
-          errorMessage.status = true;
-          return null;
-        }
+      return convertArray(JSON.parse(suggestions));
+    } catch (error) {
+      fetchAttempts++;
+      console.error("Fetch attempt failed:", error);
+      if (fetchAttempts >= 2) {
+        errorMessage.message =
+          "There was an error fetching the AI suggestions. You can add your own consequences.";
+        errorMessage.status = true;
+        return null;
       }
     }
-
-
-async function suggestConsequences() {
-  aiSuggest = true;
-  isLoading = true;
-  
-  const projectDataString = await convertProjectDataToString();
-  let dataFromAI = await reviewWithAI(projectDataString);
-  
-  fetchAttempts++;
-
-  if (!dataFromAI && fetchAttempts < 2) {
-    console.log("No data returned from AI, retrying...");
-    dataFromAI = await reviewWithAI(projectDataString);
-    fetchAttempts++;
   }
-  if (!dataFromAI && fetchAttempts >= 2) {
-    console.log("No data returned from AI after two attempts.");
-    errorMessage.message = "Failed to fetch AI suggestions. Please try again later or add your own consequences.";
-    errorMessage.status = true;
-  }
-  if (dataFromAI) {
-    isLoading = false;
+
+  async function suggestConsequences() {
     aiSuggest = true;
-    consequenceSuggestions.update(() => dataFromAI);
-    setTimeout(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-    }, 200);
-  } else {
-    isLoading = false;
+    isLoading = true;
+
+    const projectDataString = await convertProjectDataToString();
+    let dataFromAI = await reviewWithAI(projectDataString);
+
+    fetchAttempts++;
+
+    if (!dataFromAI && fetchAttempts < 2) {
+      console.log("No data returned from AI, retrying...");
+      dataFromAI = await reviewWithAI(projectDataString);
+      fetchAttempts++;
+    }
+    if (!dataFromAI && fetchAttempts >= 2) {
+      console.log("No data returned from AI after two attempts.");
+      errorMessage.message =
+        "Failed to fetch AI suggestions. Please try again later or add your own consequences.";
+      errorMessage.status = true;
+    }
+    if (dataFromAI) {
+      isLoading = false;
+      aiSuggest = true;
+      consequenceSuggestions.update(() => dataFromAI);
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 200);
+    } else {
+      isLoading = false;
+    }
   }
-}
- 
+
   function handleBinClick(selectedDescription) {
     const updatedSuggestions = $consequenceSuggestions.map((sug) => {
       if (sug.description === selectedDescription) {
@@ -246,13 +252,16 @@ async function suggestConsequences() {
       require amendments. You can also create your own consequences and add them
       to the list.
     </div>
-      {#if isLoading}
-        <div class="loading h-2">
-          <span class="text-lg p-4">Loading...</span>
-          <img alt="loading-icon ml-8 mt-1" src={loading} />
-        </div>
-      {/if}
-    <div class="flex flex-col w-full justify-center" in:fade={{ delay: 100, duration: 700 }}>
+    {#if isLoading}
+      <div class="loading h-2">
+        <span class="text-lg p-4">Loading...</span>
+        <img alt="loading-icon ml-8 mt-1" src={loading} />
+      </div>
+    {/if}
+    <div
+      class="flex flex-col w-full justify-center"
+      in:fade={{ delay: 100, duration: 700 }}
+    >
       {#each $consequenceSuggestions as suggestion}
         <div class="relative">
           {#if suggestion.isSelected}
@@ -269,13 +278,13 @@ async function suggestConsequences() {
     </div>
   </div>
   <div>
-  {#if errorMessage.status}
-    <div class="bg-orange-100 px-10 text-lg font-bold">{errorMessage.message}</div>
-  {/if}
+    {#if errorMessage.status}
+      <div class="bg-orange-100 px-10 text-lg font-bold">
+        {errorMessage.message}
+      </div>
+    {/if}
   </div>
-  <div
-    class="bg-orange-100 p-12"
-  >
+  <div class="bg-orange-100 p-12">
     <button
       class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
       on:click={onProceed}>Continue with these consequences</button

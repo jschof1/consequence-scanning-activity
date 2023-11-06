@@ -115,10 +115,12 @@ Based on the information provided, please provide me with a list of 5 potential 
         (suggestion) => {
           return {
             ...suggestion,
-            description: suggestion.description.replace(
-              "Unintended consequences:",
-              ""
-            ),
+            description: suggestion.description
+              .replace(
+                /^\[\d+\]\.\s*/,
+                "" // This regex will match the '[number].' pattern at the start of the string
+              )
+              .replace("Unintended consequences:", ""),
             isSelected: true,
           };
         }

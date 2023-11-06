@@ -29,9 +29,6 @@ function printDiv() {
     dispatch("proceed", { format: "json" });
   }
 
-  function handleDownloadAsHTML() {
-    dispatch("proceed", { format: "pdf" });
-  }
 function calculateRiskScore(unintendedConsequences) {
   let totalScore = 0;
   let count = 0; // To keep track of the number of scored items
