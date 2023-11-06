@@ -7,6 +7,13 @@
   export let onProceed;
   let errorMessage = { message: null, status: false };
 
+    function retryFetch() {
+    errorMessage.status = false;
+    fetchAttempts = 0;
+    suggestConsequences();
+  }
+
+
   import loading from "../../public/loading.gif";
   import bin from "../../public/icons_bin.svg";
   import ai from "../../public/icons_ai.svg";
@@ -100,7 +107,7 @@
           description: item
             .replace(
               /^\[\d+\]\.\s*/,
-              "" // This regex will match the '[number].' pattern at the start of the string
+              ""
             )
             .replace("Intended consequences:", ""),
           isSelected: "true",
@@ -282,6 +289,14 @@
       <div class="bg-orange-100 px-10 text-lg font-bold">
         {errorMessage.message}
       </div>
+              <div>
+        <button
+          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+          on:click={retryFetch}
+        >
+          Try Again
+        </button>
+        </div>
     {/if}
   </div>
   <div class="bg-orange-100 p-12">
