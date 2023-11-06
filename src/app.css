@@ -32,9 +32,19 @@
   color: white;
 }
 @media print {
+  body * {
+    visibility: hidden;
+  }
+
   #Review,
   #Review * {
-    color: black !important;
+    visibility: visible;
+  }
+
+  #Review {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }
 ul {

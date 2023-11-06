@@ -17,19 +17,10 @@
   function toggleSurveyModal() {
     surveyModal = !surveyModal;
   }
-  function printDiv() {
-     var printContents = document.getElementById('Review').innerHTML;
-     var originalContents = document.body.innerHTML;
-
-var styledPrintContents = '<div style="color: black; !important">' + printContents + '</div>';
-
-    document.body.innerHTML = styledPrintContents;
-
-    window.print();
-
-    document.body.innerHTML = originalContents;
+function printDiv() {
+  window.print();
+  showModal = false; // This will close the modal after printing
 }
-
   function handleDownloadAsCsv() {
     dispatch("proceed", { format: "csv" });
   }

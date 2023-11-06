@@ -136,7 +136,7 @@ function fillTimelineFromAI(index) {
       <div>
         <button
           class="mb-9 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillActionFromAI(i)}>Fill action using AI</button
+          on:click={() => fillActionFromAI(i)}>Suggest action using AI</button
         >
       </div>
       <label for="KPI">
@@ -153,7 +153,7 @@ function fillTimelineFromAI(index) {
       <div>
         <button
           class="mb-9 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillKPIFromAI(i)}>Fill KPI using AI</button
+          on:click={() => fillKPIFromAI(i)}>Suggest KPI using AI</button
         >
       </div>
       <div class="input-row mb-5">
@@ -202,11 +202,11 @@ function fillTimelineFromAI(index) {
       <!-- <div class="mb-5">
         <button
           class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillTimelineFromAI(i)}>Fill Timeline using AI</button
+          on:click={() => fillTimelineFromAI(i)}>Suggest Timeline using AI</button
         >
         <button
           class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillMeasureFromAI(i)}>Fill Measure using AI</button
+          on:click={() => fillMeasureFromAI(i)}>Suggest Measure using AI</button
         >
       </div> -->
     </div>
