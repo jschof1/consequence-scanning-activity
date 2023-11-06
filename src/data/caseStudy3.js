@@ -13,11 +13,11 @@ let caseStudy3 = {
   dataUsed:
     "- Job history (titles, organisation, length of service, etc)\n- Previous salary\n- Education history (qualification, awarder, etc)\n- Hobbies and interests, where provided\n- Responses to questions\n- Job applied for\n- Number of roles\n- Salary offered",
   intendedConsequences: [
-    "Increase efficiency in the process, relieving pressure on resource and increase cost savings",
-    "Maintain consistency in the assessment approach - no external impact or pressures on the assessors",
-    "Reduce potential for personal bias from the panel of assessors",
-    "Improve efficiency and effectiveness in feedback mechanisms to support candidates through the process",
-    "Enable large scale recruitment drives for specific roles (e.g. temporary holiday roles)",
+    { description: "Increase efficiency in the process, relieving pressure on resource and increase cost savings" },
+    { description: "Maintain consistency in the assessment approach - no external impact or pressures on the assessors" },
+    { description: "Reduce potential for personal bias from the panel of assessors" },
+    { description: "Improve efficiency and effectiveness in feedback mechanisms to support candidates through the process" },
+    { description: "Enable large scale recruitment drives for specific roles (e.g. temporary holiday roles)" },
   ],
   unintendedConsequences: [
     {
@@ -32,7 +32,7 @@ let caseStudy3 = {
       action: {
         description:
           "Implement a review process for candidates who are filtered out of the system with a relevant outcome to assess system validity",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "HR Team",
         selectedDate: "14/01/2024",
       },
@@ -51,7 +51,7 @@ let caseStudy3 = {
       selectedLikelihood: "",
       action: {
         description: "",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "",
         selectedDate: "",
       },
@@ -71,7 +71,7 @@ let caseStudy3 = {
       action: {
         description:
           "Remove CV information from the algorithm and focus only on reviewing the responses to questions related to the role",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "HR Team",
         selectedDate: "01/02/2024",
       },
@@ -91,7 +91,7 @@ let caseStudy3 = {
       action: {
         description:
           "Review training data and remove identifiers related to people",
-        date: ["3 months", "6 months", "1 year", "2 years"],
+        date: "",
         stakeholder: "IT Team",
         selectedDate: "01/06/2024",
       },

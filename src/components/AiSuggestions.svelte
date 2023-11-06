@@ -45,7 +45,7 @@
     });
     aiSuggest = false;
 
-    let selected = $consequenceSuggestions.filter((s) => s.isSelected);
+    let selected = $intendedConsequenceSuggestions.filter((s) => s.isSelected);
     selected.forEach((s) => {
       consequences.push({
         description: s.description,
