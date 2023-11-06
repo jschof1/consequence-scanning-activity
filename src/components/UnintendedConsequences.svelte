@@ -11,20 +11,19 @@
   export let consequenceSuggestions;
   export let consequences;
   export let onAdd;
-  let AIPrompt
+  let AIPrompt;
   let getSuggest = false;
 
   let errorMessage = { message: null, status: false };
   let aiSuggest = false;
-  let customConsequences
+  let customConsequences;
 
   consequenceState.subscribe((value) => {
     customConsequences = value.unintendedIsComplete;
   });
-    consequenceState.subscribe((value) => {
-     AIPrompt = value.unintendedPrompt;
+  consequenceState.subscribe((value) => {
+    AIPrompt = value.unintendedPrompt;
   });
-
 
   let fetchAttempts = 0;
   let isLoading = true;
@@ -199,7 +198,6 @@ Based on the information provided, please provide me with a list of 5 potential 
     consequenceSuggestions.set(updatedSuggestions);
   }
   async function onProceed() {
-    
     consequenceState.update((currentState) => {
       currentState.unintendedIsComplete = true;
       return currentState;
@@ -344,12 +342,12 @@ Based on the information provided, please provide me with a list of 5 potential 
       <div class="bg-orange-100 px-10 text-lg font-bold">
         {errorMessage.message}
         <div>
-        <button
-          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-          on:click={retryFetch}
-        >
-          Try Again
-        </button>
+          <button
+            class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+            on:click={retryFetch}
+          >
+            Try Again
+          </button>
         </div>
       </div>
     {/if}
