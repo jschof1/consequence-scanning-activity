@@ -250,7 +250,6 @@ onMount(() => {
     const study = event.detail.study;
     console.log(event.detail.study);
     projectData = study;
-    alert(`You have selected "${study.title}"`);
     showPreLoadedOptions = false;
     showQuestions = true;
   }
