@@ -47,12 +47,14 @@ function toDDMMYYYY(date) {
   }
 
   function fillActionFromAI(index) {
+    return // todo fix this function
     if ($unintendedConsequenceSuggestions[index]) {
       consequences[index].action.description =
         $unintendedConsequenceSuggestions[index].action.description;
     }
   }
 function fillTimelineFromAI(index) {
+  return // todo fix this function
     if ($unintendedConsequenceSuggestions[index]) {
         let suggestedDate = $unintendedConsequenceSuggestions[index].action.date;
         if (suggestedDate && suggestedDate.length === 8) { // if format is 'DD-MM-YY'
@@ -75,6 +77,7 @@ function fillTimelineFromAI(index) {
     }
   }
   function fillKPIFromAI(index) {
+    return // todo fix this function
     if ($unintendedConsequenceSuggestions[index]) {
       consequences[index].KPI = $unintendedConsequenceSuggestions[index].KPI;
     }
@@ -136,7 +139,7 @@ function fillTimelineFromAI(index) {
       <div>
         <button
           class="mb-9 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillActionFromAI(i)}>Suggest action using AI</button
+          on:click={() => fillActionFromAI(i)}>Suggest action using AI (coming soon)</button
         >
       </div>
       <label for="KPI">
@@ -153,7 +156,7 @@ function fillTimelineFromAI(index) {
       <div>
         <button
           class="mb-9 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
-          on:click={() => fillKPIFromAI(i)}>Suggest KPI using AI</button
+          on:click={() => fillKPIFromAI(i)}>Suggest KPI using AI (coming soon)</button
         >
       </div>
       <div class="input-row mb-5">

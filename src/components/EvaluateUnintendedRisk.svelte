@@ -23,6 +23,8 @@
   });
 
   function fillConsequencesFromAI(index) {
+    // todo fix this function
+    return;
     if ($unintendedConsequenceSuggestions[index]) {
       unintendedConsequences[index].selectedImpact =
         $unintendedConsequenceSuggestions[index].impact;
@@ -30,6 +32,9 @@
         $unintendedConsequenceSuggestions[index].likelihood;
     }
   }
+
+
+  
 </script>
 
 <div class="bg-orange-100 p-12" id="Consequences">
@@ -55,7 +60,7 @@
     <button
       class="m-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
       on:click={() => fillConsequencesFromAI(i)}
-      >Suggest impact and likelihood using AI</button
+      >Suggest impact and likelihood using AI (coming soon)</button
     >
     <div class="input-row">
       <label for="impact"

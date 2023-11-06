@@ -10,8 +10,8 @@ let caseStudy3 = {
     { text: "Application Portal", type: "External" },
     { text: "Recruitment Agency", type: "External" },
   ],
-  dataUsed: 
-"- Job history (titles, organisation, length of service, etc)\n- Previous salary\n- Education history (qualification, awarder, etc)\n- Hobbies and interests, where provided\n- Responses to questions\n- Job applied for\n- Number of roles\n- Salary offered",
+  dataUsed:
+    "- Job history (titles, organisation, length of service, etc)\n- Previous salary\n- Education history (qualification, awarder, etc)\n- Hobbies and interests, where provided\n- Responses to questions\n- Job applied for\n- Number of roles\n- Salary offered",
   intendedConsequences: [
     "Increase efficiency in the process, relieving pressure on resource and increase cost savings",
     "Maintain consistency in the assessment approach - no external impact or pressures on the assessors",
