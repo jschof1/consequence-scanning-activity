@@ -2,6 +2,7 @@
   import AiSuggestions from './AiSuggestions.svelte'
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  import { consequenceState } from './store';
 
   export let consequenceSuggestions
   export let consequences;
@@ -9,6 +10,11 @@
   export let onAdd;
 
     function onProceed() {
+    consequenceState.update(currentState => {
+      currentState.intendedIsComplete = true;
+      return currentState;
+    });
+      
       const selectedSuggestions = $consequenceSuggestions ? $consequenceSuggestions.filter(
         (sug) => sug.isSelected
       ) : [];
@@ -25,7 +31,6 @@
       ];
 
     projectData = { ...projectData, intendedConsequences: updatedConsequences };
-
     dispatch("proceed", { details: projectData.intendedConsequences });
     }
 

@@ -1,21 +1,24 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  import loading from "../../public/loading.gif";
-
   const dispatch = createEventDispatcher();
+  import loading from "../../public/loading.gif";
   import ai from "../../public/icons_ai.svg";
   import Textarea from "../utils/Textarea.svelte";
   import bin from "../../public/icons_bin.svg";
-
+  import { consequenceState } from "./store";
 
   export let projectData;
   export let consequenceSuggestions;
   export let consequences;
   export let onAdd;
-  
+
   let errorMessage = { message: null, status: false };
-  let aiSuggest = null;
+  let aiSuggest = false;
   let customConsequences = null;
+
+  consequenceState.subscribe((value) => {
+    customConsequences = value.unintendedIsComplete;
+  });
 
   let fetchAttempts = 0;
   let isLoading = true;
@@ -27,7 +30,10 @@
 
   function addOwnConsequences() {
     errorMessage.status = false;
-    customConsequences = true;
+    consequenceState.update((value) => {
+      value.unintendedIsComplete = true;
+      return value;
+    });
     aiSuggest = false;
 
     let selected = $consequenceSuggestions.filter((s) => s.isSelected);
@@ -132,10 +138,10 @@ Based on the information provided, please provide me with a list of 5 potential 
 
   async function suggestConsequences() {
     aiSuggest = true;
-    isLoading = true; // You should set your loading state to true when the process starts.
+    isLoading = true;
     const projectDataString = await convertProjectDataToString();
     let dataFromAI = await reviewWithAI(projectDataString);
-    fetchAttempts++; // Increment the attempt counter after each fetch attempt.
+    fetchAttempts++;
     if (!dataFromAI && fetchAttempts < 2) {
       console.log("No data returned from AI, retrying...");
 
@@ -173,6 +179,10 @@ Based on the information provided, please provide me with a list of 5 potential 
     consequenceSuggestions.set(updatedSuggestions);
   }
   async function onProceed() {
+    consequenceState.update((currentState) => {
+      currentState.unintendedIsComplete = true;
+      return currentState;
+    });
     let selected = $consequenceSuggestions.filter((s) => s.isSelected);
     for (let i = consequences.length - 1; i >= 0; i--) {
       if (
@@ -247,7 +257,7 @@ Based on the information provided, please provide me with a list of 5 potential 
       </div>
     </div>
   </div>
-  {#if customConsequences === null && aiSuggest === null}
+  {#if customConsequences === false}
     <div class="bg-blue-100 p-12">
       <div class="flex">
         <img class="h-10 w-9 mr-5 filter-blue" src={ai} />
@@ -316,10 +326,10 @@ Based on the information provided, please provide me with a list of 5 potential 
       class="bg-orange-100 p-12"
       style="display: {customConsequences !== null ? 'none' : ''}"
     >
-        <button
-          class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
-          on:click={onProceed}>Continue with these consequences</button
-        >
+      <button
+        class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
+        on:click={onProceed}>Continue with these consequences</button
+      >
       <button
         class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"
         on:click={addOwnConsequences}>Add in your own consequences</button

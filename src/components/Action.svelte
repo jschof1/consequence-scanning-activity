@@ -199,7 +199,7 @@ function fillTimelineFromAI(index) {
           </select>
         </label>
       </div>
-      <div class="mb-5">
+      <!-- <div class="mb-5">
         <button
           class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
           on:click={() => fillTimelineFromAI(i)}>Fill Timeline using AI</button
@@ -208,7 +208,7 @@ function fillTimelineFromAI(index) {
           class="mr-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-3"
           on:click={() => fillMeasureFromAI(i)}>Fill Measure using AI</button
         >
-      </div>
+      </div> -->
     </div>
   {/each}
   <button

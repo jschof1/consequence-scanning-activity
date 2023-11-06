@@ -1,6 +1,7 @@
 <script>
   import Textarea from "../utils/Textarea.svelte";
   import { fade } from "svelte/transition";
+  import { consequenceState, intendedConsequenceSuggestions } from "./store";
 
   export let ProjectData;
   export let onProceed;
@@ -16,6 +17,7 @@
 
   const HOST_NAME = import.meta.env.VITE_HOST_NAME
 
+
   let HOST = HOST_NAME || "http://localhost:3000/";
   HOST += "openai-completion"
 
@@ -24,11 +26,18 @@
     showModal = !showModal;
   }
 
-  export let customConsequences = null;
+  let customConsequences = null;
+
+  consequenceState.subscribe(value => {
+    customConsequences = value.intendedIsComplete;
+  });
 
 function addOwnConsequences() {
   errorMessage.status = false;
-  customConsequences = true;
+    consequenceState.update(value => {
+      value.intendedIsComplete = true;
+      return value;
+    }); 
   aiSuggest = false;
 
   let selected = $consequenceSuggestions.filter(s => s.isSelected);
@@ -38,11 +47,11 @@ function addOwnConsequences() {
       outcome: s.selectedOutcome
     });
   });
-  $consequenceSuggestions = $consequenceSuggestions.map(a => ({ ...a, isSelected: false }));
-  consequenceSuggestions.set($consequenceSuggestions);
+  $intendedConsequenceSuggestions = $intendedConsequenceSuggestions.map(a => ({ ...a, isSelected: false }));
+  intendedConsequenceSuggestions.set($intendedConsequenceSuggestions);
 }
 
-  let aiSuggest = null;
+  let aiSuggest = false;
   export let consequenceSuggestions;
   export let consequences;
 
@@ -149,10 +158,9 @@ async function suggestConsequences() {
     });
     consequenceSuggestions.set(updatedSuggestions);
   }
-
 </script>
 
-{#if customConsequences === null}
+{#if customConsequences === false}
   <div class="bg-blue-100 p-12">
     <div class="flex">
       <img class="h-10 w-9 mr-5 filter-blue" src={ai} />
@@ -267,7 +275,6 @@ async function suggestConsequences() {
   </div>
   <div
     class="bg-orange-100 p-12"
-    style="display: {customConsequences !== null ? 'none' : ''}"
   >
     <button
       class="my-5 bg-transparent text-blue-800 font-bold text-base border-blue-800 border-2 py-2 px-6"

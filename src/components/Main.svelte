@@ -33,6 +33,8 @@
   let showQuestions = false;
   let showConsequences = false;
   let showIntendedConsequences = false;
+  let intendedConsequencesIsComplete = false
+  let unintendedConsequencesIsComplete = false
   let showUnintendedConsequences = false;
   let showEvaluation = false;
   let isAssigningActions = false;
@@ -110,6 +112,7 @@ function handleIntro() {
   function handleProceedToUnintendedConsequences(event) {
      resetAllSections(event);
     showIntendedConsequences = false
+    intendedConsequencesIsComplete = true
     showUnintendedConsequences = true;
     scrollToTop();
   }
@@ -122,6 +125,7 @@ function handleIntro() {
     resetAllSections();
     showEvaluation = true;
     showUnintendedConsequences = false;
+    unintendedConsequencesIsComplete = true
     scrollToTop();
   }
   function onAssignAction() {
